@@ -1,0 +1,13 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+
+# temp preview copies used during development
+__*.html
+*.log
+
+# dependencies (none yet, but future-proof)
+node_modules/

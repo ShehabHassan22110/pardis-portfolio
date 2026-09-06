@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>(function(){try{var t=localStorage.getItem('noor-theme');if(!t)t=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';document.documentElement.setAttribute('data-theme',t);var l=localStorage.getItem('noor-lang')||'en';document.documentElement.setAttribute('lang',l);document.documentElement.setAttribute('dir',l==='ar'?'rtl':'ltr');}catch(e){}})();</script>
+  <title>Category — NOOR</title>
+  <meta name="description" content="Selected work by discipline — NOOR portfolio." />
+  <meta name="theme-color" content="#16110D" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2316110D'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' fill='%23C9A17A' text-anchor='middle'%3EN%3C/text%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=El+Messiri:wght@400;600&family=Jost:wght@300;400;500&family=Tajawal:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <header class="nav" id="nav">
+    <a href="index.html" class="brand"><span class="brand__mark">Noor<span>.</span></span><span class="brand__sub">Portfolio</span></a>
+    <nav class="nav__links" aria-label="Primary">
+      <a class="nav__link" href="index.html#index" data-i18n="nav.index">Index</a>
+      <a class="nav__link" href="index.html#work" data-i18n="nav.work">Work</a>
+      <a class="nav__link" href="index.html#about" data-i18n="nav.about">About</a>
+      <a class="nav__link" href="index.html#services" data-i18n="nav.collaborate">Collaborate</a>
+      <a class="nav__link" href="booking.html" data-i18n="nav.contact">Contact</a>
+      <a class="btn btn--gold nav__cta" href="booking.html"><span data-i18n="nav.book">Book</span><span class="btn__arrow">↗</span></a>
+    </nav>
+    <button class="nav__burger" aria-label="Menu"><span></span><span></span></button>
+  </header>
+
+  <main id="catRoot">
+    <section class="cathero">
+      <div class="cathero__bg"><img id="catCover" src="" alt="" /></div>
+      <div class="wrap cathero__inner">
+        <a class="eyebrow eyebrow--mist" href="index.html#index" style="display:inline-block;margin-bottom:1.4rem" data-i18n="common.back">← Back to the Index</a>
+        <div class="cathero__n" id="catN">01 / 07</div>
+        <h1 class="cathero__title display" id="catTitle"></h1>
+        <p class="cathero__tagline" id="catTagline"></p>
+      </div>
+    </section>
+
+    <section class="wrap catmeta">
+      <p class="catmeta__desc reveal" id="catDesc"></p>
+      <div class="catmeta__sub reveal" data-d="1">
+        <h5 data-i18n="cat.within">Within this discipline</h5>
+        <ul id="catSub"></ul>
+        <a class="btn btn--gold" id="catBook" href="booking.html" style="margin-top:1.8rem"><span data-i18n="cat.book">Book this discipline</span> <span class="btn__arrow">↗</span></a>
+      </div>
+    </section>
+
+    <section class="wrap section" style="padding-top:clamp(40px,6vw,72px)">
+      <p class="eyebrow reveal" style="margin-bottom:1.4rem" data-i18n="cat.selected">Selected work — tap an image to enlarge</p>
+      <div class="gallery" id="catGallery"><!-- rendered from data.js --></div>
+
+      <nav class="catnav" aria-label="Between disciplines">
+        <a class="prev" id="catPrev" href="#"><span class="k" data-i18n="cat.prev">← Previous</span><span class="t display" id="catPrevT"></span></a>
+        <a class="next" id="catNext" href="#"><span class="k" data-i18n="cat.next">Next →</span><span class="t display" id="catNextT"></span></a>
+      </nav>
+    </section>
+  </main>
+
+  <section class="section cta">
+    <div class="cta__glow" aria-hidden="true"></div>
+    <div class="wrap cta__inner reveal">
+      <h2 class="cta__title display" data-i18n="cat.ctaTitle">Ready to <em>collaborate?</em></h2>
+      <p class="cta__sub" data-i18n="cat.ctaSub">Share your campaign and receive a tailored proposal.</p>
+      <a class="btn btn--solid" href="booking.html"><span data-i18n="cta.button">Request a booking</span> <span class="btn__arrow">↗</span></a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer__bar" style="border:none;margin:0;padding:0">
+        <span>© <span data-year></span> NOOR — <span data-i18n="footer.rights">All rights reserved.</span></span>
+        <a href="index.html" style="color:var(--mist)" data-i18n="footer.explore">← Home</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="lightbox" id="lightbox" aria-hidden="true"></div>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/motion.js"></script>
+</body>
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>(function(){try{var t=localStorage.getItem('noor-theme');if(!t)t=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+  <title>Studio — NOOR Dashboard</title>
+  <meta name="description" content="Private studio dashboard — manage bookings, media and collaborations." />
+  <meta name="theme-color" content="#16110D" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2316110D'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' fill='%23C9A17A' text-anchor='middle'%3EN%3C/text%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Jost:wght@300;400;500&family=El+Messiri:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+</head>
+<body>
+
+  <!-- ===================== LOGIN GATE ===================== -->
+  <div class="gate" id="gate">
+    <div class="gate__bg"><img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1600&q=70" alt="" /></div>
+    <div class="gate__card">
+      <div class="gate__mark">Noor<span>.</span> <span style="font-size:.9rem">Studio</span></div>
+      <p class="eyebrow gate__eyebrow">Private dashboard</p>
+      <p class="gate__title">Welcome back.</p>
+      <form class="gate__form" id="gateForm">
+        <div class="field">
+          <label for="gu">Email</label>
+          <div class="field__control">
+            <svg class="field__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+            <input id="gu" type="email" placeholder="you@noor.studio" value="noor@noor.studio" />
+          </div>
+        </div>
+        <div class="field">
+          <label for="gp">Password</label>
+          <div class="field__control">
+            <svg class="field__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+            <input id="gp" type="password" placeholder="••••••••" value="demo" />
+          </div>
+        </div>
+        <button class="btn btn--solid magnetic" type="submit" style="justify-content:center">Enter the studio <span class="btn__arrow">↗</span></button>
+      </form>
+      <p class="gate__note">Demo preview — any credentials will sign you in. No backend connected yet.</p>
+    </div>
+  </div>
+
+  <!-- ===================== DASHBOARD ===================== -->
+  <div class="dash" id="dash" hidden>
+    <!-- SIDEBAR -->
+    <aside class="side" id="side">
+      <div class="side__brand">
+        <span class="mk">Noor<span>.</span></span>
+        <span class="sub">Studio</span>
+      </div>
+
+      <span class="side__label">Manage</span>
+      <button class="nav-item is-active" data-view="overview">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 13h8V3H3zM13 21h8V3h-8zM3 21h8v-6H3z"/></svg>
+        Overview
+      </button>
+      <button class="nav-item" data-view="bookings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        Bookings <span class="count" id="cBookings"></span>
+      </button>
+      <button class="nav-item" data-view="portfolio">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 15l5-5 4 4 3-3 6 6"/><circle cx="8.5" cy="8.5" r="1.5"/></svg>
+        Portfolio
+      </button>
+      <button class="nav-item" data-view="categories">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        Categories <span class="count">7</span>
+      </button>
+      <button class="nav-item" data-view="messages">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Messages <span class="count" id="cMsgs"></span>
+      </button>
+      <button class="nav-item" data-view="settings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-2.7 1.1V21a2 2 0 1 1-4 0v-.2A1.6 1.6 0 0 0 6.8 19l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0-1.1-2.7H2a2 2 0 1 1 0-4h.2A1.6 1.6 0 0 0 3.3 6.8L3.2 6.7a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H8a1.6 1.6 0 0 0 1-1.5V2a2 2 0 1 1 4 0v.2a1.6 1.6 0 0 0 2.7 1.1l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V8a1.6 1.6 0 0 0 1.5 1H22a2 2 0 1 1 0 4h-.2a1.6 1.6 0 0 0-1.4 1z"/></svg>
+        Settings
+      </button>
+
+      <div class="side__spacer"></div>
+      <div class="side__foot">
+        <a class="nav-item" href="index.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6M10 14L21 3"/></svg>
+          View live site
+        </a>
+        <div class="row" style="padding:0.3rem 0.7rem">
+          <span id="themeSlot"></span>
+          <button class="nav-item" id="signOut" style="flex:1">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+            Sign out
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <div class="main">
+      <header class="topbar">
+        <div style="display:flex;align-items:center;gap:1rem">
+          <button class="side__toggle" id="sideToggle" aria-label="Menu">
+            <svg width="18" height="14" viewBox="0 0 18 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M0 1h18M0 7h18M0 13h18"/></svg>
+          </button>
+          <div class="topbar__title">
+            <h1 id="viewTitle">Overview</h1>
+            <p id="viewSub">Welcome back, Noor — here's your studio at a glance.</p>
+          </div>
+        </div>
+        <div class="topbar__tools">
+          <div class="search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+            <input type="text" placeholder="Search bookings, brands…" id="globalSearch" />
+          </div>
+          <span id="todayDate" style="font-size:.75rem;color:var(--mist-2)"></span>
+          <div class="avatar">N</div>
+        </div>
+      </header>
+
+      <!-- OVERVIEW -->
+      <section class="view is-active" id="view-overview">
+        <div class="kpis" id="kpis"></div>
+        <div class="grid-2">
+          <div class="panel">
+            <div class="panel__head"><h3>Booking requests</h3><span style="font-size:.7rem;color:var(--mist-2)">Last 6 months</span></div>
+            <div class="chart" id="chart"></div>
+          </div>
+          <div class="panel">
+            <div class="panel__head"><h3>By discipline</h3></div>
+            <div id="disciplineBars"></div>
+          </div>
+        </div>
+        <div class="panel" style="margin-top:1rem">
+          <div class="panel__head"><h3>Recent requests</h3><a href="#bookings" data-jump="bookings">View all →</a></div>
+          <div class="table-wrap"><table class="tbl"><thead><tr><th>ID</th><th>Brand</th><th>Discipline</th><th>Date</th><th>Status</th></tr></thead><tbody id="recentRows"></tbody></table></div>
+        </div>
+      </section>
+
+      <!-- BOOKINGS -->
+      <section class="view" id="view-bookings">
+        <div class="tabs" id="bookingTabs"></div>
+        <div class="panel">
+          <div class="table-wrap"><table class="tbl"><thead><tr><th>ID</th><th>Brand</th><th>Discipline</th><th>Date</th><th>Budget</th><th>Status</th></tr></thead><tbody id="bookingRows"></tbody></table></div>
+        </div>
+      </section>
+
+      <!-- PORTFOLIO -->
+      <section class="view" id="view-portfolio">
+        <div class="catbar" id="portfolioCats"></div>
+        <div class="media-grid" id="mediaGrid"></div>
+      </section>
+
+      <!-- CATEGORIES -->
+      <section class="view" id="view-categories">
+        <div class="panel" id="catManager"></div>
+      </section>
+
+      <!-- MESSAGES -->
+      <section class="view" id="view-messages">
+        <div class="panel" id="msgList"></div>
+      </section>
+
+      <!-- SETTINGS -->
+      <section class="view" id="view-settings">
+        <div class="panel">
+          <div class="panel__head"><h3>Profile</h3></div>
+          <div class="set-grid" id="settingsForm"></div>
+        </div>
+        <div class="panel" style="margin-top:1rem">
+          <div class="panel__head"><h3>Corporate representation rate</h3></div>
+          <p style="color:var(--mist);max-width:60ch">Corporate representation is quoted per assignment — by the nature of the event and the duration of attendance. Set your default day rate and half-day rate here; brands see “quote on request”.</p>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- DRAWER -->
+  <div class="drawer__scrim" id="drawerScrim"></div>
+  <aside class="drawer" id="drawer" aria-hidden="true"></aside>
+
+  <script src="js/data.js"></script>
+  <script src="js/dashboard-data.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>
