@@ -1,178 +1,167 @@
 /* =============================================================================
-   PORTFOLIO DATA  —  single source of truth
-   Replace image URLs with the model's real shoots. Everything else (titles,
-   brands, sub-categories) is editable here and re-renders the whole site.
+   PORTFOLIO DATA  —  single source of truth  (PARDIS)
+   Everything the site shows comes from here. To update the portfolio, edit
+   this file only — the whole site re-renders from it.
+
+   ⚑ TO-EDIT LATER (client to confirm):
+     • PROFILE.nameAr  — Arabic spelling of "Pardis" (placeholder below)
+     • PROFILE.email / phone / whatsapp
+     • SOCIAL[].url    — real Instagram / TikTok profile links
+   All photography below is the client's real work. Brands shown are real
+   collaborations / campaign product houses. No invented clients.
    ============================================================================= */
 
+const IMG = "assets/img/";
+const VID = "assets/video/";
+
 const PROFILE = {
-  name: "NOOR",                 // ← replace with the model's real name
-  nameFull: "Noor Al-Rashid",   // ← replace
-  nameAr: "نُور",
+  name: "PARDIS",                 // public brand name
+  nameFull: "Pardis",             // ← add full name if desired
+  nameAr: "بارديس",               // ⚑ phonetic Arabic — client to confirm spelling
   role: "Model · Brand Ambassador · Corporate Representative",
   roleAr: "عارضة أزياء · سفيرة علامات تجارية · ممثلة رسمية للشركات",
   base: "Riyadh, Kingdom of Saudi Arabia",
-  email: "hello@noor.studio",
+  // ⚑ Editable contact placeholders — replace with the real details:
+  email: "hello@pardis.studio",
   phone: "+966 5X XXX XXXX",
-  instagram: "@noor",
-  // Portfolio facts brands ask for — edit freely
+  whatsapp: "966500000000",       // digits only, incl. country code
+  // Portfolio facts brands ask for — only verifiable ones are shown
   facts: [
     { label: "Based in", value: "Riyadh, KSA" },
     { label: "Languages", value: "Arabic · English" },
-    { label: "Height", value: "174 cm" },
+    { label: "Focus", value: "Fashion · Beauty · Watches" },
     { label: "Availability", value: "GCC & International" },
   ],
+  // Honest, verifiable figures only (no inflated counts)
   stats: [
-    { value: "7", label: "Disciplines" },
-    { value: "40+", label: "Campaigns" },
-    { value: "25+", label: "Brands" },
-    { value: "5", label: "Years on set" },
+    { value: "5", label: "Disciplines" },
+    { value: "4", label: "Watch houses" },
+    { value: "2", label: "Languages" },
+    { value: "GCC", label: "Available" },
   ],
 };
 
-/* Each category: number, slug, title, arabic label, an editorial tagline,
-   a short brief-derived description, its sub-disciplines, an accent gradient
-   used for fallback plates, and a set of works (image/video). */
+/* Social links — labels only until real URLs are provided. */
+const SOCIAL = [
+  { label: "Instagram", handle: "@pardis", url: "#" }, // ⚑ add real profile URL
+  { label: "TikTok",    handle: "@pardis", url: "#" }, // ⚑ add real profile URL
+  { label: "Email",     handle: PROFILE.email, url: "mailto:" + PROFILE.email },
+];
+
+/* Real brands / houses the work features. Rendered in "Trusted by". */
+const BRANDS = [
+  { name: "Calvin Klein" },
+  { name: "Coach", em: "New York" },
+  { name: "Roberto Cavalli", em: "by Franck Muller" },
+  { name: "Ferragamo" },
+  { name: "Alhomaidhi", em: "Watches" },
+  { name: "MecroLine" },
+  { name: "Volux" },
+];
+
+/* Each category: number, slug, title, arabic label, tagline, description,
+   sub-disciplines, an accent gradient (fallback plates), a cover and works.
+   Every image below is the client's real photography. */
 const CATEGORIES = [
   {
     n: "01",
-    slug: "beauty-fashion",
-    title: "Beauty & Fashion",
-    ar: "الأزياء والجمال",
-    tagline: "The face, the hands, the silhouette.",
-    desc: "Editorial and commercial beauty work — from close-up hand and watch campaigns to full fashion shoots, abayas and couture.",
-    sub: ["Hand Model — Watches", "Makeup Model", "Hair & Hairstyle", "Fashion Model", "Abaya & Fashion Shoots"],
-    arTagline: "الوجه، واليدان، والقوام.",
-    arDesc: "أعمال جمال تحريرية وتجارية — من حملات اليد والساعات المقرّبة إلى جلسات الأزياء الكاملة والعبايات والأزياء الراقية.",
-    arSub: ["عارضة يد — ساعات", "عارضة مكياج", "الشعر والتسريحات", "عارضة أزياء", "العبايات وجلسات الأزياء"],
-    grad: ["#3A2530", "#C98F7E"],
-    cover: "https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=1400&q=70",
+    slug: "beauty",
+    title: "Beauty & Glam",
+    ar: "الجمال والإطلالات",
+    tagline: "The face, in its clearest light.",
+    desc: "Close-up beauty and glam — makeup, skin and hair, shot for campaigns and editorial. The reassuring, expressive face a beauty brand builds around.",
+    sub: ["Makeup", "Beauty Campaigns", "Skin & Glow", "Hair & Accessories"],
+    arTagline: "الوجه، في أوضح ضوء.",
+    arDesc: "جمال مقرّب وإطلالات — مكياج وبشرة وشعر، للحملات والأعمال التحريرية. الوجه المعبّر الذي تبني عليه علامات الجمال.",
+    arSub: ["مكياج", "حملات جمال", "بشرة وإشراق", "شعر وإكسسوار"],
+    grad: ["#3A2A2A", "#C9A17A"],
+    cover: IMG + "beauty-glam-01.jpg",
     works: [
-      { title: "Hours", brand: "Timepiece Campaign", tag: "Hand · Watches", img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=900&q=70" },
-      { title: "Kohl", brand: "Beauty Editorial", tag: "Makeup", img: "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?auto=format&fit=crop&w=900&q=70" },
-      { title: "Silk Movement", brand: "Abaya House", tag: "Fashion · Abaya", img: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=900&q=70" },
-      { title: "Crown", brand: "Hair Story", tag: "Hair", img: "https://images.unsplash.com/photo-1560869713-7d0a29430803?auto=format&fit=crop&w=900&q=70" },
-      { title: "Runway", brand: "Seasonal Show", tag: "Fashion", img: "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=900&q=70" },
-      { title: "Adorn", brand: "Fine Jewelry", tag: "Hand · Jewelry", img: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=900&q=70" },
+      { title: "Gold Hour", brand: "Beauty Editorial", tag: "Makeup · Glam", img: IMG + "beauty-glam-01.jpg" },
+      { title: "Soft Focus", brand: "Beauty Portrait", tag: "Beauty", img: IMG + "beauty-glam-03.jpg" },
+      { title: "Poise", brand: "Beauty Story", tag: "Skin · Glow", img: IMG + "beauty-glam-02.jpg" },
+      { title: "Rosette", brand: "Occasion Beauty", tag: "Hair · Accessories", img: IMG + "beauty-pink.jpg" },
     ],
   },
   {
     n: "02",
-    slug: "commercial",
-    title: "Commercial",
-    ar: "الإعلانات التجارية",
-    tagline: "Built to sell, made to remember.",
-    desc: "National campaigns and brand films — the recognizable face of an advertisement, on screen and in print.",
-    sub: ["Commercial Advertising", "Brand Campaigns", "National Day Films", "TVC & Digital"],
-    arTagline: "صُنعت لتبيع، وتبقى في الذاكرة.",
-    arDesc: "حملات وطنية وأفلام للعلامات — الوجه المميّز للإعلان، على الشاشة وفي المطبوعات.",
-    arSub: ["إعلانات تجارية", "حملات العلامات", "أفلام اليوم الوطني", "إعلانات تلفزيونية ورقمية"],
-    grad: ["#1C2A2A", "#C9A17A"],
-    cover: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?auto=format&fit=crop&w=1400&q=70",
+    slug: "fashion",
+    title: "Fashion & Editorial",
+    ar: "الأزياء والتحرير",
+    tagline: "Tailoring, print and attitude.",
+    desc: "Studio fashion and editorial — suiting, resort print and full looks. Composed, confident styling for lookbooks and campaigns.",
+    sub: ["Editorial", "Lookbook", "Fashion Campaigns", "Suiting & Styling"],
+    arTagline: "قصّات، ونقوش، وحضور.",
+    arDesc: "أزياء استوديو وأعمال تحريرية — بدلات، ونقوش صيفية، وإطلالات كاملة. تنسيق واثق للكتالوجات والحملات.",
+    arSub: ["تحريري", "كتالوج", "حملات أزياء", "بدلات وتنسيق"],
+    grad: ["#2A2622", "#B9A88C"],
+    cover: IMG + "fashion-suit-green.jpg",
     works: [
-      { title: "National Day", brand: "Seasonal Film", tag: "Campaign · Video", type: "video", video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4", img: "https://images.unsplash.com/photo-1578321272176-b7bbc0679853?auto=format&fit=crop&w=900&q=70" },
-      { title: "Skyline", brand: "Retail Brand", tag: "Advertising", img: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=70" },
-      { title: "Everyday", brand: "Lifestyle Brand", tag: "Commercial", img: "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=900&q=70" },
-      { title: "The Spot", brand: "Telecom", tag: "TVC", type: "video", video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4", img: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=900&q=70" },
+      { title: "Pinstripe", brand: "Editorial", tag: "Fashion · Suiting", img: IMG + "fashion-suit-green.jpg" },
+      { title: "Tailored", brand: "Lookbook", tag: "Fashion", img: IMG + "fashion-suit-grey.jpg" },
+      { title: "Off Duty", brand: "Editorial", tag: "Fashion · Attitude", img: IMG + "fashion-seated.jpg" },
+      { title: "Bloom", brand: "Resort Story", tag: "Fashion · Print", img: IMG + "fashion-floral.jpg" },
     ],
   },
   {
     n: "03",
-    slug: "ambassador",
-    title: "Brand Ambassador",
-    ar: "سفيرة العلامات",
-    tagline: "The official face of the house.",
-    desc: "Long-term partnerships as the voice and image of a brand — including ambassadorship for a leading Gulf marble house.",
-    sub: ["Brand Ambassador", "Gulf Marble House", "Collaborations", "Long-term Partnerships"],
-    arTagline: "الوجه الرسمي للعلامة.",
-    arDesc: "شراكات طويلة الأمد كصوتٍ وصورة للعلامة — بما في ذلك سفارة إحدى كبرى شركات الرخام الخليجية.",
-    arSub: ["سفيرة علامة", "شركة رخام خليجية", "تعاونات", "شراكات طويلة الأمد"],
-    grad: ["#2A2622", "#B9A88C"],
-    cover: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1400&q=70",
+    slug: "couture",
+    title: "Modest & Couture",
+    ar: "المحتشم والراقي",
+    tagline: "The way luxury fabric moves.",
+    desc: "Abaya, kaftan and occasion couture — embellished, elegant and made for the Gulf. Modest fashion shot with an editorial eye.",
+    sub: ["Abaya", "Kaftan", "Couture", "Occasion Wear"],
+    arTagline: "كيف يتحرّك القماش الفاخر.",
+    arDesc: "عبايات، وقفاطين، وأزياء المناسبات الراقية — مطرّزة وأنيقة وصُنعت للخليج. أزياء محتشمة بعينٍ تحريرية.",
+    arSub: ["عباية", "قفطان", "أزياء راقية", "ملابس المناسبات"],
+    grad: ["#26303A", "#AEB9C4"],
+    cover: IMG + "couture-03.jpg",
     works: [
-      { title: "Veined Stone", brand: "Gulf Marble House", tag: "Ambassador", img: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=900&q=70" },
-      { title: "Quarry Light", brand: "Marble Campaign", tag: "Ambassador · Video", type: "video", video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4", img: "https://images.unsplash.com/photo-1604014237800-1c9102c219da?auto=format&fit=crop&w=900&q=70" },
-      { title: "Signature", brand: "Luxury Partner", tag: "Collaboration", img: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=900&q=70" },
-      { title: "The Launch", brand: "Brand Activation", tag: "Ambassador", img: "https://images.unsplash.com/photo-1492707892479-7bc8d5a4ee93?auto=format&fit=crop&w=900&q=70" },
+      { title: "Azure I", brand: "Couture Kaftan", tag: "Modest · Couture", img: IMG + "couture-01.jpg" },
+      { title: "Azure II", brand: "Couture Kaftan", tag: "Modest · Couture", img: IMG + "couture-02.jpg" },
+      { title: "Azure III", brand: "Couture Kaftan", tag: "Modest · Couture", img: IMG + "couture-03.jpg" },
+      { title: "Azure IV", brand: "Couture Kaftan", tag: "Modest · Couture", img: IMG + "couture-04.jpg" },
     ],
   },
   {
     n: "04",
-    slug: "food",
-    title: "Food & Beverage",
-    ar: "الأطعمة والمشروبات",
-    tagline: "Crafted to crave.",
-    desc: "The talent behind dessert, restaurant and café campaigns — food-and-beverage storytelling that makes an audience hungry.",
-    sub: ["Dessert Brands", "Restaurants", "Cafés", "F&B Campaigns"],
-    arTagline: "صُمّمت لتُشتهى.",
-    arDesc: "الموهبة خلف حملات الحلويات والمطاعم والمقاهي — سردٌ للأطعمة والمشروبات يفتح الشهية.",
-    arSub: ["علامات الحلويات", "المطاعم", "المقاهي", "حملات الأطعمة والمشروبات"],
-    grad: ["#2B1E16", "#C99A5B"],
-    cover: "https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=1400&q=70",
+    slug: "watches",
+    title: "Watches & Hand",
+    ar: "الساعات واليد",
+    tagline: "Where luxury meets the wrist.",
+    desc: "Hand and watch modelling for luxury timepiece houses — Calvin Klein, Coach, Roberto Cavalli by Franck Muller and Ferragamo, shot in partnership with Alhomaidhi.",
+    sub: ["Hand Model", "Watch Campaigns", "Jewelry", "Product"],
+    arTagline: "حيث يلتقي الفخم بالمعصم.",
+    arDesc: "عرض لليد والساعات لأرقى بيوت الساعات — كالفن كلاين، وكوتش، وروبرتو كافالي باي فرانك مولر، وفيراغامو، بالتعاون مع الحميضي للساعات.",
+    arSub: ["عارضة يد", "حملات ساعات", "مجوهرات", "منتجات"],
+    grad: ["#29231D", "#B89B62"],
+    cover: IMG + "ambassador-cavalli.jpg",
     works: [
-      { title: "Sweet", brand: "Dessert House", tag: "Dessert", img: "https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=900&q=70" },
-      { title: "Pour", brand: "Specialty Café", tag: "Café · Video", type: "video", video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4", img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=900&q=70" },
-      { title: "The Table", brand: "Fine Dining", tag: "Restaurant", img: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=900&q=70" },
-      { title: "Zest", brand: "Beverage Brand", tag: "F&B Campaign", img: "https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=900&q=70" },
+      { title: "Calvin Klein", brand: "Watch Campaign", tag: "Hand · Watches", img: IMG + "watch-calvinklein.jpg" },
+      { title: "Coach", brand: "New York — Watch Campaign", tag: "Hand · Watches", img: IMG + "watch-coach.jpg" },
+      { title: "Roberto Cavalli", brand: "by Franck Muller", tag: "Hand · Watches", img: IMG + "watch-cavalli.jpg" },
+      { title: "Ferragamo", brand: "Watch Campaign", tag: "Hand · Watches", img: IMG + "watch-ferragamo.jpg" },
+      { title: "In-Store", brand: "Alhomaidhi × Roberto Cavalli", tag: "Ambassador", img: IMG + "ambassador-cavalli.jpg" },
     ],
   },
   {
     n: "05",
-    slug: "medical",
-    title: "Medical & Wellness",
-    ar: "الطب والعناية",
-    tagline: "Trust, made visible.",
-    desc: "Healthcare and wellness campaigns for medical brands, dental clinics and medical centers — the reassuring, credible face of care.",
-    sub: ["Medical Brands", "Dental Clinics", "Medical Centers", "Healthcare Campaigns"],
-    arTagline: "ثقةٌ تُرى بالعين.",
-    arDesc: "حملات صحية وعافية للعلامات الطبية وعيادات الأسنان والمراكز الطبية — الوجه الموثوق والدافئ للرعاية.",
-    arSub: ["علامات طبية", "عيادات أسنان", "مراكز طبية", "حملات الرعاية الصحية"],
-    grad: ["#1B2530", "#9FB8C4"],
-    cover: "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&w=1400&q=70",
+    slug: "ambassador",
+    title: "Ambassador & Commercial",
+    ar: "سفيرة العلامات والتجاري",
+    tagline: "Your brand, with a face people trust.",
+    desc: "Brand ambassadorship, commercial content and corporate representation — the recognizable presence of a house at campaigns, events and in the room.",
+    sub: ["Brand Ambassador", "Commercial", "Events", "Corporate Representation"],
+    arTagline: "علامتك، بوجهٍ يثق به الناس.",
+    arDesc: "سفارة علامات، ومحتوى تجاري، وتمثيل رسمي للشركات — الحضور المميّز للعلامة في الحملات والفعاليات وداخل القاعة.",
+    arSub: ["سفيرة علامة", "تجاري", "فعاليات", "تمثيل الشركات"],
+    grad: ["#1C1A18", "#C9A17A"],
+    cover: IMG + "fashion-seated.jpg",
     works: [
-      { title: "Bright", brand: "Dental Clinic", tag: "Dental", img: "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&w=900&q=70" },
-      { title: "Care", brand: "Medical Center", tag: "Healthcare", img: "https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?auto=format&fit=crop&w=900&q=70" },
-      { title: "Renew", brand: "Wellness Brand", tag: "Campaign", img: "https://images.unsplash.com/photo-1600334129128-685c5582fd35?auto=format&fit=crop&w=900&q=70" },
-      { title: "Clinic Film", brand: "Aesthetic Clinic", tag: "Medical · Video", type: "video", video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4", img: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=900&q=70" },
-    ],
-  },
-  {
-    n: "06",
-    slug: "acting-tv",
-    title: "Acting & TV",
-    ar: "التمثيل والتلفزيون",
-    tagline: "Lights. The other kind of camera.",
-    desc: "On-screen and on-stage — television appearances, series, theatre and commercial acting.",
-    sub: ["TV Guest", "TV Series", "Theatre", "Commercial Acting"],
-    arTagline: "أضواء. من نوعٍ آخر من الكاميرات.",
-    arDesc: "على الشاشة وعلى المسرح — ظهور تلفزيوني، ومسلسلات، ومسرح، وتمثيل إعلاني.",
-    arSub: ["ضيفة تلفزيونية", "مسلسلات", "مسرح", "تمثيل إعلاني"],
-    grad: ["#241826", "#B58BC4"],
-    cover: "https://images.unsplash.com/photo-1503095396549-807759245b35?auto=format&fit=crop&w=1400&q=70",
-    works: [
-      { title: "Green Room", brand: "TV Guest", tag: "Television", img: "https://images.unsplash.com/photo-1503095396549-807759245b35?auto=format&fit=crop&w=900&q=70" },
-      { title: "Season One", brand: "Drama Series", tag: "TV Series · Video", type: "video", video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4", img: "https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&w=900&q=70" },
-      { title: "The Stage", brand: "Theatre", tag: "Theatre", img: "https://images.unsplash.com/photo-1507924538820-ede94a04019d?auto=format&fit=crop&w=900&q=70" },
-      { title: "Take One", brand: "Commercial Acting", tag: "Acting", img: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=900&q=70" },
-    ],
-  },
-  {
-    n: "07",
-    slug: "corporate",
-    title: "Corporate Representative",
-    ar: "الممثلة الرسمية للشركات",
-    tagline: "Your brand, in the room.",
-    desc: "Representing a company or brand in person — meetings, events, exhibitions and activations. Engaged per assignment, based on the nature of the event and duration of attendance.",
-    sub: ["Meetings", "Events", "Exhibitions", "Brand Activations", "Corporate Events", "Client Meetings"],
-    arTagline: "علامتك، حاضرةٌ في القاعة.",
-    arDesc: "تمثيل شركة أو علامة شخصيًا — اجتماعات، وفعاليات، ومعارض، وتفعيلات. يُتفق عليه بحسب المهمة وطبيعة الحدث ومدة الحضور.",
-    arSub: ["اجتماعات", "فعاليات", "معارض", "تفعيلات العلامات", "فعاليات الشركات", "اجتماعات العملاء"],
-    grad: ["#161C28", "#C9A17A"],
-    cover: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1400&q=70",
-    works: [
-      { title: "The Booth", brand: "Trade Exhibition", tag: "Exhibition", img: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=900&q=70" },
-      { title: "Keynote", brand: "Corporate Event", tag: "Event", img: "https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=900&q=70" },
-      { title: "Activation", brand: "Brand Activation", tag: "Activation", img: "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=900&q=70" },
-      { title: "The Meeting", brand: "Client Representation", tag: "Meetings", img: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=900&q=70" },
+      { title: "Alhomaidhi", brand: "Watch House — Ambassador", tag: "Brand Ambassador", img: IMG + "ambassador-cavalli.jpg" },
+      { title: "The Film", brand: "Brand Showreel", tag: "Commercial · Video", type: "video", video: VID + "reel-b.mp4", img: IMG + "beauty-glam-01.jpg" },
+      { title: "MecroLine", brand: "General Supplies — Commercial", tag: "Commercial", img: IMG + "logo-mecroline.jpg" },
+      { title: "In the Room", brand: "Corporate & Events", tag: "Representation", img: IMG + "fashion-suit-grey.jpg" },
     ],
   },
 ];

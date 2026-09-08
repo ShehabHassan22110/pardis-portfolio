@@ -13,10 +13,12 @@
   --porcelain: #F3ECE0;   /* pearl type */
   --mist:      #B3A794;   /* muted text */
   --mist-2:    #7A7062;   /* faint text */
-  --champagne: #C9A17A;   /* restrained gold accent */
+  --champagne: #C9A17A;   /* restrained gold accent (text-safe on dark) */
+  --gold:      #C9A17A;   /* decorative gold — thread lines / glow */
   --blush:     #C98F7E;   /* feminine secondary */
   --bg-rgb:    18, 13, 10;    /* base bg as rgb (for overlays) */
   --text-rgb:  243, 236, 224; /* base text as rgb (for hairlines) */
+  --gold-rgb:  201, 161, 122; /* gold as rgb (for glow) */
   --shadow:    rgba(0, 0, 0, 0.6);
   --img-filter: grayscale(0.28);
   --line:      rgba(var(--text-rgb), 0.14);
@@ -40,20 +42,23 @@
   --slow: 0.9s var(--ease);
 }
 
-/* LIGHT "Atelier Daylight" — warm gallery daylight, not stark white */
+/* LIGHT "Atelier Daylight" — warm gallery daylight, brief palette.
+   bg #F3EFE8 · ink #171614 · secondary #6F6A62 · muted gold #B89B62 · brown #29231D */
 [data-theme="light"] {
-  --noir:      #EFE9DE;   /* warm porcelain — base */
-  --noir-2:    #E8E0D2;   /* raised surface */
-  --noir-3:    #E0D6C5;   /* card / hover */
-  --porcelain: #211A14;   /* warm ink — primary text */
-  --mist:      #6A6053;   /* muted text */
-  --mist-2:    #9B8F7B;   /* faint text */
-  --champagne: #9A7233;   /* deeper gold for contrast on light */
+  --noir:      #F3EFE8;   /* warm neutral — base (brief) */
+  --noir-2:    #ECE6DB;   /* raised surface (warm beige) */
+  --noir-3:    #E4DBCC;   /* card / hover (soft stone) */
+  --porcelain: #171614;   /* primary ink (brief) */
+  --mist:      #6F6A62;   /* secondary text (brief) */
+  --mist-2:    #9A9184;   /* faint text */
+  --champagne: #8F6E2E;   /* text-safe deep gold (accessible on light) */
+  --gold:      #B89B62;   /* decorative muted gold — thread lines (brief) */
   --blush:     #A85D46;   /* deeper clay for contrast on light */
-  --bg-rgb:    239, 233, 222;
-  --text-rgb:  33, 26, 20;
-  --shadow:    rgba(58, 44, 30, 0.18);
-  --img-filter: grayscale(0.12) contrast(1.02);
+  --bg-rgb:    243, 239, 232;
+  --text-rgb:  23, 22, 20;
+  --gold-rgb:  184, 155, 98;
+  --shadow:    rgba(41, 35, 29, 0.16);
+  --img-filter: grayscale(0.06) contrast(1.02);
   color-scheme: light;
 }
 
@@ -123,7 +128,7 @@ body::after {
 
 /* section heading block */
 .head { display: flex; align-items: flex-end; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
-.head__title { font-size: clamp(2rem, 5vw, 3.6rem); }
+.head__title { font-size: clamp(2.4rem, 5.4vw, 4.4rem); }
 .head__title em { font-style: italic; color: var(--blush); }
 
 /* buttons */
@@ -160,13 +165,14 @@ body::after {
   border-bottom-color: var(--line-soft);
   padding-block: clamp(12px, 1.6vw, 18px);
 }
-.brand { display: flex; align-items: baseline; gap: 0.6rem; }
-.brand__mark { font-family: var(--display); font-size: 1.5rem; letter-spacing: 0.02em; }
+.brand { display: flex; align-items: baseline; gap: 0.7rem; }
+.brand__mark { font-family: var(--display); font-size: clamp(1.7rem, 1.9vw, 2rem); letter-spacing: 0.04em; }
 .brand__mark span { color: var(--champagne); }
-.brand__sub { font-size: 0.6rem; letter-spacing: 0.34em; text-transform: uppercase; color: var(--mist-2); }
-.nav__links { display: flex; align-items: center; gap: clamp(1.4rem, 2.6vw, 2.6rem); }
+.brand__sub { font-size: 0.64rem; letter-spacing: 0.36em; text-transform: uppercase; color: var(--mist-2); }
+.nav__links { display: flex; align-items: center; gap: clamp(1.7rem, 2.6vw, 2.9rem); }
 .nav__link {
-  position: relative; font-size: 0.74rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mist);
+  position: relative; font-size: 0.86rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--mist);
+  font-weight: 400;
   transition: color 0.5s var(--ease);
 }
 .nav__link::after {
@@ -278,15 +284,13 @@ body.menu-open .nav__burger span:nth-child(2) { bottom: 8px; transform: rotate(-
 .icard:hover .icard__title { transform: translateY(-3px); }
 .icard__sub { margin-top: 0.5rem; font-size: 0.64rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--mist); max-width: 36ch; }
 @media (min-width: 760px) {
-  .icard:nth-child(1) { grid-column: span 6; grid-row: span 2; }
-  .icard:nth-child(2) { grid-column: span 6; }
-  .icard:nth-child(3) { grid-column: span 6; }
-  .icard:nth-child(4) { grid-column: span 4; }
-  .icard:nth-child(5) { grid-column: span 4; }
-  .icard:nth-child(6) { grid-column: span 4; }
-  .icard:nth-child(7) { grid-column: span 12; }
+  /* magazine bento for 5 disciplines — no empty cells */
+  .icard:nth-child(1) { grid-column: span 6; grid-row: span 2; }  /* tall hero card */
+  .icard:nth-child(2) { grid-column: span 6; }                    /* top-right */
+  .icard:nth-child(3) { grid-column: span 6; }                    /* mid-right */
+  .icard:nth-child(4) { grid-column: span 6; }                    /* bottom-left */
+  .icard:nth-child(5) { grid-column: span 6; }                    /* bottom-right */
   .icard:nth-child(1) .icard__title { font-size: clamp(2rem, 2.8vw, 3.1rem); }
-  .icard:nth-child(7) .icard__title { font-size: clamp(1.8rem, 2.4vw, 2.6rem); }
 }
 [lang="ar"] .icard__title { font-size: clamp(1.3rem,1.9vw,1.9rem); line-height: 1.3; }
 [lang="ar"] .icard:nth-child(1) .icard__title { font-size: clamp(1.7rem,2.5vw,2.6rem); }
@@ -572,12 +576,21 @@ body.has-cursor, body.has-cursor a, body.has-cursor button, body.has-cursor .wor
 [lang="ar"] .eyebrow { letter-spacing: 0.12em; }
 
 /* ---------- Trusted by ------------------------------------------------------ */
-.trusted { border-block: 1px solid var(--line-soft); padding-block: clamp(28px, 4vw, 44px); }
-.trusted__eyebrow { text-align: center; margin-bottom: clamp(18px, 2.4vw, 28px); }
-.trusted__row { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: clamp(1.6rem, 4vw, 4rem); }
-.trusted__logo { font-family: var(--display); font-size: clamp(1.1rem, 2vw, 1.6rem); letter-spacing: 0.02em; color: var(--mist); opacity: 0.7; transition: opacity 0.5s var(--ease), color 0.5s var(--ease); white-space: nowrap; }
+.trusted { border-block: 1px solid var(--line-soft); padding-block: clamp(26px, 3.4vw, 40px); overflow: hidden; }
+.trusted__eyebrow { text-align: center; margin-bottom: clamp(18px, 2.4vw, 30px); }
+/* continuous ticker — no wrapping, edges masked */
+.trusted__row {
+  overflow: hidden;
+  -webkit-mask: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+          mask: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+}
+.trusted__track { display: flex; align-items: center; gap: clamp(2rem, 3.4vw, 3.6rem); width: max-content; animation: slide 46s linear infinite; }
+.trusted__row:hover .trusted__track { animation-play-state: paused; }
+.trusted__logo { font-family: var(--display); font-size: clamp(1.05rem, 1.5vw, 1.5rem); letter-spacing: 0.02em; color: var(--mist); opacity: 0.68; transition: opacity 0.5s var(--ease), color 0.5s var(--ease); white-space: nowrap; }
 .trusted__logo:hover { opacity: 1; color: var(--porcelain); }
 .trusted__logo em { font-style: italic; color: var(--champagne); }
+.trusted__dot { color: var(--champagne); opacity: 0.5; font-size: 0.7rem; }
+[data-theme="light"] .trusted__logo { opacity: 0.8; }
 
 /* ---------- Testimonials ---------------------------------------------------- */
 .testi__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line-soft); border: 1px solid var(--line); margin-top: clamp(28px, 4vw, 54px); }
@@ -699,3 +712,91 @@ html.theming, html.theming *, html.theming *::before, html.theming *::after {
 
 /* magnetic buttons keep their transform origin centered */
 .magnetic { will-change: transform; }
+
+/* ---------- Gold thread — reusable decorative line -------------------------- */
+/* Drop <div class="goldline"></div> between sections. Draws on scroll-in.     */
+.goldline {
+  position: relative;
+  height: 1px;
+  width: min(640px, 62%);
+  margin: clamp(10px, 5vw, 54px) auto;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(var(--gold-rgb), 0.65) 22%,
+    rgba(var(--gold-rgb), 0.95) 50%,
+    rgba(var(--gold-rgb), 0.65) 78%,
+    transparent);
+  transform: scaleX(0);
+  transform-origin: center;
+  opacity: 0;
+  transition: transform 1.25s var(--ease), opacity 0.8s var(--ease);
+}
+.goldline.in { transform: scaleX(1); opacity: 1; }
+.goldline::after {                       /* soft glow */
+  content: ""; position: absolute; inset: -2px 0;
+  background: inherit; filter: blur(3.5px); opacity: 0.5; pointer-events: none;
+}
+.goldline::before {                      /* centre node */
+  content: ""; position: absolute; left: 50%; top: 50%;
+  width: 5px; height: 5px; transform: translate(-50%, -50%) rotate(45deg);
+  background: var(--gold); box-shadow: 0 0 9px rgba(var(--gold-rgb), 0.85);
+}
+.goldline--tight { margin-block: clamp(6px, 3vw, 28px); }
+
+/* smaller pill for social / inline links */
+.btn--sm { padding: 0.7em 1.25em; font-size: 0.64rem; letter-spacing: 0.2em; }
+.social__links { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+
+/* Connect / QR block (contact page) */
+.connect { margin-top: 2.4rem; padding-top: 2rem; border-top: 1px solid var(--line);
+  display: flex; gap: 1.4rem; align-items: center; flex-wrap: wrap; }
+.connect__qr .qr { background: #F6F2EB; padding: 12px; border-radius: 10px;
+  border: 1px solid var(--line); line-height: 0; box-shadow: 0 10px 30px var(--shadow); }
+.connect__qr .qr svg { display: block; width: 132px; height: 132px; }
+.connect__body { flex: 1; min-width: 200px; }
+.connect__note { color: var(--mist); margin: 0.5rem 0 1rem; max-width: 34ch; }
+.connect__actions { display: flex; gap: 1.4rem; flex-wrap: wrap; }
+.connect__actions .line-link { font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; }
+
+@media (prefers-reduced-motion: reduce) {
+  .goldline { transform: none; opacity: 1; transition: none; }
+}
+
+/* ---------- Theme bridge: cinematic dark hero over warm-light body ---------- */
+/* The body is warm-neutral (light), but the landing heroes stay cinematic and
+   image-forward regardless of theme, and the nav adapts over them.            */
+.hero, .cathero {
+  background: #100F0E;                 /* cinematic base so the photo reads */
+  --porcelain: #F5EEE3;
+  --mist: #CFC3B1;
+  --mist-2: #A99C88;
+  --blush: #D2A08C;
+  --bg-rgb: 16, 15, 14;
+  --line: rgba(245, 238, 227, 0.16);
+  --line-soft: rgba(245, 238, 227, 0.08);
+}
+[data-theme="light"] .hero__bg img { opacity: 0.6; filter: grayscale(0.18) contrast(1.06); }
+[data-theme="light"] .cathero__bg img { opacity: 0.5; filter: grayscale(0.14) contrast(1.05); }
+
+/* Nav sits over the dark hero when transparent → light text; once solid it is
+   over the light body → inherit normal (dark) theme colors. */
+.nav:not(.is-solid) {
+  --porcelain: #F5EEE3;
+  --mist: #ECE2D2;
+  --mist-2: #C7BBA8;
+  --line: rgba(245, 238, 227, 0.18);
+  --line-soft: rgba(245, 238, 227, 0.10);
+}
+
+/* ---------- Dark dramatic finish: closing CTA + footer --------------------- */
+.cta, .footer {
+  background: #16110D;                 /* warm near-black finish */
+  --porcelain: #F5EEE3;
+  --mist: #CFC3B1;
+  --mist-2: #A99C88;
+  --blush: #D2A08C;
+  --bg-rgb: 22, 17, 13;
+  --line: rgba(245, 238, 227, 0.14);
+  --line-soft: rgba(245, 238, 227, 0.07);
+}
+.cta { color: var(--porcelain); }

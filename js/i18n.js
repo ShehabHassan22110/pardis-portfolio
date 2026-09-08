@@ -14,15 +14,15 @@ const I18N = {
     "nav.collaborate": "Collaborate", "nav.contact": "Contact", "nav.book": "Book",
     "common.viewAll": "Browse all disciplines", "common.back": "← Back to the Index",
     "lang.toggle": "عربي",
-    "wa.tooltip": "Book on WhatsApp", "wa.msg": "Hello Noor, I'd like to discuss a collaboration.",
+    "wa.tooltip": "Book on WhatsApp", "wa.msg": "Hello Pardis, I'd like to discuss a collaboration.",
 
     /* hero */
     "hero.eyebrow": "Model · Brand Ambassador · Corporate Representative",
-    "hero.role": "One face, seven disciplines. From <strong>watch and fashion campaigns</strong> to <strong>brand ambassadorship</strong>, screen work and representing your company in the room.",
+    "hero.role": "One face across fashion and commerce — from <strong>luxury watch and fashion campaigns</strong> to <strong>modest couture</strong>, beauty and brand ambassadorship across the Gulf.",
     "hero.scroll": "The Index",
 
     /* trusted by */
-    "trusted.eyebrow": "Trusted by brands across the Gulf",
+    "trusted.eyebrow": "Featured with brands across the Gulf",
 
     /* the index */
     "index.eyebrow": "Contents — Select a discipline",
@@ -42,11 +42,10 @@ const I18N = {
     "press.eyebrow": "As featured in",
 
     /* social */
-    "social.eyebrow": "On Instagram",
-    "social.title": "Follow the <em>everyday</em>.",
+    "social.eyebrow": "Follow the journey",
+    "social.title": "Beauty, fashion &amp; <em>moments</em>.",
     "social.note": "Behind the scenes, campaigns and moments — as they happen.",
-    "social.follow": "Follow @noor",
-    "social.f1": "Followers", "social.f2": "Monthly reach", "social.f3": "Engagement",
+    "social.follow": "Follow",
 
     /* faq */
     "faq.eyebrow": "Good to know",
@@ -65,12 +64,12 @@ const I18N = {
     /* about */
     "about.eyebrow": "About",
     "about.lead": "A single, dependable face for brands across the Gulf — <em>elegant on camera,</em> credible in the room.",
-    "about.body": "Noor works fluidly between editorial and commercial worlds: the close-up precision of a hand-and-watch shoot, the warmth of a food campaign, the trust a medical brand needs, and the poise of representing a company at an exhibition. Bilingual and GCC-based, she brings one consistent, professional presence to every collaboration.",
+    "about.body": "Pardis works fluidly between editorial and commercial worlds: the close-up precision of a luxury watch and hand campaign, the movement of modest couture and abaya, the polish of a beauty shoot, and the poise of representing a house on set and at events. Bilingual and GCC-based, she brings one consistent, professional presence to every collaboration.",
     "facts.based": "Based in", "facts.basedV": "Riyadh, KSA",
     "facts.lang": "Languages", "facts.langV": "Arabic · English",
-    "facts.height": "Height", "facts.heightV": "174 cm",
+    "facts.focus": "Focus", "facts.focusV": "Fashion · Beauty · Watches",
     "facts.avail": "Availability", "facts.availV": "GCC & Intl.",
-    "stats.disc": "Disciplines", "stats.camp": "Campaigns", "stats.brands": "Brands", "stats.years": "Years on set",
+    "stats.disc": "Disciplines", "stats.watch": "Watch houses", "stats.lang": "Languages", "stats.avail": "Available",
 
     /* testimonials */
     "testi.eyebrow": "In their words",
@@ -135,6 +134,9 @@ const I18N = {
     "book.successT": "Request received.",
     "book.successP": "Thank you. Your request has been noted — you'll hear back within two business days with availability and a tailored proposal.",
     "book.successCta": "Back to portfolio",
+    "connect.eyebrow": "Connect instantly",
+    "connect.note": "Scan to open the portfolio, or share it directly.",
+    "connect.copy": "Copy link", "connect.share": "Share profile", "connect.copied": "Copied ✓",
   },
 
   ar: {
@@ -143,13 +145,13 @@ const I18N = {
     "nav.collaborate": "التعاون", "nav.contact": "تواصل", "nav.book": "احجز",
     "common.viewAll": "تصفّح كل التخصصات", "common.back": "← العودة إلى الفهرس",
     "lang.toggle": "EN",
-    "wa.tooltip": "احجز عبر واتساب", "wa.msg": "مرحبًا نور، أودّ مناقشة تعاون.",
+    "wa.tooltip": "احجز عبر واتساب", "wa.msg": "مرحبًا بارديس، أودّ مناقشة تعاون.",
 
     "hero.eyebrow": "عارضة أزياء · سفيرة علامات · ممثلة رسمية للشركات",
-    "hero.role": "وجهٌ واحد، سبعة تخصصات. من <strong>حملات الساعات والأزياء</strong> إلى <strong>سفارة العلامات التجارية</strong>، والأعمال التلفزيونية، وتمثيل شركتك رسميًا في الاجتماعات والفعاليات.",
+    "hero.role": "وجهٌ واحد بين الأزياء والتجارة — من <strong>حملات الساعات الفاخرة والأزياء</strong> إلى <strong>الأزياء المحتشمة الراقية</strong> والجمال وسفارة العلامات في الخليج.",
     "hero.scroll": "الفهرس",
 
-    "trusted.eyebrow": "موضع ثقة علامات تجارية في الخليج",
+    "trusted.eyebrow": "أعمال مع علامات تجارية في الخليج",
 
     "index.eyebrow": "المحتويات — اختر التخصص",
     "index.title": "اختر نوع<br><em>التعاون</em> الذي تحتاجه.",
@@ -164,11 +166,10 @@ const I18N = {
 
     "press.eyebrow": "ظهرت في",
 
-    "social.eyebrow": "على إنستغرام",
-    "social.title": "تابعوا <em>اليوميات</em>.",
+    "social.eyebrow": "تابع الرحلة",
+    "social.title": "جمال، وأزياء، <em>ولحظات</em>.",
     "social.note": "كواليس، وحملات، ولحظات — أولًا بأول.",
-    "social.follow": "تابع @noor",
-    "social.f1": "متابع", "social.f2": "وصول شهري", "social.f3": "تفاعل",
+    "social.follow": "تابع",
 
     "faq.eyebrow": "معلومات مفيدة",
     "faq.title": "أسئلة <em>وإجابات</em>.",
@@ -185,12 +186,12 @@ const I18N = {
 
     "about.eyebrow": "نبذة",
     "about.lead": "وجهٌ واحد يُعتمد عليه لعلامات الخليج — <em>أناقة أمام الكاميرا،</em> ومصداقية في القاعة.",
-    "about.body": "تنتقل نور بسلاسة بين العالم التحريري والتجاري: دقة لقطات اليد والساعات، ودفء حملات الأطعمة، والثقة التي تحتاجها العلامات الطبية، ورقيّ تمثيل الشركات في المعارض. تتحدث العربية والإنجليزية ومقرها دول الخليج، وتقدّم حضورًا مهنيًا ثابتًا في كل تعاون.",
+    "about.body": "تنتقل بارديس بسلاسة بين العالم التحريري والتجاري: دقة حملات الساعات الفاخرة واليد، وحركة الأزياء المحتشمة والعبايات الراقية، ورقيّ جلسات الجمال، وثبات تمثيل العلامات على المواقع وفي الفعاليات. تتحدث العربية والإنجليزية ومقرها دول الخليج، وتقدّم حضورًا مهنيًا ثابتًا في كل تعاون.",
     "facts.based": "المقر", "facts.basedV": "الرياض، السعودية",
     "facts.lang": "اللغات", "facts.langV": "العربية · الإنجليزية",
-    "facts.height": "الطول", "facts.heightV": "١٧٤ سم",
+    "facts.focus": "التخصص", "facts.focusV": "أزياء · جمال · ساعات",
     "facts.avail": "التوفر", "facts.availV": "الخليج ودوليًا",
-    "stats.disc": "تخصصات", "stats.camp": "حملة", "stats.brands": "علامة", "stats.years": "سنوات خبرة",
+    "stats.disc": "تخصصات", "stats.watch": "بيوت ساعات", "stats.lang": "لغتان", "stats.avail": "التوفر",
 
     "testi.eyebrow": "بكلماتهم",
     "testi.title": "ماذا تقول <em>العلامات</em>.",
@@ -248,6 +249,9 @@ const I18N = {
     "book.successT": "تم استلام الطلب.",
     "book.successP": "شكرًا لك. تم تسجيل طلبك — ستصلك ردّنا خلال يومي عمل بالتوفر وعرض مخصص.",
     "book.successCta": "العودة إلى الأعمال",
+    "connect.eyebrow": "تواصل فوري",
+    "connect.note": "امسح الرمز لفتح الأعمال، أو شاركها مباشرة.",
+    "connect.copy": "نسخ الرابط", "connect.share": "مشاركة الملف", "connect.copied": "تم النسخ ✓",
   },
 };
 

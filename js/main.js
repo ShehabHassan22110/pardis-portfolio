@@ -10,7 +10,7 @@
   const lang = () => (window.currentLang ? window.currentLang() : "en");
   const isAr = () => lang() === "ar";
 
-  const WA_NUMBER = "966500000000"; // ← replace with the real WhatsApp number (digits only, incl. country code)
+  const WA_NUMBER = (typeof PROFILE !== "undefined" && PROFILE.whatsapp) || "966500000000"; // set in js/data.js
 
   /* ---------- Image fallback plate ------------------------------------------ */
   function plateFor(el) {
@@ -110,7 +110,7 @@
     (entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }),
     { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
   );
-  function observeReveals(scope = document) { $$(".reveal, .curtain", scope).forEach((el) => io.observe(el)); }
+  function observeReveals(scope = document) { $$(".reveal, .curtain, .goldline", scope).forEach((el) => io.observe(el)); }
 
   const countObserver = new IntersectionObserver((entries) => {
     entries.forEach((e) => {
@@ -151,6 +151,66 @@
   $$("[data-year]").forEach((el) => (el.textContent = new Date().getFullYear()));
   if (typeof PROFILE !== "undefined") {
     $$("[data-profile]").forEach((el) => { if (PROFILE[el.dataset.profile] != null) el.textContent = PROFILE[el.dataset.profile]; });
+    // email links
+    $$("[data-profile-email]").forEach((el) => { el.href = "mailto:" + PROFILE.email; el.textContent = PROFILE.email; });
+    // phone links
+    $$("[data-profile-phone]").forEach((el) => {
+      const k = el.querySelector(".k");
+      el.href = "tel:" + PROFILE.phone.replace(/[^+\d]/g, "");
+      el.innerHTML = (k ? k.outerHTML + " " : "") + PROFILE.phone;
+    });
+  }
+
+  /* ---------- Connect: copy link + native share ----------------------------- */
+  const shareUrl = location.protocol.indexOf("http") === 0 ? location.origin + "/" : "https://fashion-design-eta.vercel.app/";
+  const copyBtn = $("#copyLink");
+  if (copyBtn) {
+    copyBtn.addEventListener("click", async () => {
+      const label = copyBtn.textContent;
+      try { await navigator.clipboard.writeText(shareUrl); } catch (e) {}
+      copyBtn.textContent = window.t ? window.t("connect.copied") : "Copied ✓";
+      setTimeout(() => (copyBtn.textContent = label), 1800);
+    });
+  }
+  const shareBtn = $("#shareLink");
+  if (shareBtn) {
+    shareBtn.addEventListener("click", async () => {
+      const data = { title: "PARDIS", text: "PARDIS — Model & Brand Ambassador", url: shareUrl };
+      if (navigator.share) { try { await navigator.share(data); } catch (e) {} }
+      else { try { await navigator.clipboard.writeText(shareUrl); shareBtn.textContent = window.t ? window.t("connect.copied") : "Copied ✓"; } catch (e) {} }
+    });
+  }
+
+  /* ---------- Brands (Trusted by) ------------------------------------------- */
+  const brandsRow = $("#brandsRow");
+  if (brandsRow && typeof BRANDS !== "undefined") {
+    const logos = BRANDS.map((b) =>
+      `<span class="trusted__logo">${b.name}${b.em ? ` <em>${b.em}</em>` : ""}</span>`
+    ).join('<span class="trusted__dot" aria-hidden="true">✦</span>');
+    // duplicated track → seamless marquee loop (no messy wrapping at any width)
+    brandsRow.innerHTML = `<div class="trusted__track">${logos}<span class="trusted__dot" aria-hidden="true">✦</span>${logos}<span class="trusted__dot" aria-hidden="true">✦</span></div>`;
+    observeReveals(brandsRow);
+  }
+
+  /* ---------- Social links (data-driven, no invented URLs) ------------------ */
+  if (typeof SOCIAL !== "undefined") {
+    const byLabel = (name) => SOCIAL.find((s) => s.label.toLowerCase() === String(name).toLowerCase());
+    const igUrl = (byLabel("Instagram") || {}).url || "#";
+    // header social pills
+    const socialLinks = $("#socialLinks");
+    if (socialLinks) {
+      socialLinks.innerHTML = SOCIAL.filter((s) => s.label !== "Email").map((s) =>
+        `<a class="btn btn--gold btn--sm" href="${s.url}"${s.url.startsWith("#") ? "" : ' target="_blank" rel="noopener"'}>${s.label} <span class="btn__arrow">↗</span></a>`
+      ).join("");
+      attachMagnetic(socialLinks);
+    }
+    // footer named links
+    $$("[data-social-link]").forEach((el) => {
+      const s = byLabel(el.dataset.socialLink);
+      if (s) { el.href = s.url; if (s.url.startsWith("#")) { el.removeAttribute("target"); el.removeAttribute("rel"); } }
+    });
+    // instagram photo tiles
+    $$("[data-social-tile]").forEach((el) => { el.href = igUrl; if (igUrl.startsWith("#")) { el.removeAttribute("target"); el.removeAttribute("rel"); } });
   }
 
   /* ---------- Bilingual field pickers --------------------------------------- */
@@ -265,7 +325,7 @@
     const cat = getCategory(slug) || CATEGORIES[0];
     document.title = `${cTitle(cat)} — ${PROFILE.nameFull}`;
     $("#catCover").src = cat.cover;
-    $("#catN").textContent = cat.n + " / 07";
+    $("#catN").textContent = cat.n + " / " + String(CATEGORIES.length).padStart(2, "0");
     $("#catTitle").innerHTML = `${cTitle(cat)}<span class="ar">${isAr() ? cat.title : cat.ar}</span>`;
     $("#catTagline").textContent = cTagline(cat);
     $("#catDesc").textContent = cDesc(cat);

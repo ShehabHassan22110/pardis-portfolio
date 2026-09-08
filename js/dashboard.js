@@ -52,13 +52,14 @@
   const pending = BOOKINGS.filter((b) => b.status === "new" || b.status === "in-review").length;
   $("#cBookings").textContent = BOOKINGS.length;
   $("#cMsgs").textContent = MESSAGES.filter((m) => m.unread).length;
+  if ($("#cCats") && typeof CATEGORIES !== "undefined") $("#cCats").textContent = CATEGORIES.length;
 
   /* ---------- View switching ------------------------------------------------- */
   const TITLES = {
-    overview: ["Overview", "Welcome back, Noor — here's your studio at a glance."],
+    overview: ["Overview", "Welcome back, Pardis — here's your studio at a glance."],
     bookings: ["Bookings", "Every collaboration request in one place."],
     portfolio: ["Portfolio", "Manage the photos and films behind each discipline."],
-    categories: ["Categories", "Show, hide and reorder the seven disciplines."],
+    categories: ["Categories", "Show, hide and reorder the disciplines."],
     messages: ["Messages", "Conversations with brands and companies."],
     settings: ["Settings", "Your public profile and studio preferences."],
   };
@@ -259,12 +260,12 @@
   /* ---------- Settings form -------------------------------------------------- */
   const P = typeof PROFILE !== "undefined" ? PROFILE : {};
   const fields = [
-    ["Name", P.nameFull || "Noor Al-Rashid"],
+    ["Name", P.nameFull || "Pardis"],
     ["Role", P.role || ""],
     ["Email", P.email || ""],
     ["Phone", P.phone || ""],
     ["Based in", P.base || ""],
-    ["Instagram", P.instagram || ""],
+    ["Instagram", (typeof SOCIAL !== "undefined" && (SOCIAL.find((s) => s.label === "Instagram") || {}).handle) || ""],
   ];
   $("#settingsForm").innerHTML = fields.map(([l, v], i) => `
     <div class="field ${i >= 4 ? "" : ""}">

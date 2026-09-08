@@ -11,3 +11,6 @@ __*.html
 
 # dependencies (none yet, but future-proof)
 node_modules/
+
+# raw client source media (optimized copies live in assets/)
+CLient Data/
