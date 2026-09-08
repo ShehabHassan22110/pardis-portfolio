@@ -97,6 +97,26 @@ const I18N = {
     "services.unsureD": "Tell us about the campaign and we'll recommend the right discipline.",
     "services.unsureCta": "Start a request",
 
+    /* services page */
+    "svcpage.eyebrow": "Collaborate",
+    "svcpage.title": "Turn an idea into<br>something <em>people remember.</em>",
+    "svcpage.sub": "Fashion. Beauty. Watches. Modest couture. Campaigns & ambassadorship — across the Gulf and beyond.",
+    "svcpage.listEyebrow": "What I offer",
+    "svcpage.listTitle": "Ways to <em>collaborate</em>.",
+    "svcpage.listNote": "Choose a discipline to see selected work. Corporate representation is quoted per assignment — by the event and duration of attendance.",
+
+    /* about / profile page */
+    "aboutpage.eyebrow": "The Profile",
+    "aboutpage.r1": "Model", "aboutpage.r2": "Creator", "aboutpage.r3": "Brand Ambassador",
+    "aboutpage.edEyebrow": "The woman behind the work",
+    "aboutpage.viewServices": "Discover services",
+    "aboutpage.specEyebrow": "Specialties",
+    "aboutpage.specTitle": "What she <em>does</em>.",
+    "aboutpage.expEyebrow": "Selected campaigns & clients",
+    "aboutpage.expTitle": "Trusted <em>work</em>.",
+    "home.aboutMore": "Read the full profile",
+    "home.servicesMore": "View all services",
+
     /* cta */
     "cta.title": "Let's make<br>something <em>unforgettable</em>.",
     "cta.sub": "Share your brief and receive a tailored proposal — bookings, campaigns, ambassadorships and corporate representation across the Gulf and beyond.",
@@ -104,6 +124,9 @@ const I18N = {
 
     /* footer */
     "footer.tagline": "Model · Brand Ambassador · Corporate Representative. Riyadh, Kingdom of Saudi Arabia.",
+    "footer.eyebrow": "Start a conversation",
+    "footer.lead": "Let's create<br>something <em>iconic</em>.",
+    "footer.start": "Start a project",
     "footer.explore": "Explore", "footer.contact": "Contact",
     "footer.book": "Request a booking", "footer.rights": "All rights reserved.",
     "footer.studio": "Studio login",
@@ -216,11 +239,32 @@ const I18N = {
     "services.unsureD": "أخبرنا عن الحملة وسنرشّح لك التخصص المناسب.",
     "services.unsureCta": "ابدأ الطلب",
 
+    "svcpage.eyebrow": "تعاون",
+    "svcpage.title": "حوّل الفكرة إلى<br>شيءٍ <em>يبقى في الذاكرة.</em>",
+    "svcpage.sub": "أزياء. جمال. ساعات. أزياء محتشمة راقية. حملات وسفارة علامات — في الخليج وخارجه.",
+    "svcpage.listEyebrow": "ما أقدّمه",
+    "svcpage.listTitle": "طرق <em>التعاون</em>.",
+    "svcpage.listNote": "اختر التخصص لرؤية أعمال مختارة. تمثيل الشركات يُسعَّر بحسب المهمة — وفق الحدث ومدة الحضور.",
+
+    "aboutpage.eyebrow": "الملف",
+    "aboutpage.r1": "عارضة", "aboutpage.r2": "صانعة محتوى", "aboutpage.r3": "سفيرة علامات",
+    "aboutpage.edEyebrow": "المرأة خلف العمل",
+    "aboutpage.viewServices": "استكشف الخدمات",
+    "aboutpage.specEyebrow": "التخصصات",
+    "aboutpage.specTitle": "ما <em>تتقنه</em>.",
+    "aboutpage.expEyebrow": "حملات وعملاء مختارون",
+    "aboutpage.expTitle": "أعمال <em>موثوقة</em>.",
+    "home.aboutMore": "اقرأ الملف كاملًا",
+    "home.servicesMore": "كل الخدمات",
+
     "cta.title": "لنصنع معًا<br>شيئًا <em>لا يُنسى</em>.",
     "cta.sub": "شارك التفاصيل واستلم عرضًا مخصصًا — حجوزات، وحملات، وسفارة علامات، وتمثيل شركات في الخليج وخارجه.",
     "cta.button": "اطلب حجزًا",
 
     "footer.tagline": "عارضة أزياء · سفيرة علامات · ممثلة رسمية للشركات. الرياض، المملكة العربية السعودية.",
+    "footer.eyebrow": "لنبدأ الحديث",
+    "footer.lead": "لنصنع<br>شيئًا <em>استثنائيًا</em>.",
+    "footer.start": "ابدأ مشروعًا",
     "footer.explore": "استكشف", "footer.contact": "تواصل",
     "footer.book": "اطلب حجزًا", "footer.rights": "جميع الحقوق محفوظة.",
     "footer.studio": "دخول الاستوديو",

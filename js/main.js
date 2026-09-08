@@ -204,6 +204,13 @@
       ).join("");
       attachMagnetic(socialLinks);
     }
+    // footer social pills
+    const footerSocial = $("#footerSocial");
+    if (footerSocial) {
+      footerSocial.innerHTML = SOCIAL.map((s) =>
+        `<a href="${s.url}"${s.url.startsWith("#") ? "" : ' target="_blank" rel="noopener"'}>${s.label}</a>`
+      ).join("");
+    }
     // footer named links
     $$("[data-social-link]").forEach((el) => {
       const s = byLabel(el.dataset.socialLink);
@@ -287,6 +294,23 @@
     attachMagnetic(servicesGrid);
   }
 
+  function renderServiceRows() {
+    const host = $("#serviceRows");
+    if (!host || !hasCats) return;
+    host.innerHTML = CATEGORIES.map((c, i) => `
+      <a class="srow reveal" data-d="${i % 4}" href="category.html?cat=${c.slug}" aria-label="${cTitle(c)}">
+        <span class="srow__n">${c.n}</span>
+        <span class="srow__main">
+          <span class="srow__title display">${cTitle(c)}</span>
+          <span class="srow__desc">${cDesc(c)}</span>
+          <span class="srow__tags">${cSub(c).slice(0, 4).map((s) => `<span class="tag">${s}</span>`).join("")}</span>
+        </span>
+        <span class="srow__media"><img src="${c.cover}" alt="${cTitle(c)}" loading="lazy"></span>
+        <span class="srow__go" aria-hidden="true">↗</span>
+      </a>`).join("");
+    observeReveals(host);
+  }
+
   function renderWorks() {
     if (!worksGrid || !hasCats) return;
     const picks = [];
@@ -315,7 +339,7 @@
     if (!previewInited) { window.addEventListener("mousemove", (e) => { tx = e.clientX; ty = e.clientY; }, { passive: true }); previewInited = true; }
   }
 
-  renderIndex(); renderServices(); renderWorks();
+  renderIndex(); renderServices(); renderServiceRows(); renderWorks();
 
   /* ---------- CATEGORY page ------------------------------------------------- */
   const catRoot = $("#catRoot");
@@ -405,7 +429,7 @@
 
   /* ---------- Re-render on language change ---------------------------------- */
   window.addEventListener("langchange", () => {
-    renderIndex(); renderServices(); renderWorks(); renderCategory(); refreshWhatsApp();
+    renderIndex(); renderServices(); renderServiceRows(); renderWorks(); renderCategory(); refreshWhatsApp();
     setTimeout(syncFaq, 40);
   });
   refreshWhatsApp();

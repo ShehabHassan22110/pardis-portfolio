@@ -10,6 +10,63 @@
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
+  /* ---------- Hero swiper (3-slide cinematic carousel) ---------------------- */
+  (function heroSwiper() {
+    const root = $("#heroSlider");
+    if (!root) return;
+    const slides = $$(".hero__slide", root);
+    if (slides.length < 2) return;
+    const dots = $$("#heroDots .hero__dot");
+    const idxEl = $("#heroIndex"), labelEl = $("#heroLabel");
+    const prev = $("#heroPrev"), next = $("#heroNext");
+    let i = 0, timer = null;
+    const DELAY = 5600;
+    const pad = (n) => String(n + 1).padStart(2, "0");
+
+    function go(n) {
+      i = (n + slides.length) % slides.length;
+      slides.forEach((s, k) => s.classList.toggle("is-active", k === i));
+      dots.forEach((d, k) => d.classList.toggle("is-active", k === i));
+      if (idxEl) idxEl.textContent = pad(i);
+      if (labelEl) labelEl.textContent = slides[i].dataset.label || "";
+    }
+    const nextSlide = () => go(i + 1);
+    const prevSlide = () => go(i - 1);
+
+    function start() { if (reduce) return; stop(); timer = setInterval(nextSlide, DELAY); }
+    function stop() { if (timer) { clearInterval(timer); timer = null; } }
+    function restart() { stop(); start(); }
+
+    dots.forEach((d, k) => d.addEventListener("click", () => { go(k); restart(); }));
+    if (next) next.addEventListener("click", () => { nextSlide(); restart(); });
+    if (prev) prev.addEventListener("click", () => { prevSlide(); restart(); });
+
+    const hero = root.closest(".hero");
+    hero.addEventListener("mouseenter", stop);
+    hero.addEventListener("mouseleave", start);
+    document.addEventListener("visibilitychange", () => (document.hidden ? stop() : start()));
+
+    // swipe (touch / pointer)
+    let sx = 0, sw = false;
+    root.addEventListener("pointerdown", (e) => { sx = e.clientX; sw = true; }, { passive: true });
+    root.addEventListener("pointerup", (e) => {
+      if (!sw) return; sw = false;
+      const dx = e.clientX - sx;
+      if (Math.abs(dx) > 44) { dx < 0 ? nextSlide() : prevSlide(); restart(); }
+    }, { passive: true });
+
+    // keyboard when a hero control is focused
+    [prev, next, ...dots].filter(Boolean).forEach((el) =>
+      el.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowRight") { nextSlide(); restart(); }
+        else if (e.key === "ArrowLeft") { prevSlide(); restart(); }
+      })
+    );
+
+    go(0);
+    start();
+  })();
+
   /* ---------- Intro preloader (index only) ---------------------------------- */
   const pre = $(".preloader");
   if (pre) {

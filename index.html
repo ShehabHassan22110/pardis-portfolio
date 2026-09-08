@@ -38,22 +38,32 @@
     <nav class="nav__links" aria-label="Primary">
       <a class="nav__link" href="#index" data-i18n="nav.index">Index</a>
       <a class="nav__link" href="#work" data-i18n="nav.work">Work</a>
-      <a class="nav__link" href="#about" data-i18n="nav.about">About</a>
-      <a class="nav__link" href="#services" data-i18n="nav.collaborate">Collaborate</a>
+      <a class="nav__link" href="about.html" data-i18n="nav.about">About</a>
+      <a class="nav__link" href="services.html" data-i18n="nav.collaborate">Collaborate</a>
       <a class="nav__link" href="booking.html" data-i18n="nav.contact">Contact</a>
       <a class="btn btn--gold nav__cta" href="booking.html"><span data-i18n="nav.book">Book</span><span class="btn__arrow">↗</span></a>
     </nav>
     <button class="nav__burger" aria-label="Menu"><span></span><span></span></button>
   </header>
 
-  <!-- ===================== HERO ===================== -->
-  <section class="hero" id="top">
-    <div class="hero__bg">
-      <img src="assets/img/hero-couture.jpg" alt="Pardis in an embellished Gulf couture kaftan, editorial portrait" fetchpriority="high" />
+  <!-- ===================== HERO (3-slide cinematic swiper) ===================== -->
+  <section class="hero" id="top" aria-roledescription="carousel" aria-label="PARDIS showcase">
+    <div class="hero__bg" id="heroSlider">
+      <figure class="hero__slide is-active" data-label="Modest Couture">
+        <img src="assets/img/hero-couture.jpg" alt="Pardis in an embellished Gulf couture kaftan" fetchpriority="high" />
+      </figure>
+      <figure class="hero__slide" data-label="Editorial Fashion">
+        <img src="assets/img/fashion-suit-green.jpg" alt="Pardis in tailored editorial fashion" loading="lazy" />
+      </figure>
+      <figure class="hero__slide" data-label="Beauty & Glam">
+        <img src="assets/img/beauty-glam-01.jpg" alt="Pardis — beauty and glam portrait" loading="lazy" />
+      </figure>
     </div>
+
     <div class="hero__coverlines" aria-hidden="true">
       <span>Beauty · Fashion</span><span>Modest Couture</span><span>Watch Campaigns</span><span>Riyadh, KSA</span>
     </div>
+
     <div class="hero__inner">
       <div class="hero__eyebrow reveal">
         <span class="rule"></span>
@@ -65,13 +75,28 @@
       </h1>
       <div class="hero__meta">
         <p class="hero__role reveal" data-d="2" data-i18n="hero.role">
-          One face, seven disciplines. From <strong>watch and fashion campaigns</strong> to
-          <strong>brand ambassadorship</strong>, screen work and representing your company in the room.
+          One face across fashion and commerce — from <strong>luxury watch and fashion campaigns</strong> to
+          <strong>modest couture</strong>, beauty and brand ambassadorship across the Gulf.
         </p>
         <a href="#index" class="hero__scroll reveal" data-d="3">
           <span class="dot"><svg width="12" height="16" viewBox="0 0 12 16" fill="none"><path d="M6 0v14M1 9l5 5 5-5" stroke="#C9A17A"/></svg></span>
           <span data-i18n="hero.scroll">The Index</span>
         </a>
+      </div>
+    </div>
+
+    <!-- swiper controls -->
+    <div class="hero__nav" role="group" aria-label="Hero slides">
+      <span class="hero__count"><em id="heroIndex">01</em> / 03</span>
+      <div class="hero__dots" id="heroDots">
+        <button type="button" class="hero__dot is-active" aria-label="Slide 1"></button>
+        <button type="button" class="hero__dot" aria-label="Slide 2"></button>
+        <button type="button" class="hero__dot" aria-label="Slide 3"></button>
+      </div>
+      <span class="hero__label" id="heroLabel">Modest Couture</span>
+      <div class="hero__arrows">
+        <button type="button" class="hero__arrow" id="heroPrev" aria-label="Previous slide">↖</button>
+        <button type="button" class="hero__arrow" id="heroNext" aria-label="Next slide">↗</button>
       </div>
     </div>
   </section>
@@ -136,6 +161,7 @@
         <li><div class="k" data-i18n="facts.focus">Focus</div><div class="v" data-i18n="facts.focusV">Fashion · Beauty · Watches</div></li>
         <li><div class="k" data-i18n="facts.avail">Availability</div><div class="v" data-i18n="facts.availV">GCC &amp; Intl.</div></li>
       </ul>
+      <a class="btn btn--gold" href="about.html" style="margin-top:2rem"><span data-i18n="home.aboutMore">Read the full profile</span> <span class="btn__arrow">↗</span></a>
     </div>
   </section>
 
@@ -191,7 +217,7 @@
         <p class="eyebrow" style="margin-bottom:1rem" data-i18n="services.eyebrow">Ways to collaborate</p>
         <h2 class="head__title display" data-i18n="services.title">Engagements, <em>tailored</em><br>to the brief.</h2>
       </div>
-      <p class="hero__role" style="max-width:32ch" data-i18n="services.note">Choose a discipline, share your campaign, and receive a proposal. Corporate representation is quoted per assignment — by the nature of the event and the duration of attendance.</p>
+      <a class="btn" href="services.html"><span data-i18n="home.servicesMore">View all services</span> <span class="btn__arrow">↗</span></a>
     </div>
     <div class="services__grid" id="servicesGrid"><!-- rendered from data.js --></div>
   </section>
@@ -241,24 +267,33 @@
   <!-- ===================== FOOTER ===================== -->
   <footer class="footer">
     <div class="wrap">
+      <div class="footer__cta reveal">
+        <div>
+          <p class="eyebrow" style="margin-bottom:1.2rem" data-i18n="footer.eyebrow">Start a conversation</p>
+          <h2 class="footer__lead display" data-i18n="footer.lead">Let's create<br>something <em>iconic</em>.</h2>
+        </div>
+        <a class="btn btn--solid" href="booking.html"><span data-i18n="footer.start">Start a project</span> <span class="btn__arrow">↗</span></a>
+      </div>
+
+      <div class="goldline" style="width:100%;margin-inline:0"></div>
+
       <div class="footer__grid">
         <div>
-          <div class="footer__mark display">Pardis<span>.</span></div>
-          <p style="color:var(--mist);margin-top:1rem;max-width:26ch" data-i18n="footer.tagline">Model · Brand Ambassador · Corporate Representative. Riyadh, Kingdom of Saudi Arabia.</p>
+          <div class="footer__mark display">Pardis<span>.</span> <span class="footer__ar ar">بارديس</span></div>
+          <p class="footer__tag" data-i18n="footer.tagline">Model · Brand Ambassador · Corporate Representative. Riyadh, Kingdom of Saudi Arabia.</p>
+          <div class="footer__social" id="footerSocial"><!-- rendered from data.js --></div>
         </div>
         <div>
           <h5 data-i18n="footer.explore">Explore</h5>
           <a class="line-link" href="#index" data-i18n="nav.index">The Index</a>
           <a class="line-link" href="#work" data-i18n="nav.work">Selected Work</a>
-          <a class="line-link" href="#about" data-i18n="nav.about">About</a>
-          <a class="line-link" href="#services" data-i18n="nav.collaborate">Collaborate</a>
+          <a class="line-link" href="about.html" data-i18n="nav.about">About</a>
+          <a class="line-link" href="services.html" data-i18n="nav.collaborate">Collaborate</a>
         </div>
         <div>
           <h5 data-i18n="footer.contact">Contact</h5>
           <a class="line-link" href="booking.html" data-i18n="footer.book">Request a booking</a>
           <a class="line-link" data-profile-email href="mailto:hello@pardis.studio">hello@pardis.studio</a>
-          <a class="line-link" data-social-link="Instagram" href="#" target="_blank" rel="noopener">Instagram ↗</a>
-          <a class="line-link" data-social-link="TikTok" href="#" target="_blank" rel="noopener">TikTok ↗</a>
           <a class="line-link" href="dashboard.html" data-i18n="footer.studio">Studio login</a>
         </div>
       </div>
@@ -267,6 +302,7 @@
         <span>بارديس · Riyadh · GCC &amp; International</span>
       </div>
     </div>
+    <div class="footer__huge" aria-hidden="true">PARDIS</div>
   </footer>
 
   <script src="js/i18n.js"></script>
