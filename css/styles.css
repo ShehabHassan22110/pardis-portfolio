@@ -65,14 +65,14 @@
 /* ---------- Reset ----------------------------------------------------------- */
 *, *::before, *::after { box-sizing: border-box; }
 * { margin: 0; padding: 0; }
-html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; font-size: clamp(16.5px, 0.34vw + 15.2px, 18.5px); }
 body {
   background: var(--noir);
   color: var(--porcelain);
   font-family: var(--sans);
-  font-weight: 300;
-  line-height: 1.62;
-  letter-spacing: 0.006em;
+  font-weight: 400;
+  line-height: 1.66;
+  letter-spacing: 0.003em;
   overflow-x: hidden;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -106,9 +106,9 @@ body::after {
 
 .eyebrow {
   font-family: var(--sans);
-  font-size: 0.72rem;
-  font-weight: 500;
-  letter-spacing: 0.42em;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.34em;
   text-transform: uppercase;
   color: var(--champagne);
 }
@@ -134,7 +134,7 @@ body::after {
 /* buttons */
 .btn {
   display: inline-flex; align-items: center; gap: 0.7em;
-  font-size: 0.74rem; font-weight: 500; letter-spacing: 0.24em; text-transform: uppercase;
+  font-size: 0.8rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase;
   padding: 1.05em 1.9em;
   border: 1px solid var(--line);
   border-radius: 100px;
@@ -172,8 +172,8 @@ body::after {
 .brand__sub { font-size: 0.64rem; letter-spacing: 0.36em; text-transform: uppercase; color: var(--mist-2); }
 .nav__links { display: flex; align-items: center; gap: clamp(1.7rem, 2.6vw, 2.9rem); }
 .nav__link {
-  position: relative; font-size: 0.86rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--mist);
-  font-weight: 400;
+  position: relative; font-size: 0.9rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mist);
+  font-weight: 500;
   transition: color 0.5s var(--ease);
 }
 .nav__link::after {
@@ -230,8 +230,8 @@ body.menu-open .nav__burger span:nth-child(2) { bottom: 8px; transform: rotate(-
 .hero__title { font-size: clamp(4.2rem, 20vw, 17rem); line-height: 0.82; letter-spacing: -0.02em; }
 .hero__title .ar { display: inline-block; font-size: 0.42em; color: var(--champagne); vertical-align: 0.55em; margin-left: 0.2em; }
 .hero__meta { display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 1.6rem; margin-top: clamp(22px, 4vh, 44px); }
-.hero__role { max-width: 34ch; font-size: clamp(0.95rem, 1.4vw, 1.15rem); color: var(--mist); font-weight: 300; }
-.hero__role strong { color: var(--porcelain); font-weight: 400; }
+.hero__role { max-width: 36ch; font-size: clamp(1rem, 1.4vw, 1.2rem); color: var(--mist); font-weight: 400; }
+.hero__role strong { color: var(--porcelain); font-weight: 600; }
 .hero__scroll { display: inline-flex; align-items: center; gap: 0.8rem; font-size: 0.66rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--mist-2); }
 .hero__scroll .dot { width: 34px; height: 34px; border: 1px solid var(--line); border-radius: 50%; display: grid; place-items: center; }
 .hero__scroll .dot svg { animation: bob 2.2s var(--ease) infinite; }
