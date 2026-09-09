@@ -46,51 +46,55 @@
     <button class="nav__burger" aria-label="Menu"><span></span><span></span></button>
   </header>
 
-  <!-- ===================== HERO — "The Cover" (magazine-cover swiper) ===================== -->
+  <!-- ===================== HERO — full-bleed cover swiper ===================== -->
   <section class="hero cover" id="top" aria-roledescription="carousel" aria-label="PARDIS showcase">
+    <!-- full-bleed background swiper (slides rendered from data.js HERO_SLIDES) -->
+    <div class="hero__bg" id="heroSlider"></div>
+    <div class="hero__veil" aria-hidden="true"></div>
+
     <div class="hero__inner">
 
-      <!-- masthead -->
+      <!-- top line -->
       <div class="cover__top reveal">
         <span class="cover__issue" data-i18n="hero.issue">Portfolio · Issue 01</span>
         <span class="cover__loc">Riyadh · KSA</span>
       </div>
+
+      <!-- masthead over the image -->
       <h1 class="cover__mast display">
         <span class="rise"><span>PARDIS</span></span>
       </h1>
-      <div class="cover__meta reveal" data-d="1">
-        <span data-i18n="hero.eyebrow">Model · Brand Ambassador · Corporate Representative</span>
-        <span class="cover__ar ar">بارديس</span>
-      </div>
 
-      <!-- cover stage: coverlines · portrait · controls -->
-      <div class="cover__stage">
-        <ul class="cover__lines cover__lines--l reveal" data-d="1" aria-hidden="true">
-          <li>Beauty</li><li>Fashion</li><li>Modest Couture</li><li>Watch Campaigns</li>
-        </ul>
-
-        <div class="cover__card reveal" data-d="2">
-          <div class="hero__bg" id="heroSlider"><!-- slides rendered from data.js (HERO_SLIDES) --></div>
-          <span class="cover__tag" aria-hidden="true"><em id="heroLabel">Modest Couture</em></span>
-          <button type="button" class="cover__nav cover__nav--prev" id="heroPrev" aria-label="Previous look">‹</button>
-          <button type="button" class="cover__nav cover__nav--next" id="heroNext" aria-label="Next look">›</button>
+      <!-- bottom dock: identity + swiper controls -->
+      <div class="hero__dock">
+        <div class="hero__lead reveal" data-d="1">
+          <p class="cover__meta">
+            <span data-i18n="hero.eyebrow">Model · Brand Ambassador · Corporate Representative</span>
+            <span class="cover__ar ar">بارديس</span>
+          </p>
+          <p class="cover__role" data-i18n="hero.role">
+            One face across fashion and commerce — from <strong>luxury watch and fashion campaigns</strong> to
+            <strong>modest couture</strong>, beauty and brand ambassadorship across the Gulf.
+          </p>
+          <div class="cover__cta">
+            <a class="btn btn--gold" href="#work"><span data-i18n="hero.ctaWork">View the work</span> <span class="btn__arrow">↗</span></a>
+            <a class="btn" href="booking.html"><span data-i18n="hero.ctaBook">Book</span> <span class="btn__arrow">↗</span></a>
+          </div>
         </div>
 
-        <div class="cover__side reveal" data-d="2">
-          <span class="cover__count"><em id="heroIndex">01</em><i id="heroTotal">/05</i></span>
-          <div class="cover__thumbs" id="heroThumbs" role="tablist" aria-label="Choose a look"><!-- thumbnails rendered from data.js --></div>
-        </div>
-      </div>
-
-      <!-- role + CTAs -->
-      <div class="cover__foot reveal" data-d="3">
-        <p class="cover__role" data-i18n="hero.role">
-          One face across fashion and commerce — from <strong>luxury watch and fashion campaigns</strong> to
-          <strong>modest couture</strong>, beauty and brand ambassadorship across the Gulf.
-        </p>
-        <div class="cover__cta">
-          <a class="btn btn--gold" href="#work"><span data-i18n="hero.ctaWork">View the work</span> <span class="btn__arrow">↗</span></a>
-          <a class="btn" href="booking.html"><span data-i18n="hero.ctaBook">Book</span> <span class="btn__arrow">↗</span></a>
+        <div class="hero__control reveal" data-d="2" role="group" aria-label="Slideshow controls">
+          <div class="hero__now">
+            <span class="hero__label display" id="heroLabel">Beauty &amp; Glam</span>
+            <span class="cover__count"><em id="heroIndex">01</em><i id="heroTotal">/05</i></span>
+          </div>
+          <div class="hero__bar" aria-hidden="true"><i id="heroBar"></i></div>
+          <div class="hero__strip">
+            <div class="cover__thumbs" id="heroThumbs" role="tablist" aria-label="Choose a look"><!-- thumbnails rendered from data.js --></div>
+            <div class="hero__arrows">
+              <button type="button" class="cover__nav" id="heroPrev" aria-label="Previous look">‹</button>
+              <button type="button" class="cover__nav" id="heroNext" aria-label="Next look">›</button>
+            </div>
+          </div>
         </div>
       </div>
 

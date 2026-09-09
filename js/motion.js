@@ -10,41 +10,59 @@
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
-  /* ---------- Hero cover swiper (dynamic, thumbnail-driven) ----------------- */
+  /* ---------- Hero cover swiper (full-bleed, thumbnail + progress-driven) ---- */
   (function heroSwiper() {
     const root = $("#heroSlider");
     if (!root) return;
     const slides = $$(".hero__slide", root);
     if (slides.length < 2) return;
     const thumbs = $$("#heroThumbs .cover__thumb");
-    const idxEl = $("#heroIndex"), labelEl = $("#heroLabel");
+    const idxEl = $("#heroIndex"), labelEl = $("#heroLabel"), barEl = $("#heroBar");
     const prev = $("#heroPrev"), next = $("#heroNext");
-    let i = 0, timer = null;
-    const DELAY = 5200;
+    let i = 0, timer = null, raf = null, t0 = 0, paused = false;
+    const DELAY = 5600;
     const pad = (n) => String(n + 1).padStart(2, "0");
+
+    function paintBar(p) { if (barEl) barEl.style.transform = "scaleX(" + p + ")"; }
 
     function go(n) {
       i = (n + slides.length) % slides.length;
       slides.forEach((s, k) => s.classList.toggle("is-active", k === i));
       thumbs.forEach((t, k) => { t.classList.toggle("is-active", k === i); t.setAttribute("aria-selected", k === i); });
       if (idxEl) idxEl.textContent = pad(i);
-      if (labelEl) labelEl.textContent = slides[i].dataset.label || "";
+      if (labelEl) {
+        const txt = slides[i].dataset.label || "";
+        labelEl.style.opacity = "0";
+        setTimeout(() => { labelEl.textContent = txt; labelEl.style.opacity = "1"; }, 220);
+      }
     }
     const nextSlide = () => go(i + 1);
     const prevSlide = () => go(i - 1);
 
-    function start() { if (reduce) return; stop(); timer = setInterval(nextSlide, DELAY); }
-    function stop() { if (timer) { clearInterval(timer); timer = null; } }
-    function restart() { stop(); start(); }
+    /* autoplay driven by rAF so the progress bar stays in sync */
+    function tick(now) {
+      if (paused) { raf = requestAnimationFrame(tick); return; }
+      const p = Math.min((now - t0) / DELAY, 1);
+      paintBar(p);
+      if (p >= 1) { t0 = now; nextSlide(); }
+      raf = requestAnimationFrame(tick);
+    }
+    function start() {
+      if (reduce || raf) return;
+      t0 = performance.now(); paused = false; paintBar(0);
+      raf = requestAnimationFrame(tick);
+    }
+    function stop() { if (raf) { cancelAnimationFrame(raf); raf = null; } }
+    function restart() { t0 = performance.now(); paintBar(0); if (!raf && !reduce) start(); }
 
     thumbs.forEach((t, k) => t.addEventListener("click", () => { go(k); restart(); }));
     if (next) next.addEventListener("click", () => { nextSlide(); restart(); });
     if (prev) prev.addEventListener("click", () => { prevSlide(); restart(); });
 
     const hero = root.closest(".hero");
-    hero.addEventListener("mouseenter", stop);
-    hero.addEventListener("mouseleave", start);
-    document.addEventListener("visibilitychange", () => (document.hidden ? stop() : start()));
+    hero.addEventListener("mouseenter", () => { paused = true; });
+    hero.addEventListener("mouseleave", () => { paused = false; t0 = performance.now() - (barEl ? parseFloat(barEl.style.transform.replace(/[^0-9.]/g, "")) || 0 : 0) * DELAY; });
+    document.addEventListener("visibilitychange", () => { paused = document.hidden; if (!document.hidden) t0 = performance.now(); });
 
     // swipe (touch / pointer)
     let sx = 0, sw = false;
@@ -64,7 +82,7 @@
     );
 
     go(0);
-    start();
+    if (reduce) paintBar(1); else start();
   })();
 
   /* ---------- Intro preloader (index only) ---------------------------------- */

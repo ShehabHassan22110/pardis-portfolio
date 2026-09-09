@@ -171,14 +171,15 @@ const CATEGORIES = [
   },
 ];
 
-/* Hero swiper slides — real client photography, each with a face-safe crop
-   position so PARDIS's face always reads in the cover card. Edit freely. */
+/* Hero swiper slides — real client photography. `pos` is a face-safe crop
+   focal point (object-position) so PARDIS's face always reads in the
+   full-bleed background, whatever the viewport shape. Edit freely. */
 const HERO_SLIDES = [
-  { img: IMG + "beauty-glam-01.jpg",     label: "Beauty & Glam",     pos: "50% 30%" },
+  { img: IMG + "beauty-glam-02.jpg",     label: "Beauty & Glam",     pos: "50% 24%" },
   { img: IMG + "hero-couture.jpg",       label: "Modest Couture",    pos: "50% 15%" },
   { img: IMG + "fashion-suit-green.jpg", label: "Editorial Fashion", pos: "50% 9%"  },
-  { img: IMG + "fashion-seated.jpg",     label: "Editorial",         pos: "50% 15%" },
-  { img: IMG + "beauty-glam-03.jpg",     label: "Beauty Portrait",   pos: "50% 26%" },
+  { img: IMG + "fashion-suit-grey.jpg",  label: "Signature Style",   pos: "50% 30%" },
+  { img: IMG + "couture-01.jpg",         label: "Couture Campaign",  pos: "50% 16%" },
 ];
 
 /* helper: find a category by slug */
