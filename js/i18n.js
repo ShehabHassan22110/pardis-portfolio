@@ -20,6 +20,8 @@ const I18N = {
     "hero.eyebrow": "Model · Brand Ambassador · Corporate Representative",
     "hero.role": "One face across fashion and commerce — from <strong>luxury watch and fashion campaigns</strong> to <strong>modest couture</strong>, beauty and brand ambassadorship across the Gulf.",
     "hero.scroll": "The Index",
+    "hero.ctaWork": "View the work",
+    "hero.ctaBook": "Book",
 
     /* trusted by */
     "trusted.eyebrow": "Featured with brands across the Gulf",
@@ -173,6 +175,8 @@ const I18N = {
     "hero.eyebrow": "عارضة أزياء · سفيرة علامات · ممثلة رسمية للشركات",
     "hero.role": "وجهٌ واحد بين الأزياء والتجارة — من <strong>حملات الساعات الفاخرة والأزياء</strong> إلى <strong>الأزياء المحتشمة الراقية</strong> والجمال وسفارة العلامات في الخليج.",
     "hero.scroll": "الفهرس",
+    "hero.ctaWork": "استعرض الأعمال",
+    "hero.ctaBook": "احجز",
 
     "trusted.eyebrow": "أعمال مع علامات تجارية في الخليج",
 

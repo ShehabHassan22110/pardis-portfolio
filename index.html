@@ -46,58 +46,64 @@
     <button class="nav__burger" aria-label="Menu"><span></span><span></span></button>
   </header>
 
-  <!-- ===================== HERO (3-slide cinematic swiper) ===================== -->
+  <!-- ===================== HERO (split editorial + 3-slide swiper) ===================== -->
   <section class="hero" id="top" aria-roledescription="carousel" aria-label="PARDIS showcase">
-    <div class="hero__bg" id="heroSlider">
-      <figure class="hero__slide is-active" data-label="Modest Couture">
-        <img src="assets/img/hero-couture.jpg" alt="Pardis in an embellished Gulf couture kaftan" fetchpriority="high" />
-      </figure>
-      <figure class="hero__slide" data-label="Editorial Fashion">
-        <img src="assets/img/fashion-suit-green.jpg" alt="Pardis in tailored editorial fashion" loading="lazy" />
-      </figure>
-      <figure class="hero__slide" data-label="Beauty & Glam">
-        <img src="assets/img/beauty-glam-01.jpg" alt="Pardis — beauty and glam portrait" loading="lazy" />
-      </figure>
-    </div>
+    <div class="hero__inner hero__split">
 
-    <div class="hero__coverlines" aria-hidden="true">
-      <span>Beauty · Fashion</span><span>Modest Couture</span><span>Watch Campaigns</span><span>Riyadh, KSA</span>
-    </div>
-
-    <div class="hero__inner">
-      <div class="hero__eyebrow reveal">
-        <span class="rule"></span>
-        <span class="eyebrow" data-i18n="hero.eyebrow">Model · Brand Ambassador · Corporate Representative</span>
-      </div>
-      <h1 class="hero__title display">
-        <span class="rise"><span>PARDIS</span></span>
-        <span class="ar">بارديس</span>
-      </h1>
-      <div class="hero__meta">
+      <!-- TEXT COLUMN -->
+      <div class="hero__text">
+        <div class="hero__eyebrow reveal">
+          <span class="rule"></span>
+          <span class="eyebrow" data-i18n="hero.eyebrow">Model · Brand Ambassador · Corporate Representative</span>
+        </div>
+        <h1 class="hero__title display">
+          <span class="rise"><span>PARDIS</span></span>
+          <span class="ar">بارديس</span>
+        </h1>
         <p class="hero__role reveal" data-d="2" data-i18n="hero.role">
           One face across fashion and commerce — from <strong>luxury watch and fashion campaigns</strong> to
           <strong>modest couture</strong>, beauty and brand ambassadorship across the Gulf.
         </p>
-        <a href="#index" class="hero__scroll reveal" data-d="3">
-          <span class="dot"><svg width="12" height="16" viewBox="0 0 12 16" fill="none"><path d="M6 0v14M1 9l5 5 5-5" stroke="#C9A17A"/></svg></span>
-          <span data-i18n="hero.scroll">The Index</span>
-        </a>
-      </div>
-    </div>
+        <div class="hero__cta reveal" data-d="3">
+          <a class="btn btn--gold" href="#work"><span data-i18n="hero.ctaWork">View the work</span> <span class="btn__arrow">↗</span></a>
+          <a class="btn" href="booking.html"><span data-i18n="hero.ctaBook">Book</span> <span class="btn__arrow">↗</span></a>
+        </div>
 
-    <!-- swiper controls -->
-    <div class="hero__nav" role="group" aria-label="Hero slides">
-      <span class="hero__count"><em id="heroIndex">01</em> / 03</span>
-      <div class="hero__dots" id="heroDots">
-        <button type="button" class="hero__dot is-active" aria-label="Slide 1"></button>
-        <button type="button" class="hero__dot" aria-label="Slide 2"></button>
-        <button type="button" class="hero__dot" aria-label="Slide 3"></button>
+        <!-- swiper controls -->
+        <div class="hero__nav reveal" data-d="3" role="group" aria-label="Hero slides">
+          <span class="hero__count"><em id="heroIndex">01</em> / 03</span>
+          <div class="hero__dots" id="heroDots">
+            <button type="button" class="hero__dot is-active" aria-label="Slide 1"></button>
+            <button type="button" class="hero__dot" aria-label="Slide 2"></button>
+            <button type="button" class="hero__dot" aria-label="Slide 3"></button>
+          </div>
+          <span class="hero__label" id="heroLabel">Modest Couture</span>
+          <div class="hero__arrows">
+            <button type="button" class="hero__arrow" id="heroPrev" aria-label="Previous slide">↖</button>
+            <button type="button" class="hero__arrow" id="heroNext" aria-label="Next slide">↗</button>
+          </div>
+        </div>
       </div>
-      <span class="hero__label" id="heroLabel">Modest Couture</span>
-      <div class="hero__arrows">
-        <button type="button" class="hero__arrow" id="heroPrev" aria-label="Previous slide">↖</button>
-        <button type="button" class="hero__arrow" id="heroNext" aria-label="Next slide">↗</button>
+
+      <!-- VISUAL COLUMN — framed portrait carousel -->
+      <div class="hero__visual reveal" data-d="1">
+        <span class="hero__coverline" aria-hidden="true">Riyadh · KSA</span>
+        <div class="hero__frame">
+          <div class="hero__bg" id="heroSlider">
+            <figure class="hero__slide is-active" data-label="Modest Couture">
+              <img src="assets/img/hero-couture.jpg" alt="Pardis in an embellished Gulf couture kaftan" fetchpriority="high" style="object-position:50% 18%" />
+            </figure>
+            <figure class="hero__slide" data-label="Editorial Fashion">
+              <img src="assets/img/fashion-suit-green.jpg" alt="Pardis in tailored editorial fashion" loading="lazy" style="object-position:50% 10%" />
+            </figure>
+            <figure class="hero__slide" data-label="Beauty & Glam">
+              <img src="assets/img/beauty-glam-01.jpg" alt="Pardis — beauty and glam portrait" loading="lazy" style="object-position:50% 28%" />
+            </figure>
+          </div>
+          <span class="hero__frameTag" aria-hidden="true"><em>PARDIS</em> · Portfolio</span>
+        </div>
       </div>
+
     </div>
   </section>
 
@@ -133,7 +139,7 @@
   <!-- ===================== SHOWREEL ===================== -->
   <section class="section wrap" id="showreel">
     <div class="showreel__frame reveal">
-      <img src="assets/img/fashion-seated.jpg" alt="Pardis — showreel cover, editorial fashion portrait" loading="lazy" />
+      <img src="assets/img/fashion-seated.jpg" alt="Pardis — showreel cover, editorial fashion portrait" loading="lazy" style="object-position:50% 16%" />
       <button class="showreel__play" data-play data-video="assets/video/showreel.mp4" data-caption="PARDIS — Showreel" aria-label="Play showreel">
         <span class="circle"></span>
       </button>
@@ -148,7 +154,7 @@
   <!-- ===================== ABOUT ===================== -->
   <section class="section wrap about" id="about">
     <div class="about__portrait curtain reveal">
-      <img src="assets/img/beauty-glam-01.jpg" alt="Pardis — beauty portrait" loading="lazy" />
+      <img src="assets/img/beauty-glam-01.jpg" alt="Pardis — beauty portrait" loading="lazy" style="object-position:50% 28%" />
       <span class="frame"></span>
     </div>
     <div class="reveal" data-d="2">
@@ -183,12 +189,12 @@
       <div class="social__links" id="socialLinks"><!-- rendered from data.js (SOCIAL) --></div>
     </div>
     <div class="social__grid reveal" data-d="2">
-      <a class="social__tile" data-social-tile href="#" target="_blank" rel="noopener"><img src="assets/img/beauty-glam-02.jpg" alt="Pardis — beauty portrait" loading="lazy"><span class="ig"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg></span></a>
-      <a class="social__tile" data-social-tile href="#" target="_blank" rel="noopener"><img src="assets/img/fashion-floral.jpg" alt="Pardis — floral resort look" loading="lazy"><span class="ig"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg></span></a>
+      <a class="social__tile" data-social-tile href="#" target="_blank" rel="noopener"><img src="assets/img/beauty-glam-02.jpg" alt="Pardis — beauty portrait" loading="lazy" style="object-position:50% 26%"><span class="ig"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg></span></a>
+      <a class="social__tile" data-social-tile href="#" target="_blank" rel="noopener"><img src="assets/img/fashion-floral.jpg" alt="Pardis — floral resort look" loading="lazy" style="object-position:50% 18%"><span class="ig"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg></span></a>
       <a class="social__tile" data-social-tile href="#" target="_blank" rel="noopener"><img src="assets/img/watch-cavalli.jpg" alt="Roberto Cavalli by Franck Muller watch — hand campaign" loading="lazy"><span class="ig"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg></span></a>
-      <a class="social__tile" data-social-tile href="#" target="_blank" rel="noopener"><img src="assets/img/couture-02.jpg" alt="Pardis — couture kaftan" loading="lazy"><span class="ig"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg></span></a>
-      <a class="social__tile" data-social-tile href="#" target="_blank" rel="noopener"><img src="assets/img/fashion-seated.jpg" alt="Pardis — editorial fashion" loading="lazy"><span class="ig"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg></span></a>
-      <a class="social__tile" data-social-tile href="#" target="_blank" rel="noopener"><img src="assets/img/beauty-pink.jpg" alt="Pardis — occasion beauty" loading="lazy"><span class="ig"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg></span></a>
+      <a class="social__tile" data-social-tile href="#" target="_blank" rel="noopener"><img src="assets/img/couture-02.jpg" alt="Pardis — couture kaftan" loading="lazy" style="object-position:50% 10%"><span class="ig"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg></span></a>
+      <a class="social__tile" data-social-tile href="#" target="_blank" rel="noopener"><img src="assets/img/fashion-seated.jpg" alt="Pardis — editorial fashion" loading="lazy" style="object-position:50% 16%"><span class="ig"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg></span></a>
+      <a class="social__tile" data-social-tile href="#" target="_blank" rel="noopener"><img src="assets/img/beauty-pink.jpg" alt="Pardis — occasion beauty" loading="lazy" style="object-position:50% 24%"><span class="ig"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg></span></a>
     </div>
   </section>
 

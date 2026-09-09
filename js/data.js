@@ -76,6 +76,7 @@ const CATEGORIES = [
     arSub: ["مكياج", "حملات جمال", "بشرة وإشراق", "شعر وإكسسوار"],
     grad: ["#3A2A2A", "#C9A17A"],
     cover: IMG + "beauty-glam-01.jpg",
+    pos: "50% 30%",   // crop focus — keep the face in frame
     works: [
       { title: "Gold Hour", brand: "Beauty Editorial", tag: "Makeup · Glam", img: IMG + "beauty-glam-01.jpg" },
       { title: "Soft Focus", brand: "Beauty Portrait", tag: "Beauty", img: IMG + "beauty-glam-03.jpg" },
@@ -96,6 +97,7 @@ const CATEGORIES = [
     arSub: ["تحريري", "كتالوج", "حملات أزياء", "بدلات وتنسيق"],
     grad: ["#2A2622", "#B9A88C"],
     cover: IMG + "fashion-suit-green.jpg",
+    pos: "50% 12%",   // full-body — bias to the top so the head stays
     works: [
       { title: "Pinstripe", brand: "Editorial", tag: "Fashion · Suiting", img: IMG + "fashion-suit-green.jpg" },
       { title: "Tailored", brand: "Lookbook", tag: "Fashion", img: IMG + "fashion-suit-grey.jpg" },
@@ -116,6 +118,7 @@ const CATEGORIES = [
     arSub: ["عباية", "قفطان", "أزياء راقية", "ملابس المناسبات"],
     grad: ["#26303A", "#AEB9C4"],
     cover: IMG + "couture-03.jpg",
+    pos: "50% 8%",    // full-body — bias to the top so the head stays
     works: [
       { title: "Azure I", brand: "Couture Kaftan", tag: "Modest · Couture", img: IMG + "couture-01.jpg" },
       { title: "Azure II", brand: "Couture Kaftan", tag: "Modest · Couture", img: IMG + "couture-02.jpg" },
@@ -136,6 +139,7 @@ const CATEGORIES = [
     arSub: ["عارضة يد", "حملات ساعات", "مجوهرات", "منتجات"],
     grad: ["#29231D", "#B89B62"],
     cover: IMG + "ambassador-cavalli.jpg",
+    pos: "50% 46%",   // face sits mid-frame in this in-store shot
     works: [
       { title: "Calvin Klein", brand: "Watch Campaign", tag: "Hand · Watches", img: IMG + "watch-calvinklein.jpg" },
       { title: "Coach", brand: "New York — Watch Campaign", tag: "Hand · Watches", img: IMG + "watch-coach.jpg" },
@@ -157,6 +161,7 @@ const CATEGORIES = [
     arSub: ["سفيرة علامة", "تجاري", "فعاليات", "تمثيل الشركات"],
     grad: ["#1C1A18", "#C9A17A"],
     cover: IMG + "fashion-seated.jpg",
+    pos: "50% 16%",   // seated look — keep the face and sunglasses
     works: [
       { title: "Alhomaidhi", brand: "Watch House — Ambassador", tag: "Brand Ambassador", img: IMG + "ambassador-cavalli.jpg" },
       { title: "The Film", brand: "Brand Showreel", tag: "Commercial · Video", type: "video", video: VID + "reel-b.mp4", img: IMG + "beauty-glam-01.jpg" },

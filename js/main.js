@@ -261,7 +261,7 @@
     indexList.innerHTML = CATEGORIES.map((c) => `
       <a class="icard reveal" href="category.html?cat=${c.slug}" aria-label="${cTitle(c)}">
         <div class="icard__media" style="background:linear-gradient(140deg, ${c.grad[0]}, ${c.grad[1]})">
-          <img src="${c.cover}" alt="${cTitle(c)}" loading="lazy" onerror="this.remove()">
+          <img src="${c.cover}" alt="${cTitle(c)}" loading="lazy" onerror="this.remove()" style="object-position:${c.pos || "50% 22%"}">
         </div>
         <div class="icard__grad"></div>
         <span class="icard__n">${c.n}</span>
@@ -305,7 +305,7 @@
           <span class="srow__desc">${cDesc(c)}</span>
           <span class="srow__tags">${cSub(c).slice(0, 4).map((s) => `<span class="tag">${s}</span>`).join("")}</span>
         </span>
-        <span class="srow__media"><img src="${c.cover}" alt="${cTitle(c)}" loading="lazy"></span>
+        <span class="srow__media"><img src="${c.cover}" alt="${cTitle(c)}" loading="lazy" style="object-position:${c.pos || "50% 22%"}"></span>
         <span class="srow__go" aria-hidden="true">↗</span>
       </a>`).join("");
     observeReveals(host);
@@ -348,7 +348,7 @@
     const slug = new URLSearchParams(location.search).get("cat") || CATEGORIES[0].slug;
     const cat = getCategory(slug) || CATEGORIES[0];
     document.title = `${cTitle(cat)} — ${PROFILE.nameFull}`;
-    $("#catCover").src = cat.cover;
+    const catCover = $("#catCover"); catCover.src = cat.cover; catCover.style.objectPosition = cat.pos || "50% 22%";
     $("#catN").textContent = cat.n + " / " + String(CATEGORIES.length).padStart(2, "0");
     $("#catTitle").innerHTML = `${cTitle(cat)}<span class="ar">${isAr() ? cat.title : cat.ar}</span>`;
     $("#catTagline").textContent = cTagline(cat);
