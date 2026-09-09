@@ -70,29 +70,15 @@
         </ul>
 
         <div class="cover__card reveal" data-d="2">
-          <div class="hero__bg" id="heroSlider">
-            <figure class="hero__slide is-active" data-label="Modest Couture">
-              <img src="assets/img/hero-couture.jpg" alt="Pardis in an embellished Gulf couture kaftan" fetchpriority="high" style="object-position:50% 16%" />
-            </figure>
-            <figure class="hero__slide" data-label="Editorial Fashion">
-              <img src="assets/img/fashion-suit-green.jpg" alt="Pardis in tailored editorial fashion" loading="lazy" style="object-position:50% 8%" />
-            </figure>
-            <figure class="hero__slide" data-label="Beauty &amp; Glam">
-              <img src="assets/img/beauty-glam-01.jpg" alt="Pardis — beauty and glam portrait" loading="lazy" style="object-position:50% 26%" />
-            </figure>
-          </div>
+          <div class="hero__bg" id="heroSlider"><!-- slides rendered from data.js (HERO_SLIDES) --></div>
           <span class="cover__tag" aria-hidden="true"><em id="heroLabel">Modest Couture</em></span>
-          <button type="button" class="cover__nav cover__nav--prev" id="heroPrev" aria-label="Previous slide">‹</button>
-          <button type="button" class="cover__nav cover__nav--next" id="heroNext" aria-label="Next slide">›</button>
+          <button type="button" class="cover__nav cover__nav--prev" id="heroPrev" aria-label="Previous look">‹</button>
+          <button type="button" class="cover__nav cover__nav--next" id="heroNext" aria-label="Next look">›</button>
         </div>
 
         <div class="cover__side reveal" data-d="2">
-          <span class="cover__count"><em id="heroIndex">01</em><i>/03</i></span>
-          <div class="cover__dots" id="heroDots">
-            <button type="button" class="hero__dot is-active" aria-label="Slide 1"></button>
-            <button type="button" class="hero__dot" aria-label="Slide 2"></button>
-            <button type="button" class="hero__dot" aria-label="Slide 3"></button>
-          </div>
+          <span class="cover__count"><em id="heroIndex">01</em><i id="heroTotal">/05</i></span>
+          <div class="cover__thumbs" id="heroThumbs" role="tablist" aria-label="Choose a look"><!-- thumbnails rendered from data.js --></div>
         </div>
       </div>
 

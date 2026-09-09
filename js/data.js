@@ -171,6 +171,16 @@ const CATEGORIES = [
   },
 ];
 
+/* Hero swiper slides — real client photography, each with a face-safe crop
+   position so PARDIS's face always reads in the cover card. Edit freely. */
+const HERO_SLIDES = [
+  { img: IMG + "beauty-glam-01.jpg",     label: "Beauty & Glam",     pos: "50% 30%" },
+  { img: IMG + "hero-couture.jpg",       label: "Modest Couture",    pos: "50% 15%" },
+  { img: IMG + "fashion-suit-green.jpg", label: "Editorial Fashion", pos: "50% 9%"  },
+  { img: IMG + "fashion-seated.jpg",     label: "Editorial",         pos: "50% 15%" },
+  { img: IMG + "beauty-glam-03.jpg",     label: "Beauty Portrait",   pos: "50% 26%" },
+];
+
 /* helper: find a category by slug */
 function getCategory(slug) {
   return CATEGORIES.find((c) => c.slug === slug) || null;

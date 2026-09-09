@@ -10,23 +10,23 @@
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
-  /* ---------- Hero swiper (3-slide cinematic carousel) ---------------------- */
+  /* ---------- Hero cover swiper (dynamic, thumbnail-driven) ----------------- */
   (function heroSwiper() {
     const root = $("#heroSlider");
     if (!root) return;
     const slides = $$(".hero__slide", root);
     if (slides.length < 2) return;
-    const dots = $$("#heroDots .hero__dot");
+    const thumbs = $$("#heroThumbs .cover__thumb");
     const idxEl = $("#heroIndex"), labelEl = $("#heroLabel");
     const prev = $("#heroPrev"), next = $("#heroNext");
     let i = 0, timer = null;
-    const DELAY = 5600;
+    const DELAY = 5200;
     const pad = (n) => String(n + 1).padStart(2, "0");
 
     function go(n) {
       i = (n + slides.length) % slides.length;
       slides.forEach((s, k) => s.classList.toggle("is-active", k === i));
-      dots.forEach((d, k) => d.classList.toggle("is-active", k === i));
+      thumbs.forEach((t, k) => { t.classList.toggle("is-active", k === i); t.setAttribute("aria-selected", k === i); });
       if (idxEl) idxEl.textContent = pad(i);
       if (labelEl) labelEl.textContent = slides[i].dataset.label || "";
     }
@@ -37,7 +37,7 @@
     function stop() { if (timer) { clearInterval(timer); timer = null; } }
     function restart() { stop(); start(); }
 
-    dots.forEach((d, k) => d.addEventListener("click", () => { go(k); restart(); }));
+    thumbs.forEach((t, k) => t.addEventListener("click", () => { go(k); restart(); }));
     if (next) next.addEventListener("click", () => { nextSlide(); restart(); });
     if (prev) prev.addEventListener("click", () => { prevSlide(); restart(); });
 
@@ -56,7 +56,7 @@
     }, { passive: true });
 
     // keyboard when a hero control is focused
-    [prev, next, ...dots].filter(Boolean).forEach((el) =>
+    [prev, next, ...thumbs].filter(Boolean).forEach((el) =>
       el.addEventListener("keydown", (e) => {
         if (e.key === "ArrowRight") { nextSlide(); restart(); }
         else if (e.key === "ArrowLeft") { prevSlide(); restart(); }

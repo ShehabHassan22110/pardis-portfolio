@@ -256,6 +256,25 @@
   const worksGrid = $("#worksGrid");
   const hasCats = typeof CATEGORIES !== "undefined";
 
+  /* Hero cover swiper — slides + thumbnail filmstrip from data.js HERO_SLIDES.
+     Rendered before motion.js so its swiper picks up the generated nodes. */
+  function renderHero() {
+    const slider = $("#heroSlider");
+    if (!slider || typeof HERO_SLIDES === "undefined") return;
+    slider.innerHTML = HERO_SLIDES.map((s, i) => `
+      <figure class="hero__slide${i === 0 ? " is-active" : ""}" data-label="${s.label}">
+        <img src="${s.img}" alt="Pardis — ${s.label}" ${i === 0 ? 'fetchpriority="high"' : 'loading="lazy"'} style="object-position:${s.pos}">
+      </figure>`).join("");
+    const thumbs = $("#heroThumbs");
+    if (thumbs) thumbs.innerHTML = HERO_SLIDES.map((s, i) => `
+      <button type="button" class="cover__thumb${i === 0 ? " is-active" : ""}" role="tab" aria-selected="${i === 0}" aria-label="${s.label}">
+        <img src="${s.img}" alt="" loading="lazy" style="object-position:${s.pos}">
+      </button>`).join("");
+    const total = $("#heroTotal");
+    if (total) total.textContent = "/" + String(HERO_SLIDES.length).padStart(2, "0");
+  }
+  renderHero();
+
   function renderIndex() {
     if (!indexList || !hasCats) return;
     indexList.innerHTML = CATEGORIES.map((c) => `
