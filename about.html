@@ -28,42 +28,74 @@
     <button class="nav__burger" aria-label="Menu"><span></span><span></span></button>
   </header>
 
-  <!-- ===================== PROFILE HERO ===================== -->
-  <section class="wrap phero">
-    <div class="phero__img curtain reveal"><img src="assets/img/couture-01.jpg" alt="Pardis — full-length couture portrait" style="object-position:50% 12%" /><span class="frame" style="position:absolute;inset:14px;border:1px solid var(--line)"></span></div>
-    <div class="reveal" data-d="1">
-      <p class="eyebrow" style="margin-bottom:1.2rem" data-i18n="aboutpage.eyebrow">The Profile</p>
-      <h1 class="phero__title display">PARDIS<span class="ar">بارديس</span></h1>
-      <div class="phero__roles">
-        <span data-i18n="aboutpage.r1">Model</span>
-        <span data-i18n="aboutpage.r2">Creator</span>
-        <span data-i18n="aboutpage.r3">Brand Ambassador</span>
+  <!-- ===================== PROFILE HERO (editorial) ===================== -->
+  <section class="wrap abhero">
+    <div class="abhero__intro reveal">
+      <p class="eyebrow" data-i18n="aboutpage.eyebrow">The Profile · Riyadh</p>
+      <h1 class="abhero__name display">PARDIS <span class="ar">بارديس</span></h1>
+      <p class="abhero__lead" data-i18n="about.lead">A single, dependable face for brands across the Gulf — <em>elegant on camera,</em> credible in the room.</p>
+      <ul class="abhero__roles" aria-label="Roles">
+        <li data-i18n="aboutpage.r1">Model</li>
+        <li data-i18n="aboutpage.r2">Creator</li>
+        <li data-i18n="aboutpage.r3">Brand Ambassador</li>
+      </ul>
+      <div class="abhero__cta">
+        <a class="btn btn--gold" href="booking.html"><span data-i18n="aboutpage.bookCta">Book Pardis</span> <span class="btn__arrow">↗</span></a>
+        <a class="btn" href="services.html"><span data-i18n="aboutpage.viewServices">Services</span> <span class="btn__arrow">↗</span></a>
       </div>
+    </div>
+    <figure class="abhero__portrait curtain reveal" data-d="1">
+      <img src="assets/img/couture-01.jpg" alt="Pardis — full-length couture portrait" style="object-position:50% 10%" />
+      <figcaption><span class="ar">بارديس</span> · Riyadh, KSA</figcaption>
+    </figure>
+  </section>
+
+  <!-- ===================== MANIFESTO ===================== -->
+  <section class="wrap manifesto reveal">
+    <span class="manifesto__mark" aria-hidden="true">“</span>
+    <p class="manifesto__q display" data-i18n="aboutpage.manifesto">One face across <em>fashion</em> and <em>commerce</em> — from luxury watch campaigns to modest couture, beauty, and the poise of representing a house in the room.</p>
+    <span class="manifesto__by">PARDIS · بارديس</span>
+  </section>
+
+  <!-- ===================== THE WOMAN ===================== -->
+  <section class="wrap section editorial">
+    <div class="editorial__imgs reveal">
+      <figure class="a curtain"><img src="assets/img/beauty-glam-01.jpg" alt="Pardis — beauty portrait" loading="lazy" style="object-position:50% 28%"><figcaption>Beauty</figcaption></figure>
+      <figure class="b curtain"><img src="assets/img/fashion-seated.jpg" alt="Pardis — editorial fashion" loading="lazy" style="object-position:50% 16%"><figcaption>Editorial</figcaption></figure>
+    </div>
+    <div class="editorial__text reveal" data-d="1">
+      <p class="eyebrow" style="margin-bottom:1.4rem" data-i18n="aboutpage.edEyebrow">The woman behind the work</p>
+      <p class="about__body about__body--lead" data-i18n="about.body">Pardis works fluidly between editorial and commercial worlds: the close-up precision of a luxury watch and hand campaign, the movement of modest couture and abaya, the polish of a beauty shoot, and the poise of representing a house on set and at events. Bilingual and GCC-based, she brings one consistent, professional presence to every collaboration.</p>
+      <a class="btn btn--gold" href="index.html#work" style="margin-top:2rem"><span data-i18n="common.viewAll">Browse the work</span> <span class="btn__arrow">↗</span></a>
     </div>
   </section>
 
-  <!-- comp card -->
-  <div class="pfacts wrap reveal" style="max-width:var(--maxw)">
-    <div class="stat"><div class="stat__v display" style="font-size:clamp(1.3rem,2.4vw,1.9rem)" data-i18n="facts.basedV">Riyadh, KSA</div><div class="stat__l" data-i18n="facts.based">Based in</div></div>
-    <div class="stat"><div class="stat__v display" style="font-size:clamp(1.3rem,2.4vw,1.9rem)" data-i18n="facts.langV">Arabic · English</div><div class="stat__l" data-i18n="facts.lang">Languages</div></div>
-    <div class="stat"><div class="stat__v display" style="font-size:clamp(1.3rem,2.4vw,1.9rem)" data-i18n="facts.focusV">Fashion · Beauty · Watches</div><div class="stat__l" data-i18n="facts.focus">Focus</div></div>
-    <div class="stat"><div class="stat__v display" style="font-size:clamp(1.3rem,2.4vw,1.9rem)" data-i18n="facts.availV">GCC &amp; Intl.</div><div class="stat__l" data-i18n="facts.avail">Availability</div></div>
-  </div>
-
-  <div class="goldline"></div>
-
-  <!-- ===================== EDITORIAL / THE WOMAN ===================== -->
-  <section class="wrap section editorial">
-    <div class="editorial__imgs reveal">
-      <div class="a curtain"><img src="assets/img/beauty-glam-01.jpg" alt="Pardis — beauty portrait" loading="lazy" style="object-position:50% 28%"></div>
-      <div class="b curtain"><img src="assets/img/fashion-seated.jpg" alt="Pardis — editorial fashion" loading="lazy" style="object-position:50% 16%"></div>
+  <!-- ===================== COMP CARD (sed card) ===================== -->
+  <section class="wrap section compsec">
+    <div class="head reveal">
+      <div>
+        <p class="eyebrow" style="margin-bottom:1rem" data-i18n="aboutpage.compEyebrow">Sed card</p>
+        <h2 class="head__title display" data-i18n="aboutpage.compTitle">The <em>details</em>.</h2>
+      </div>
+      <p class="compsec__note" data-i18n="aboutpage.compNote">The facts a brand asks for before a booking — honest and current.</p>
     </div>
-    <div class="reveal" data-d="1">
-      <p class="eyebrow" style="margin-bottom:1.4rem" data-i18n="aboutpage.edEyebrow">The woman behind the work</p>
-      <p class="about__lead display" data-i18n="about.lead">A single, dependable face for brands across the Gulf — <em>elegant on camera,</em> credible in the room.</p>
-      <p class="about__body" data-i18n="about.body">Pardis works fluidly between editorial and commercial worlds: the close-up precision of a luxury watch and hand campaign, the movement of modest couture and abaya, the polish of a beauty shoot, and the poise of representing a house on set and at events. Bilingual and GCC-based, she brings one consistent, professional presence to every collaboration.</p>
-      <a class="btn btn--gold" href="services.html" style="margin-top:2rem"><span data-i18n="aboutpage.viewServices">Discover services</span> <span class="btn__arrow">↗</span></a>
-    </div>
+    <article class="comp reveal" data-d="1">
+      <div class="comp__photo"><img src="assets/img/beauty-glam-03.jpg" alt="Pardis — headshot" loading="lazy" style="object-position:50% 26%"><span class="comp__badge">✦</span></div>
+      <div class="comp__body">
+        <header class="comp__top">
+          <span class="comp__name display">PARDIS <span class="ar">بارديس</span></span>
+          <span class="comp__tag" data-i18n="aboutpage.r3">Brand Ambassador</span>
+        </header>
+        <dl class="comp__grid">
+          <div><dt data-i18n="facts.based">Based in</dt><dd data-i18n="facts.basedV">Riyadh, KSA</dd></div>
+          <div><dt data-i18n="facts.lang">Languages</dt><dd data-i18n="facts.langV">Arabic · English</dd></div>
+          <div><dt data-i18n="facts.focus">Focus</dt><dd data-i18n="facts.focusV">Fashion · Beauty · Watches</dd></div>
+          <div><dt data-i18n="facts.avail">Availability</dt><dd data-i18n="facts.availV">GCC &amp; Intl.</dd></div>
+          <div class="comp__wide"><dt data-i18n="aboutpage.compDisc">Disciplines</dt><dd>Beauty · Fashion · Modest Couture · Watches · Ambassador</dd></div>
+        </dl>
+        <a class="btn btn--gold comp__cta" href="booking.html"><span data-i18n="aboutpage.bookCta">Book Pardis</span> <span class="btn__arrow">↗</span></a>
+      </div>
+    </article>
   </section>
 
   <!-- ===================== SPECIALTIES ===================== -->
@@ -77,8 +109,6 @@
     <div class="srows" id="serviceRows"><!-- rendered from data.js --></div>
   </section>
 
-  <div class="goldline"></div>
-
   <!-- ===================== SELECTED CAMPAIGNS ===================== -->
   <section class="wrap section">
     <div class="head reveal">
@@ -86,26 +116,18 @@
         <p class="eyebrow" style="margin-bottom:1rem" data-i18n="aboutpage.expEyebrow">Selected campaigns &amp; clients</p>
         <h2 class="head__title display" data-i18n="aboutpage.expTitle">Trusted <em>work</em>.</h2>
       </div>
+      <a class="btn btn--gold" href="index.html#work"><span data-i18n="common.viewAll">Browse all disciplines</span> <span class="btn__arrow">↗</span></a>
     </div>
-    <ul class="facts facts--exp reveal" data-d="1" style="margin-top:clamp(24px,3vw,40px)">
-      <li><div class="v">Calvin Klein</div><div class="k">Watch Campaign</div></li>
-      <li><div class="v">Coach <em style="color:var(--champagne)">New York</em></div><div class="k">Watch Campaign</div></li>
-      <li><div class="v">Roberto Cavalli</div><div class="k">by Franck Muller · Watch</div></li>
-      <li><div class="v">Ferragamo</div><div class="k">Watch Campaign</div></li>
-      <li><div class="v">Alhomaidhi</div><div class="k">Watch House · Ambassador</div></li>
-      <li><div class="v">MecroLine</div><div class="k">Commercial</div></li>
-      <li><div class="v">Volux</div><div class="k">Brand Film</div></li>
-      <li style="display:flex;align-items:center;justify-content:center"><a class="btn btn--gold" href="index.html#work"><span data-i18n="common.viewAll">Browse all disciplines</span> <span class="btn__arrow">↗</span></a></li>
+    <ul class="ledger reveal" data-d="1">
+      <li><span class="ledger__n">01</span><span class="ledger__v display">Calvin Klein</span><span class="ledger__k">Watch Campaign</span></li>
+      <li><span class="ledger__n">02</span><span class="ledger__v display">Coach <em>New York</em></span><span class="ledger__k">Watch Campaign</span></li>
+      <li><span class="ledger__n">03</span><span class="ledger__v display">Roberto Cavalli</span><span class="ledger__k">by Franck Muller · Watch</span></li>
+      <li><span class="ledger__n">04</span><span class="ledger__v display">Ferragamo</span><span class="ledger__k">Watch Campaign</span></li>
+      <li><span class="ledger__n">05</span><span class="ledger__v display">Alhomaidhi</span><span class="ledger__k">Watch House · Ambassador</span></li>
+      <li><span class="ledger__n">06</span><span class="ledger__v display">MecroLine</span><span class="ledger__k">Commercial</span></li>
+      <li><span class="ledger__n">07</span><span class="ledger__v display">Volux</span><span class="ledger__k">Brand Film</span></li>
     </ul>
   </section>
-
-  <!-- stats -->
-  <div class="stats wrap reveal" style="max-width:var(--maxw)">
-    <div class="stat"><div class="stat__v display">5</div><div class="stat__l" data-i18n="stats.disc">Disciplines</div></div>
-    <div class="stat"><div class="stat__v display">4</div><div class="stat__l" data-i18n="stats.watch">Watch houses</div></div>
-    <div class="stat"><div class="stat__v display">2</div><div class="stat__l" data-i18n="stats.lang">Languages</div></div>
-    <div class="stat"><div class="stat__v display">GCC</div><div class="stat__l" data-i18n="stats.avail">Available</div></div>
-  </div>
 
   <!-- ===================== CTA ===================== -->
   <section class="section cta">

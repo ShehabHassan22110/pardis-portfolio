@@ -22,6 +22,7 @@ const I18N = {
     "hero.scroll": "The Index",
     "hero.ctaWork": "View the work",
     "hero.ctaBook": "Book",
+    "hero.issue": "Portfolio · Issue 01",
 
     /* trusted by */
     "trusted.eyebrow": "Featured with brands across the Gulf",
@@ -108,10 +109,16 @@ const I18N = {
     "svcpage.listNote": "Choose a discipline to see selected work. Corporate representation is quoted per assignment — by the event and duration of attendance.",
 
     /* about / profile page */
-    "aboutpage.eyebrow": "The Profile",
+    "aboutpage.eyebrow": "The Profile · Riyadh",
     "aboutpage.r1": "Model", "aboutpage.r2": "Creator", "aboutpage.r3": "Brand Ambassador",
     "aboutpage.edEyebrow": "The woman behind the work",
-    "aboutpage.viewServices": "Discover services",
+    "aboutpage.viewServices": "Services",
+    "aboutpage.bookCta": "Book Pardis",
+    "aboutpage.manifesto": "One face across <em>fashion</em> and <em>commerce</em> — from luxury watch campaigns to modest couture, beauty, and the poise of representing a house in the room.",
+    "aboutpage.compEyebrow": "Sed card",
+    "aboutpage.compTitle": "The <em>details</em>.",
+    "aboutpage.compNote": "The facts a brand asks for before a booking — honest and current.",
+    "aboutpage.compDisc": "Disciplines",
     "aboutpage.specEyebrow": "Specialties",
     "aboutpage.specTitle": "What she <em>does</em>.",
     "aboutpage.expEyebrow": "Selected campaigns & clients",
@@ -177,6 +184,7 @@ const I18N = {
     "hero.scroll": "الفهرس",
     "hero.ctaWork": "استعرض الأعمال",
     "hero.ctaBook": "احجز",
+    "hero.issue": "أعمال · العدد ٠١",
 
     "trusted.eyebrow": "أعمال مع علامات تجارية في الخليج",
 
@@ -250,10 +258,16 @@ const I18N = {
     "svcpage.listTitle": "طرق <em>التعاون</em>.",
     "svcpage.listNote": "اختر التخصص لرؤية أعمال مختارة. تمثيل الشركات يُسعَّر بحسب المهمة — وفق الحدث ومدة الحضور.",
 
-    "aboutpage.eyebrow": "الملف",
+    "aboutpage.eyebrow": "الملف · الرياض",
     "aboutpage.r1": "عارضة", "aboutpage.r2": "صانعة محتوى", "aboutpage.r3": "سفيرة علامات",
     "aboutpage.edEyebrow": "المرأة خلف العمل",
-    "aboutpage.viewServices": "استكشف الخدمات",
+    "aboutpage.viewServices": "الخدمات",
+    "aboutpage.bookCta": "احجز بارديس",
+    "aboutpage.manifesto": "وجهٌ واحد بين <em>الأزياء</em> و<em>التجارة</em> — من حملات الساعات الفاخرة إلى الأزياء المحتشمة الراقية والجمال، وحضور تمثيل العلامة داخل القاعة.",
+    "aboutpage.compEyebrow": "بطاقة العرض",
+    "aboutpage.compTitle": "<em>التفاصيل</em>.",
+    "aboutpage.compNote": "الحقائق التي تطلبها العلامات قبل الحجز — صادقة ومحدّثة.",
+    "aboutpage.compDisc": "التخصصات",
     "aboutpage.specEyebrow": "التخصصات",
     "aboutpage.specTitle": "ما <em>تتقنه</em>.",
     "aboutpage.expEyebrow": "حملات وعملاء مختارون",
