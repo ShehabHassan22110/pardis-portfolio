@@ -146,18 +146,38 @@
 
   <div class="goldline"></div>
 
-  <!-- ===================== SHOWREEL ===================== -->
-  <section class="section wrap" id="showreel">
-    <div class="showreel__frame reveal">
-      <img src="assets/img/fashion-seated.jpg" alt="Pardis — showreel cover, editorial fashion portrait" loading="lazy" style="object-position:50% 16%" />
-      <button class="showreel__play" data-play data-video="assets/video/showreel.mp4" data-caption="PARDIS — Showreel" aria-label="Play showreel">
-        <span class="circle"></span>
-      </button>
-      <div class="showreel__meta">
+  <!-- ===================== IN MOTION — reels ===================== -->
+  <section class="section wrap reels" id="showreel">
+    <div class="reels__head head reveal">
+      <div>
         <p class="eyebrow" data-i18n="showreel.eyebrow">Showreel</p>
-        <h2 class="showreel__title display" data-i18n="showreel.title">See her <em>in motion</em>.</h2>
-        <p class="showreel__note" data-i18n="showreel.note">A short cut across campaigns, film and stage.</p>
+        <h2 class="head__title display" data-i18n="showreel.title">See her <em>in motion</em>.</h2>
       </div>
+      <p class="reels__note" data-i18n="showreel.note">A short cut across campaigns, film and stage.</p>
+    </div>
+
+    <div class="reels__grid reveal" data-d="1">
+      <article class="reel" data-play data-video="assets/video/showreel.mp4" data-caption="PARDIS — Showreel" tabindex="0" role="button" aria-label="Play showreel">
+        <video class="reel__vid" muted loop playsinline preload="none" poster="assets/img/reel-showreel.jpg" data-src="assets/video/showreel.mp4"></video>
+        <span class="reel__scrim" aria-hidden="true"></span>
+        <span class="reel__dur">0:28</span>
+        <span class="reel__play" aria-hidden="true"><span class="tri"></span></span>
+        <div class="reel__foot">
+          <span class="reel__k" data-i18n="reels.a.k">Showreel</span>
+          <span class="reel__t display" data-i18n="reels.a.t">In Motion</span>
+        </div>
+      </article>
+
+      <article class="reel" data-play data-video="assets/video/reel-b.mp4" data-caption="PARDIS — Reel" tabindex="0" role="button" aria-label="Play reel">
+        <video class="reel__vid" muted loop playsinline preload="none" poster="assets/img/reel-b.jpg" data-src="assets/video/reel-b.mp4"></video>
+        <span class="reel__scrim" aria-hidden="true"></span>
+        <span class="reel__dur">0:05</span>
+        <span class="reel__play" aria-hidden="true"><span class="tri"></span></span>
+        <div class="reel__foot">
+          <span class="reel__k" data-i18n="reels.b.k">Beauty · Reel</span>
+          <span class="reel__t display" data-i18n="reels.b.t">Golden Glow</span>
+        </div>
+      </article>
     </div>
   </section>
 

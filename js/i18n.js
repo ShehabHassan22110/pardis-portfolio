@@ -40,6 +40,10 @@ const I18N = {
     "showreel.title": "See her <em>in motion</em>.",
     "showreel.note": "A short cut across campaigns, film and stage.",
     "showreel.play": "Play showreel",
+    "reels.a.k": "Showreel",
+    "reels.a.t": "In Motion",
+    "reels.b.k": "Beauty · Reel",
+    "reels.b.t": "Golden Glow",
 
     /* press */
     "press.eyebrow": "As featured in",
@@ -198,6 +202,10 @@ const I18N = {
     "showreel.title": "شاهدها <em>في الحركة</em>.",
     "showreel.note": "مقطعٌ قصير عبر الحملات والأفلام والمسرح.",
     "showreel.play": "تشغيل الرِّيل",
+    "reels.a.k": "الرِّيل",
+    "reels.a.t": "في الحركة",
+    "reels.b.k": "جمال · ريل",
+    "reels.b.t": "توهّج ذهبي",
 
     "press.eyebrow": "ظهرت في",
 

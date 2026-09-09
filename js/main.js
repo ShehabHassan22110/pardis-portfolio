@@ -406,7 +406,8 @@
       lbImg.classList.add("hidden"); lbImg.src = "";
       if (embed) lbVid.innerHTML = `<iframe src="https://www.youtube.com/embed/${embed}?autoplay=1&rel=0" title="${cap}" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
       else if (video) lbVid.innerHTML = `<video src="${video}" controls autoplay playsinline></video>`;
-      else lbVid.innerHTML = `<div style="display:grid;place-items:center;height:100%;color:var(--mist)">Video coming soon</div>`;
+      else lbVid.innerHTML = `<div style="display:grid;place-items:center;min-height:40vh;color:var(--mist)">Video coming soon</div>`;
+      lbVid.classList.toggle("is-embed", !!embed || !video); // 16/9 frame for embeds; direct video sizes itself
       lbVid.classList.remove("hidden"); lbCap.textContent = cap || ""; show();
     };
     document.addEventListener("click", (e) => {
@@ -419,6 +420,23 @@
     });
     document.addEventListener("keydown", (e) => { if (e.key === "Escape") close(); });
   }
+
+  /* ---------- Reels: lazy-load + autoplay muted previews when in view ------- */
+  (function initReels() {
+    const reels = $$(".reel__vid");
+    if (!reels.length) return;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const load = (v) => { if (!v.src && v.dataset.src) v.src = v.dataset.src; };
+    if (reduce || !("IntersectionObserver" in window)) { reels.forEach(load); return; }
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        const v = e.target;
+        if (e.isIntersecting) { load(v); const p = v.play(); if (p && p.catch) p.catch(() => {}); }
+        else v.pause();
+      });
+    }, { threshold: 0.4 });
+    reels.forEach((v) => io.observe(v));
+  })();
 
   /* ---------- Booking form -------------------------------------------------- */
   const form = $("#bookingForm");
