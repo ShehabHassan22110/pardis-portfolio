@@ -99,7 +99,7 @@
     } else {
       const bar = $(".preloader__bar i", pre);
       const pct = $(".preloader__pct", pre);
-      const t0 = performance.now(), dur = 1150;
+      const t0 = performance.now(), dur = 2000;
       let finished = false;
       const finish = () => { if (finished) return; finished = true; done(); };
       const tick = (n) => {
@@ -110,7 +110,7 @@
         if (p < 1) requestAnimationFrame(tick); else finish();
       };
       requestAnimationFrame(tick);
-      setTimeout(finish, 2600); // safety net if rAF stalls (backgrounded tab, etc.)
+      setTimeout(finish, 3400); // safety net if rAF stalls (backgrounded tab, etc.)
     }
   }
 

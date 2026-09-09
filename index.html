@@ -25,8 +25,21 @@
 
   <!-- ===================== PRELOADER ===================== -->
   <div class="preloader" aria-hidden="true">
-    <div>
-      <div class="preloader__mark">Pardis<span>.</span></div>
+    <div class="preloader__inner">
+      <svg class="preloader__logo" viewBox="0 0 200 200" aria-hidden="true">
+        <defs>
+          <linearGradient id="plGold" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#EBCFA6"/>
+            <stop offset=".5" stop-color="#C9A17A"/>
+            <stop offset="1" stop-color="#A07A55"/>
+          </linearGradient>
+        </defs>
+        <circle class="pl-ring"  cx="100" cy="100" r="90" fill="none" stroke="url(#plGold)" stroke-width="1.6"/>
+        <circle class="pl-ring2" cx="100" cy="100" r="82" fill="none" stroke="url(#plGold)" stroke-width=".7"/>
+        <text class="pl-p" x="98" y="140" text-anchor="middle" font-family="'Bodoni Moda', Georgia, serif" font-size="132" font-weight="500" fill="url(#plGold)">P</text>
+        <path class="pl-spark" d="M143 62 l2.4 6.6 6.6 2.4 -6.6 2.4 -2.4 6.6 -2.4 -6.6 -6.6 -2.4 6.6 -2.4 z" fill="url(#plGold)"/>
+      </svg>
+      <div class="preloader__word">PARDIS</div>
       <div class="preloader__bar"><i></i></div>
       <div class="preloader__pct">0</div>
     </div>
