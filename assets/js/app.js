@@ -235,6 +235,31 @@
     ).join("");
   }
 
+  /* --------------------------------------------------- SHOWREEL ------------ */
+  /* Home "In motion" section — a modern bento of YouTube films (1 large + 2
+     stacked), cinematic hover, playing in the shared YouTube lightbox. Features
+     the first three entries of VIDEOS; handles portrait (Shorts) gracefully. */
+  function renderShowreel() {
+    const g = $("#showreelGrid");
+    if (!g || typeof VIDEOS === "undefined" || !VIDEOS.length) return;
+    const catOf = (k) => (typeof VIDEO_CATS !== "undefined" ? VIDEO_CATS.find((c) => c.key === k) : null);
+    const kLabel = (v) => { const c = catOf(v.cat); return c ? (isAr() ? c.ar : c.en) : (isAr() ? "فيلم" : "Film"); };
+    const poster = (id) => `src="https://i.ytimg.com/vi/${esc(id)}/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/${esc(id)}/hqdefault.jpg'"`;
+    const item = (v, main) =>
+      `<article class="sr-item${main ? " sr-item--main" : ""}${v.portrait ? " sr-item--portrait" : ""} reveal" data-youtube="${esc(v.id)}"${v.portrait ? ' data-portrait="1"' : ""} role="button" tabindex="0" aria-label="Play ${esc(L(v, "title"))}">
+        ${v.portrait ? `<img class="sr-item__bg" ${poster(v.id)} alt="" aria-hidden="true" loading="lazy" decoding="async">` : ""}
+        <img class="sr-item__img" ${poster(v.id)} alt="${esc(L(v, "title"))}" loading="lazy" decoding="async">
+        <span class="sr-item__scrim" aria-hidden="true"></span>
+        <span class="sr-item__frame" aria-hidden="true"></span>
+        <span class="sr-item__play"><i class="bi bi-play-fill"></i></span>
+        <span class="sr-item__meta"><span class="k">${esc(kLabel(v))}</span><span class="t">${esc(L(v, "title"))}</span></span>
+      </article>`;
+    const feat = VIDEOS.slice(0, 3);
+    const main = feat[0] ? item(feat[0], true) : "";
+    const side = feat.slice(1).map((v) => item(v, false)).join("");
+    g.innerHTML = `${main}${side ? `<div class="showreel-feat__side">${side}</div>` : ""}`;
+  }
+
   /* ----------------------------------------------------- PRESENCE ---------- */
   function renderPresence() {
     if ($("#statsRow") && typeof STATS !== "undefined")
@@ -245,14 +270,95 @@
       $("#styleRow").innerHTML = CONTENT_STYLE.map((s) => `<span class="pill-tag pill-soft">${esc(isAr() ? s.ar : s.en)}</span>`).join(" ");
   }
 
+  /* --------------------------------------------------- MARKETING ----------- */
+  /* Cinematic partner showcase (About): title + two YouTube films that open in
+     the lightbox. Posters come from img.ytimg.com with an hq fallback. */
+  function renderMarketing() {
+    const wrap = $("#marketingFeature");
+    if (!wrap || typeof MARKETING === "undefined") return;
+    const m = MARKETING;
+    const vids = (m.videos || []).map((v, i) =>
+      `<article class="mkt-video reveal" data-d="${i + 1}" data-youtube="${esc(v.id)}" role="button" tabindex="0" aria-label="Play ${esc(L(v, "title"))}">
+        <img src="https://i.ytimg.com/vi/${esc(v.id)}/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/${esc(v.id)}/hqdefault.jpg'" alt="${esc(L(v, "title"))}" loading="lazy" decoding="async">
+        <span class="mkt-video__frame" aria-hidden="true"></span>
+        <span class="mkt-video__scrim" aria-hidden="true"></span>
+        <span class="mkt-video__play"><i class="bi bi-play-fill"></i></span>
+        <span class="mkt-video__cap"><span class="k">${esc(L(v, "tag"))}</span><span class="t">${esc(L(v, "title"))}</span></span>
+      </article>`
+    ).join("");
+    wrap.innerHTML =
+      `<div class="title-c reveal">
+        <span class="tc-eyebrow">${esc(L(m, "eyebrow"))}</span>
+        <h2 class="d-1 tc-h">${L(m, "title")}</h2>
+        <p class="tc-note">${esc(L(m, "note"))}</p>
+      </div>
+      <div class="mkt-partner reveal" data-d="1"><span class="mkt-partner__dot"></span><span class="mkt-partner__name">${esc(L(m, "client"))}</span><span class="mkt-partner__role">${esc(L(m, "role"))}</span></div>
+      <div class="mkt-videos">${vids}</div>`;
+  }
+
+  /* --------------------------------------------------- VIDEOS PAGE --------- */
+  /* Full video library with category tabs. Tabs are built from the categories
+     that have videos; clicking a tab filters the grid with a pop animation.
+     Cards open in the shared YouTube lightbox (data-youtube). */
+  function renderVideos() {
+    const grid = $("#videosGrid");
+    if (!grid || typeof VIDEOS === "undefined") return;
+    const tabsEl = $("#videosTabs");
+    const catOf = (k) => (typeof VIDEO_CATS !== "undefined" ? VIDEO_CATS.find((c) => c.key === k) : null);
+    const catLabel = (k) => { const c = catOf(k); return c ? (isAr() ? c.ar : c.en) : k; };
+
+    if (tabsEl && typeof VIDEO_CATS !== "undefined") {
+      const present = VIDEO_CATS.filter((c) => VIDEOS.some((v) => v.cat === c.key));
+      tabsEl.innerHTML =
+        `<button class="vtab active" data-filter="all">${isAr() ? "الكل" : "All"}<span class="vtab__n">${VIDEOS.length}</span></button>` +
+        present.map((c) => `<button class="vtab" data-filter="${esc(c.key)}">${esc(isAr() ? c.ar : c.en)}<span class="vtab__n">${VIDEOS.filter((v) => v.cat === c.key).length}</span></button>`).join("");
+    }
+
+    const poster = (id) => `src="https://i.ytimg.com/vi/${esc(id)}/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/${esc(id)}/hqdefault.jpg'"`;
+    grid.innerHTML = VIDEOS.map((v, i) =>
+      `<article class="vid-card reveal vf-pop${v.portrait ? " vid-card--portrait" : ""}" data-d="${i % 3}" data-cat="${esc(v.cat)}" data-youtube="${esc(v.id)}"${v.portrait ? ' data-portrait="1"' : ""} role="button" tabindex="0" aria-label="Play ${esc(L(v, "title"))}">
+        <div class="vid-card__thumb">
+          ${v.portrait ? `<img class="vid-card__bg" ${poster(v.id)} alt="" aria-hidden="true" loading="lazy" decoding="async">` : ""}
+          <img class="vid-card__img" ${poster(v.id)} alt="${esc(L(v, "title"))}" loading="lazy" decoding="async">
+          <span class="vid-card__scrim" aria-hidden="true"></span>
+          <span class="vid-card__play"><i class="bi bi-play-fill"></i></span>
+          <span class="vid-card__cat">${esc(catLabel(v.cat))}</span>
+        </div>
+        <div class="vid-card__body">
+          <h3 class="vid-card__t">${esc(L(v, "title"))}</h3>
+          ${L(v, "client") ? `<p class="vid-card__sub">${esc(L(v, "client"))}</p>` : ""}
+        </div>
+      </article>`
+    ).join("");
+
+    if (tabsEl && !tabsEl.dataset.bound) {
+      tabsEl.dataset.bound = "1";
+      tabsEl.addEventListener("click", (e) => {
+        const b = e.target.closest("[data-filter]"); if (!b) return;
+        $$("[data-filter]", tabsEl).forEach((x) => x.classList.remove("active"));
+        b.classList.add("active");
+        const f = b.dataset.filter;
+        $$(".vid-card", grid).forEach((card) => {
+          const show = f === "all" || card.dataset.cat === f;
+          card.classList.toggle("is-hidden", !show);
+          if (show) { card.classList.remove("vf-pop"); void card.offsetWidth; card.classList.add("vf-pop"); }
+        });
+      });
+    }
+  }
+
   /* ------------------------------------------------------ SERVICES --------- */
-  const SVC_ICONS = ["person-badge", "camera-reels", "phone", "chat-quote-fill", "easel2", "geo-alt", "cup-hot", "graph-up-arrow"];
+  const SVC_ICONS = ["person-badge", "camera-reels", "phone", "chat-quote-fill", "easel2", "geo-alt", "cup-hot", "graph-up-arrow", "megaphone", "code-slash"];
   function renderServices() {
     const g = $("#servicesIndex");
     if (!g || typeof SERVICES === "undefined") return;
-    g.innerHTML = SERVICES.map((s, i) =>
-      `<div class="col-md-6 col-lg-3">
-        <article class="svc reveal" data-d="${i % 4}">
+    const limit = parseInt(g.dataset.limit || "0", 10);
+    const list = limit > 0 ? SERVICES.slice(0, limit) : SERVICES;
+    const col = g.dataset.cols || "col-md-6 col-lg-3";
+    const per = /col-lg-4/.test(col) ? 3 : 4;
+    g.innerHTML = list.map((s, i) =>
+      `<div class="${col}">
+        <article class="svc reveal" data-d="${i % per}">
           <span class="svc__ic"><i class="bi bi-${SVC_ICONS[i] || "star"}"></i></span>
           <span class="svc__n">${s.n}</span>
           <h3 class="svc__t">${esc(L(s, "title"))}</h3>
@@ -317,7 +423,7 @@
   /* =============================== render all ============================= */
   function renderAll() {
     renderHero(); renderBrands(); renderClients(); renderWhy(); renderDisciplines(); renderWorks();
-    renderReels(); renderPresence(); renderServices(); renderFacts(); renderSocial();
+    renderReels(); renderShowreel(); renderPresence(); renderMarketing(); renderVideos(); renderServices(); renderFacts(); renderSocial();
     renderProfile(); renderCategory(); renderPortfolio(); observeReveals();
   }
 
@@ -360,11 +466,12 @@
     box.addEventListener("click", (e) => { if (e.target === box || e.target.closest("[data-close]")) close(); });
     addEventListener("keydown", (e) => e.key === "Escape" && close());
     document.addEventListener("click", (e) => {
-      const im = e.target.closest("[data-lightbox]"), vd = e.target.closest("[data-video]");
+      const im = e.target.closest("[data-lightbox]"), vd = e.target.closest("[data-video]"), yt = e.target.closest("[data-youtube]");
       if (im) { box.innerHTML = `<button data-close class="lb-close" aria-label="Close">✕</button><figure class="text-center m-0"><img src="${im.getAttribute("data-full")}" alt=""><figcaption class="small mt-2" style="color:#cbb98f">${esc(im.getAttribute("data-caption") || "")}</figcaption></figure>`; box.classList.add("open"); document.body.style.overflow = "hidden"; }
+      else if (yt) { const id = yt.getAttribute("data-youtube"), portrait = yt.getAttribute("data-portrait"); box.innerHTML = `<button data-close class="lb-close" aria-label="Close">✕</button><div class="lb-yt${portrait ? " lb-yt--portrait" : ""}"><iframe src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0&playsinline=1" title="Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>`; box.classList.add("open"); document.body.style.overflow = "hidden"; }
       else if (vd) { box.innerHTML = `<button data-close class="lb-close" aria-label="Close">✕</button><video src="${vd.getAttribute("data-video")}" controls autoplay playsinline></video>`; box.classList.add("open"); document.body.style.overflow = "hidden"; }
     });
-    addEventListener("keydown", (e) => { if ((e.key === "Enter" || e.key === " ") && e.target.matches && e.target.matches("[data-lightbox],[data-video]")) { e.preventDefault(); e.target.click(); } });
+    addEventListener("keydown", (e) => { if ((e.key === "Enter" || e.key === " ") && e.target.matches && e.target.matches("[data-lightbox],[data-video],[data-youtube]")) { e.preventDefault(); e.target.click(); } });
   }
   function initForm() {
     const f = $("#bookingForm"); if (!f) return;

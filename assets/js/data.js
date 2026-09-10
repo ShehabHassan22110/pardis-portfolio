@@ -88,7 +88,24 @@ const SERVICES = [
   { n: "06", title: "Tourism & Destination Promotion", titleAr: "الترويج السياحي والوجهات", desc: "Promoting hotels, resorts, destinations and experiences.", descAr: "الترويج للفنادق والمنتجعات والوجهات والتجارب." },
   { n: "07", title: "Lifestyle & Hospitality Content", titleAr: "محتوى لايف ستايل وضيافة", desc: "Professional content for restaurants, cafés, hotels and luxury hospitality.", descAr: "محتوى احترافي للمطاعم والكافيهات والفنادق والضيافة الفاخرة." },
   { n: "08", title: "Market Introduction", titleAr: "تقديم للسوق", desc: "Helping your brand enter the Saudi market and build a local presence.", descAr: "المساعدة في تقديم العلامة للجمهور السعودي وبناء حضور محلي." },
+  { n: "09", title: "Marketing", titleAr: "التسويق", desc: "End-to-end marketing for brands — strategy, campaign concepts and content built to move the Saudi market.", descAr: "تسويق متكامل للعلامات — استراتيجية ومفاهيم حملات ومحتوى مصمّم ليحرّك السوق السعودي." },
+  { n: "10", title: "Websites & Web", titleAr: "المواقع والويب", desc: "Websites, landing pages and digital presence — designed and built to convert and to look the part.", descAr: "مواقع وصفحات هبوط وحضور رقمي — تصميم وتطوير يليق بالعلامة ويحقّق النتائج." },
 ];
+
+/* Marketing partnership feature (About page). Videos are YouTube IDs; posters are
+   pulled from img.ytimg.com. Add / replace the client and videos here. */
+const MARKETING = {
+  client: "Marble Company", clientAr: "شركة الرخام",
+  role: "Marketing partner", roleAr: "شريك تسويقي",
+  eyebrow: "Marketing partnership", eyebrowAr: "شراكة تسويقية",
+  title: "We market for <em>شركة الرخام</em>.", titleAr: "نُسوّق لـ<em>شركة الرخام</em>.",
+  note: "We lead marketing and brand content for a Saudi marble house — from concept to camera. Two films from the collaboration:",
+  noteAr: "نقود التسويق ومحتوى العلامة لشركة رخام سعودية — من الفكرة حتى الكاميرا. فيلمان من التعاون:",
+  videos: [
+    { id: "xrtEC_iYvek", title: "دانو 2", titleAr: "دانو 2", tag: "Marketing · Film", tagAr: "تسويق · فيلم" },
+    { id: "0xwe9BzBvEI", title: "فولاكس", titleAr: "فولاكس", tag: "Marketing · Film", tagAr: "تسويق · فيلم" },
+  ],
+};
 
 const CATEGORIES = [
   {
@@ -163,6 +180,32 @@ const HERO_SLIDES = [
 const REELS = [
   { video: "assets/video/showreel.mp4", poster: "assets/img/ambassador-instore-portrait.jpg", dur: "0:28", k: "Showreel", kAr: "شوريل", t: "In Motion", tAr: "في حركة", caption: "BARDEES — Showreel" },
   { video: "assets/video/reel-b.mp4", poster: "assets/img/fashion-blazer-seated-portrait.jpg", dur: "0:05", k: "Beauty · Reel", kAr: "جمال · ريل", t: "Golden Glow", tAr: "توهّج ذهبي", caption: "BARDEES — Reel" },
+];
+
+/* =============================================================================
+   VIDEOS — the Videos page (videos.html). Each entry is one YouTube video.
+   • id   → the watch ID (the part after youtu.be/ or watch?v=)
+   • cat  → one of the VIDEO_CATS keys below (drives the filter tabs)
+   • title / titleAr, and optional client / clientAr shown as the card subtitle
+   Filter tabs are built automatically from the categories that actually have
+   videos, so adding a new video with a new cat just adds its tab. Posters come
+   from img.ytimg.com. Add new videos to this list.
+   ============================================================================= */
+const VIDEO_CATS = [
+  { key: "marketing", en: "Marketing", ar: "التسويق" },
+  { key: "commercial", en: "Commercial", ar: "إعلانات تجارية" },
+  { key: "beauty", en: "Beauty & Fashion", ar: "جمال وأزياء" },
+  { key: "ambassador", en: "Brand Ambassador", ar: "سفارة علامات" },
+  { key: "events", en: "Events", ar: "فعاليات ومعارض" },
+  { key: "lifestyle", en: "Lifestyle", ar: "لايف ستايل" },
+];
+
+const VIDEOS = [
+  { id: "ZJl6__WQnSs", cat: "marketing", title: "منشار", titleAr: "منشار", client: "شركة الرخام", clientAr: "شركة الرخام" },
+  { id: "xrtEC_iYvek", cat: "marketing", title: "دانو 2", titleAr: "دانو 2", client: "شركة الرخام", clientAr: "شركة الرخام" },
+  { id: "0xwe9BzBvEI", cat: "marketing", title: "فولاكس", titleAr: "فولاكس" },
+  { id: "0O8uPsXV3eM", cat: "commercial", portrait: true, title: "Commercial Reel", titleAr: "ريل إعلاني" },
+  { id: "LSlhsZDXD2E", cat: "beauty", portrait: true, title: "Beauty Reel", titleAr: "ريل جمال" },
 ];
 
 function getCategory(slug) { return CATEGORIES.find((c) => c.slug === slug) || null; }

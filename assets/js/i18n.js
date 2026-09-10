@@ -14,8 +14,14 @@ const STRINGS = {
     "nav.work": "Work",
     "nav.about": "About",
     "nav.services": "Services",
+    "nav.videos": "Videos",
     "nav.contact": "Contact",
     "nav.book": "Book",
+
+    "videos.eyebrow": "Watch",
+    "videos.title": "The <em>film</em> library.",
+    "videos.note": "Campaigns, brand films and content — filter by category, tap any film to play.",
+    "videos.viewAll": "Browse all films",
 
     "hero.issue": "The Index — Issue 01",
     "hero.eyebrow": "Saudi Market Model · Brand Ambassador",
@@ -141,8 +147,14 @@ const STRINGS = {
     "nav.work": "الأعمال",
     "nav.about": "عني",
     "nav.services": "الخدمات",
+    "nav.videos": "الفيديوهات",
     "nav.contact": "تواصل",
     "nav.book": "احجز",
+
+    "videos.eyebrow": "شاهد",
+    "videos.title": "مكتبة <em>الأفلام</em>.",
+    "videos.note": "حملات وأفلام علامات ومحتوى — رشّح حسب التصنيف، واضغط أي فيلم لتشغيله.",
+    "videos.viewAll": "تصفّح كل الأفلام",
 
     "hero.issue": "الفهرس — العدد ٠١",
     "hero.eyebrow": "عارضة السوق السعودي · سفيرة علامات",
