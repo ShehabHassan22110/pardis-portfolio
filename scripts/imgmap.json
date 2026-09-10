@@ -1,0 +1,28 @@
+{
+  "_comment": "Maps raw client files in 'CLient Data/' to semantic names + rendition sets. kind: photo|logo. hero:true adds wide+mobile-hero renditions. cutout:true attempts AI background removal.",
+  "photos": [
+    { "src": "16C814FA-E281-4B86-80FC-7655BDB232BE.PNG", "name": "couture-01", "kind": "photo", "hero": true, "focus": "attention", "heroFocus": "north" },
+    { "src": "3494B38C-2736-44DB-AB00-B197BC4FA880.PNG", "name": "couture-02", "kind": "photo", "focus": "attention" },
+    { "src": "7B6D3001-9B42-4EC7-94ED-7350D574E34A.PNG", "name": "couture-03", "kind": "photo", "hero": true, "focus": "attention", "heroFocus": "north" },
+    { "src": "A91A01AE-85D1-4436-8F17-A44F3CF9F834.PNG", "name": "couture-04", "kind": "photo", "focus": "attention" },
+    { "src": "IMG_0071.PNG", "name": "hand-calvinklein", "kind": "photo", "focus": "centre" },
+    { "src": "IMG_0075.PNG", "name": "hand-coach", "kind": "photo", "focus": "centre" },
+    { "src": "IMG_0077.PNG", "name": "hand-cavalli", "kind": "photo", "focus": "centre" },
+    { "src": "IMG_0079.PNG", "name": "hand-ferragamo", "kind": "photo", "focus": "centre" },
+    { "src": "IMG_1744.JPG.jpeg", "name": "fashion-floral", "kind": "photo", "hero": true, "focus": "attention", "heroFocus": "north" },
+    { "src": "IMG_1789.JPG.jpeg", "name": "fashion-blazer-seated", "kind": "photo", "focus": "attention" },
+    { "src": "IMG_1821.JPG.jpeg", "name": "fashion-blazer-stand", "kind": "photo", "hero": true, "focus": "attention", "heroFocus": "north" },
+    { "src": "IMG_1900.JPG.jpeg", "name": "fashion-pink", "kind": "photo", "focus": "attention" },
+    { "src": "IMG_2478.JPG.jpeg", "name": "fashion-olive", "kind": "photo", "hero": true, "cutout": true, "focus": "attention", "heroFocus": "north" },
+    { "src": "IMG_2483.JPG.jpeg", "name": "ambassador-instore", "kind": "photo", "focus": "attention" },
+    { "src": "WhatsApp Image 2026-09-08 at 12.25.17 PM.jpeg", "name": "beauty-01", "kind": "photo", "focus": "attention" },
+    { "src": "WhatsApp Image 2026-09-08 at 12.25.17 PM (1).jpeg", "name": "beauty-02", "kind": "photo", "focus": "attention" },
+    { "src": "WhatsApp Image 2026-09-08 at 12.25.17 PM (2).jpeg", "name": "beauty-03", "kind": "photo", "focus": "attention" }
+  ],
+  "_logoComment": "Logos are extracted to clean single-colour SILHOUETTES on transparent PNG (used as CSS masks, painted theme-aware + gold on hover). invert:true for dark-mark-on-light source; tc/slope tune the alpha threshold; crop [l,t,w,h] as fractions isolates the mark from busy backgrounds.",
+  "logos": [
+    { "src": "IMG_2001.PNG", "name": "brand-mecroline", "kind": "logo", "invert": false, "tc": 212, "slope": 12, "crop": [0.05, 0.13, 0.90, 0.62] },
+    { "src": "IMG_2484.JPG.jpeg", "name": "brand-alhomaidhi", "kind": "logo", "invert": true, "tc": 150, "slope": 11, "crop": [0.02, 0.40, 0.96, 0.20] },
+    { "src": "IMG_2485.JPG.jpeg", "name": "brand-alhomaidhi-group", "kind": "logo", "invert": false, "tc": 190, "slope": 12, "crop": null }
+  ]
+}

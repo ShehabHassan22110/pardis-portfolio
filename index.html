@@ -1,349 +1,318 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr" data-theme="light">
+<html lang="en" dir="ltr" data-theme="dark" data-bs-theme="dark">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script>(function(){try{var t=localStorage.getItem('noor-theme')||'light';document.documentElement.setAttribute('data-theme',t);var l=localStorage.getItem('noor-lang')||'en';document.documentElement.setAttribute('lang',l);document.documentElement.setAttribute('dir',l==='ar'?'rtl':'ltr');if(sessionStorage.getItem('noor-pre'))document.documentElement.classList.add('preloaded');}catch(e){}})();</script>
-  <noscript><style>.preloader{display:none}</style></noscript>
-  <title>PARDIS — Model · Brand Ambassador · Corporate Representative</title>
-  <meta name="description" content="The portfolio of PARDIS — a Riyadh-based model and brand ambassador working across beauty, fashion, modest couture, luxury watch campaigns and commercial representation." />
-  <meta name="theme-color" content="#F3EFE8" />
+  <title>BARDEES REFAAT — Saudi Market Model &amp; Brand Ambassador</title>
+  <meta name="description" content="BARDEES REFAAT — a Saudi-market model and brand ambassador. Advertising, brand campaigns, events and corporate representation across the Kingdom and the GCC." />
+  <meta name="theme-color" content="#0D0D0D" />
   <link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg" />
-  <link rel="apple-touch-icon" href="assets/brand/pardis-apple-touch.png" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="PARDIS — Model, Brand Ambassador & Corporate Representative" />
-  <meta property="og:description" content="Beauty, fashion, modest couture, luxury watch campaigns and brand ambassadorship — a Gulf editorial portfolio. Book across the Gulf and beyond." />
-  <meta property="og:image" content="assets/brand/pardis-og.png" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:image" content="assets/brand/pardis-og.png" />
+  <meta property="og:title" content="BARDEES REFAAT — Saudi Market Model &amp; Brand Ambassador" />
+  <meta property="og:description" content="Representing brands. Connecting markets. Advertising, ambassadorship, events and corporate representation across the Saudi market and the GCC." />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=El+Messiri:wght@400;600&family=Jost:wght@300;400;500;600&family=Tajawal:wght@300;400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400;1,9..144,500&family=Reem+Kufi:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+
+  <link id="bs-css" href="assets/css/bootstrap.min.css" rel="stylesheet" />
+  <script>(function(){try{var t=localStorage.getItem('bardees-theme')||'dark',l=localStorage.getItem('bardees-lang')||'en',r=document.documentElement;r.setAttribute('data-theme',t);r.setAttribute('data-bs-theme',t);r.setAttribute('lang',l);r.setAttribute('dir',l==='ar'?'rtl':'ltr');if(l==='ar'){var b=document.getElementById('bs-css');if(b)b.href='assets/css/bootstrap.rtl.min.css';}}catch(e){}})();</script>
+  <link href="assets/css/style.css" rel="stylesheet" />
+  <link href="assets/css/theme.css?v=14" rel="stylesheet" />
 </head>
 <body>
 
-  <!-- ===================== PRELOADER ===================== -->
-  <div class="preloader" aria-hidden="true">
-    <div class="preloader__inner">
-      <svg class="preloader__logo" viewBox="0 0 200 200" aria-hidden="true">
-        <defs>
-          <linearGradient id="plGold" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#EBCFA6"/>
-            <stop offset=".5" stop-color="#C9A17A"/>
-            <stop offset="1" stop-color="#A07A55"/>
-          </linearGradient>
-        </defs>
-        <circle class="pl-ring"  cx="100" cy="100" r="90" fill="none" stroke="url(#plGold)" stroke-width="1.6"/>
-        <circle class="pl-ring2" cx="100" cy="100" r="82" fill="none" stroke="url(#plGold)" stroke-width=".7"/>
-        <text class="pl-p" x="98" y="140" text-anchor="middle" font-family="'Bodoni Moda', Georgia, serif" font-size="132" font-weight="500" fill="url(#plGold)">P</text>
-        <path class="pl-spark" d="M143 62 l2.4 6.6 6.6 2.4 -6.6 2.4 -2.4 6.6 -2.4 -6.6 -6.6 -2.4 6.6 -2.4 z" fill="url(#plGold)"/>
+  <!-- Spinner -->
+  <div id="loader" class="loader" aria-hidden="true">
+    <div class="loader__logo">
+      <svg class="brandmark" viewBox="0 0 220 200" role="img" aria-label="BARDEES">
+        <defs><linearGradient id="lgLoad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e0b489"/><stop offset=".5" stop-color="#c98a5e"/><stop offset="1" stop-color="#a8663f"/></linearGradient></defs>
+        <circle class="bm-ring" cx="110" cy="82" r="66" fill="none" stroke="url(#lgLoad)" stroke-width="1.4"/>
+        <text class="bm-b" x="110" y="114" text-anchor="middle" font-family="Fraunces, 'Bodoni Moda', serif" font-size="92" font-weight="500" fill="url(#lgLoad)">B</text>
       </svg>
-      <div class="preloader__word">PARDIS</div>
-      <div class="preloader__bar"><i></i></div>
-      <div class="preloader__pct">0</div>
+      <div class="loader__word">BARDEES</div>
+      <div class="loader__line"></div>
+      <div class="loader__sub">SAUDI MARKET MODEL</div>
     </div>
   </div>
 
-  <!-- ===================== NAV ===================== -->
-  <header class="nav" id="nav">
-    <a href="index.html" class="brand" aria-label="PARDIS — home">
-      <span class="brand__mark">Pardis<span>.</span></span>
-      <span class="brand__sub">Portfolio</span>
-    </a>
-    <nav class="nav__links" aria-label="Primary">
-      <a class="nav__link" href="#index" data-i18n="nav.index">Index</a>
-      <a class="nav__link" href="#work" data-i18n="nav.work">Work</a>
-      <a class="nav__link" href="about.html" data-i18n="nav.about">About</a>
-      <a class="nav__link" href="services.html" data-i18n="nav.collaborate">Collaborate</a>
-      <a class="nav__link" href="booking.html" data-i18n="nav.contact">Contact</a>
-      <a class="btn btn--gold nav__cta" href="booking.html"><span data-i18n="nav.book">Book</span><span class="btn__arrow">↗</span></a>
-    </nav>
-    <button class="nav__burger" aria-label="Menu"><span></span><span></span></button>
+  <!-- ===================== NAVBAR ===================== -->
+  <nav class="navbar navbar-expand-lg" id="nav">
+    <div class="container">
+      <a class="navbar-brand" href="index.html"><span class="brand-mono">B</span><span>Bardees<span class="dot">.</span></span> <small class="text-muted-2" style="font-size:.85rem">بارديس</small></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Menu"><i class="bi bi-list fs-3"></i></button>
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav mx-lg-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link active" href="index.html" data-i18n="nav.index">Index</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html#work" data-i18n="nav.work">Work</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html" data-i18n="nav.about">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="services.html" data-i18n="nav.services">Services</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html" data-i18n="nav.contact">Contact</a></li>
+        </ul>
+        <div class="nav-utils">
+          <button class="chip-btn" data-theme-toggle aria-label="Toggle theme"><i class="bi bi-brightness-high"></i></button>
+          <button class="chip-btn" data-lang-toggle aria-label="Toggle language">ع</button>
+          <a class="btn btn-gold btn-sm" href="contact.html"><span data-i18n="nav.book">Book</span> <i class="bi bi-arrow-up-right"></i></a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===================== HERO ===================== -->
+  <header class="hero hero--side">
+    <div class="hero__bg" id="heroBg"></div>
+    <div class="hero__veil"></div>
+    <button class="hero__nav hero__side prev" id="heroPrev" aria-label="Previous look"><i class="bi bi-chevron-left"></i></button>
+    <button class="hero__nav hero__side next" id="heroNext" aria-label="Next look"><i class="bi bi-chevron-right"></i></button>
+    <div class="hero__inner">
+      <div class="container">
+        <div class="hero__col">
+          <span class="hero__flank reveal" data-i18n="hero.issue">The Index — Issue 01</span>
+          <h1 class="hero__mast d-block mt-3 mb-3">BARDEES<br><span class="gold">REFAAT</span></h1>
+          <p class="text-uppercase mb-3 reveal" data-d="1" style="letter-spacing:.14em;font-size:.85rem;color:rgba(240,233,220,.9)">
+            <span data-i18n="hero.eyebrow">Saudi Market Model · Brand Ambassador</span>
+            <span style="font-family:var(--font-display);color:var(--accent-2);letter-spacing:0;margin-inline-start:.5rem">بارديس رفعت</span>
+          </p>
+          <p class="hero__lead mb-3 reveal" data-d="2" style="max-width:46ch;color:rgba(240,233,220,.9)" data-i18n="hero.lead"></p>
+          <p class="hero__sectors reveal mb-4" data-d="2" data-i18n="hero.sectors">Travel · Tourism · Hospitality · Lifestyle · Luxury</p>
+          <div class="d-flex flex-wrap gap-2 reveal" data-d="2">
+            <a class="btn btn-gold" href="#work"><span data-i18n="hero.ctaWork">View the work</span> <i class="bi bi-arrow-up-right"></i></a>
+            <a class="btn-line" href="contact.html" style="color:#f0e9dc;border-color:rgba(255,255,255,.5)"><span data-i18n="hero.ctaBook">Work with me</span> <i class="bi bi-arrow-up-right"></i></a>
+          </div>
+        </div>
+        <div class="hero__ctrl reveal" data-d="3">
+          <span class="display-serif fs-6" id="heroLabel" style="color:#f0e9dc">Beauty &amp; Glam</span>
+          <span style="font-family:var(--font-display);color:rgba(240,233,220,.6)"><em class="fst-normal" style="color:var(--accent-2)" id="heroIndex">01</em><span id="heroTotal">/05</span></span>
+          <div class="hero__bar" style="flex:1;max-width:11rem"><i id="heroBar"></i></div>
+          <div class="hero__thumbs" id="heroThumbs"></div>
+        </div>
+      </div>
+    </div>
   </header>
 
-  <!-- ===================== HERO — full-bleed cover swiper ===================== -->
-  <section class="hero cover" id="top" aria-roledescription="carousel" aria-label="PARDIS showcase">
-    <!-- full-bleed background swiper (slides rendered from data.js HERO_SLIDES) -->
-    <div class="hero__bg" id="heroSlider"></div>
-    <div class="hero__veil" aria-hidden="true"></div>
-
-    <div class="hero__inner">
-
-      <!-- top line -->
-      <div class="cover__top reveal">
-        <span class="cover__issue" data-i18n="hero.issue">Portfolio · Issue 01</span>
-        <span class="cover__loc">Riyadh · KSA</span>
-      </div>
-
-      <!-- masthead over the image -->
-      <h1 class="cover__mast display">
-        <span class="rise"><span>PARDIS</span></span>
-      </h1>
-
-      <!-- bottom dock: identity + swiper controls -->
-      <div class="hero__dock">
-        <div class="hero__lead reveal" data-d="1">
-          <p class="cover__meta">
-            <span data-i18n="hero.eyebrow">Model · Brand Ambassador · Corporate Representative</span>
-            <span class="cover__ar ar">بارديس</span>
-          </p>
-          <p class="cover__role" data-i18n="hero.role">
-            One face across fashion and commerce — from <strong>luxury watch and fashion campaigns</strong> to
-            <strong>modest couture</strong>, beauty and brand ambassadorship across the Gulf.
-          </p>
-          <div class="cover__cta">
-            <a class="btn btn--gold" href="#work"><span data-i18n="hero.ctaWork">View the work</span> <span class="btn__arrow">↗</span></a>
-            <a class="btn" href="booking.html"><span data-i18n="hero.ctaBook">Book</span> <span class="btn__arrow">↗</span></a>
-          </div>
-        </div>
-
-        <div class="hero__control reveal" data-d="2" role="group" aria-label="Slideshow controls">
-          <div class="hero__now">
-            <span class="hero__label display" id="heroLabel">Beauty &amp; Glam</span>
-            <span class="cover__count"><em id="heroIndex">01</em><i id="heroTotal">/05</i></span>
-          </div>
-          <div class="hero__bar" aria-hidden="true"><i id="heroBar"></i></div>
-          <div class="hero__strip">
-            <div class="cover__thumbs" id="heroThumbs" role="tablist" aria-label="Choose a look"><!-- thumbnails rendered from data.js --></div>
-            <div class="hero__arrows">
-              <button type="button" class="cover__nav" id="heroPrev" aria-label="Previous look">‹</button>
-              <button type="button" class="cover__nav" id="heroNext" aria-label="Next look">›</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
+  <!-- ===================== TRUSTED ===================== -->
+  <section class="trusted py-4">
+    <div class="container">
+      <p class="eyebrow text-center mb-3 reveal" data-i18n="trusted.eyebrow">Trusted by brands across the Gulf</p>
     </div>
-  </section>
-
-  <!-- ===================== TRUSTED BY ===================== -->
-  <section class="trusted">
-    <p class="eyebrow trusted__eyebrow reveal" data-i18n="trusted.eyebrow">Trusted by brands across the Gulf</p>
-    <div class="trusted__row reveal" data-d="1" id="brandsRow"><!-- rendered from data.js (BRANDS) --></div>
-  </section>
-
-  <!-- ===================== THE INDEX ===================== -->
-  <section class="section wrap" id="index">
-    <div class="index__head head reveal">
-      <div>
-        <p class="eyebrow" style="margin-bottom:1rem" data-i18n="index.eyebrow">Contents — Select a discipline</p>
-        <h2 class="head__title display" data-i18n="index.title">Choose the kind of<br><em>collaboration</em> you need.</h2>
-      </div>
-      <p class="hero__role" style="max-width:30ch" data-i18n="index.note">Every brand enters differently. Pick a category to see only the work that speaks to your campaign.</p>
-    </div>
-    <div class="index-grid" id="indexList"><!-- rendered from data.js --></div>
-  </section>
-
-  <!-- ===================== SELECTED WORK ===================== -->
-  <section class="section wrap" id="work">
-    <div class="head reveal" style="margin-bottom:clamp(28px,4vw,54px)">
-      <h2 class="head__title display" data-i18n="work.title">Selected <em>work</em></h2>
-      <a class="btn" href="category.html?cat=beauty"><span data-i18n="common.viewAll">Browse all disciplines</span> <span class="btn__arrow">↗</span></a>
-    </div>
-    <div class="works" id="worksGrid"><!-- rendered from data.js --></div>
-  </section>
-
-  <div class="goldline"></div>
-
-  <!-- ===================== IN MOTION — reels ===================== -->
-  <section class="section wrap reels" id="showreel">
-    <div class="reels__head head reveal">
-      <div>
-        <p class="eyebrow" data-i18n="showreel.eyebrow">Showreel</p>
-        <h2 class="head__title display" data-i18n="showreel.title">See her <em>in motion</em>.</h2>
-      </div>
-      <p class="reels__note" data-i18n="showreel.note">A short cut across campaigns, film and stage.</p>
-    </div>
-
-    <div class="reels__grid reveal" data-d="1">
-      <article class="reel" data-play data-video="assets/video/showreel.mp4" data-caption="PARDIS — Showreel" tabindex="0" role="button" aria-label="Play showreel">
-        <video class="reel__vid" muted loop playsinline preload="none" poster="assets/img/reel-showreel.jpg" data-src="assets/video/showreel.mp4"></video>
-        <span class="reel__scrim" aria-hidden="true"></span>
-        <span class="reel__dur">0:28</span>
-        <span class="reel__play" aria-hidden="true"><span class="tri"></span></span>
-        <div class="reel__foot">
-          <span class="reel__k" data-i18n="reels.a.k">Showreel</span>
-          <span class="reel__t display" data-i18n="reels.a.t">In Motion</span>
-        </div>
-      </article>
-
-      <article class="reel" data-play data-video="assets/video/reel-b.mp4" data-caption="PARDIS — Reel" tabindex="0" role="button" aria-label="Play reel">
-        <video class="reel__vid" muted loop playsinline preload="none" poster="assets/img/reel-b.jpg" data-src="assets/video/reel-b.mp4"></video>
-        <span class="reel__scrim" aria-hidden="true"></span>
-        <span class="reel__dur">0:05</span>
-        <span class="reel__play" aria-hidden="true"><span class="tri"></span></span>
-        <div class="reel__foot">
-          <span class="reel__k" data-i18n="reels.b.k">Beauty · Reel</span>
-          <span class="reel__t display" data-i18n="reels.b.t">Golden Glow</span>
-        </div>
-      </article>
-    </div>
+    <div class="marquee reveal" id="brandsRow" data-d="1"></div>
   </section>
 
   <!-- ===================== ABOUT ===================== -->
-  <section class="section wrap about" id="about">
-    <div class="about__portrait curtain reveal">
-      <img src="assets/img/beauty-glam-01.jpg" alt="Pardis — beauty portrait" loading="lazy" style="object-position:50% 28%" />
-      <span class="frame"></span>
-    </div>
-    <div class="reveal" data-d="2">
-      <p class="eyebrow" style="margin-bottom:1.4rem" data-i18n="about.eyebrow">About</p>
-      <p class="about__lead display" data-i18n="about.lead">A single, dependable face for brands across the Gulf — <em>elegant on camera,</em> credible in the room.</p>
-      <p class="about__body" data-i18n="about.body">Pardis works fluidly between editorial and commercial worlds: the close-up precision of a luxury watch and hand campaign, the movement of modest couture and abaya, the polish of a beauty shoot, and the poise of representing a house on set and at events. Bilingual and GCC-based, she brings one consistent, professional presence to every collaboration.</p>
-      <ul class="facts">
-        <li><div class="k" data-i18n="facts.based">Based in</div><div class="v" data-i18n="facts.basedV">Riyadh, KSA</div></li>
-        <li><div class="k" data-i18n="facts.lang">Languages</div><div class="v" data-i18n="facts.langV">Arabic · English</div></li>
-        <li><div class="k" data-i18n="facts.focus">Focus</div><div class="v" data-i18n="facts.focusV">Fashion · Beauty · Watches</div></li>
-        <li><div class="k" data-i18n="facts.avail">Availability</div><div class="v" data-i18n="facts.availV">GCC &amp; Intl.</div></li>
-      </ul>
-      <a class="btn btn--gold" href="about.html" style="margin-top:2rem"><span data-i18n="home.aboutMore">Read the full profile</span> <span class="btn__arrow">↗</span></a>
+  <section class="section about-feat" id="about">
+    <div class="about-feat__watermark" aria-hidden="true">BARDEES</div>
+    <div class="container">
+      <div class="title-c reveal">
+        <span class="tc-eyebrow" data-i18n="about.eyebrow">About Bardees</span>
+        <h2 class="d-1 tc-h" data-i18n="about.secTitle">The face brands <em>trust</em>.</h2>
+      </div>
+      <div class="about-grid">
+        <figure class="about-portrait reveal m-0">
+          <picture><source type="image/webp" srcset="assets/img/couture-01-portrait.webp"><img src="assets/img/couture-01-portrait.jpg" alt="Bardees Refaat" loading="lazy"></picture>
+          <figcaption class="about-portrait__tag">بارديس رفعت · Riyadh</figcaption>
+        </figure>
+        <div class="about-copy reveal" data-d="1">
+          <blockquote class="about-quote" data-i18n="about.lead">A model and advertising face specialised in content for brands targeting the Saudi and Gulf market.</blockquote>
+          <p class="about-body" data-i18n="about.body"></p>
+          <ul class="about-facts" id="factsList"></ul>
+          <a class="btn btn-gold" href="about.html"><span data-i18n="about.more">Read the full profile</span> <i class="bi bi-arrow-up-right"></i></a>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- stats -->
-  <div class="stats wrap reveal" style="max-width:var(--maxw)">
-    <div class="stat"><div class="stat__v display">5</div><div class="stat__l" data-i18n="stats.disc">Disciplines</div></div>
-    <div class="stat"><div class="stat__v display">4</div><div class="stat__l" data-i18n="stats.watch">Watch houses</div></div>
-    <div class="stat"><div class="stat__v display">2</div><div class="stat__l" data-i18n="stats.lang">Languages</div></div>
-    <div class="stat"><div class="stat__v display">GCC</div><div class="stat__l" data-i18n="stats.avail">Available</div></div>
-  </div>
-
-  <!-- ===================== SOCIAL / INSTAGRAM ===================== -->
-  <section class="section wrap" id="social">
-    <div class="head reveal">
-      <div>
-        <p class="eyebrow" style="margin-bottom:1rem" data-i18n="social.eyebrow">Follow the journey</p>
-        <h2 class="head__title display" data-i18n="social.title">Beauty, fashion &amp; <em>moments</em>.</h2>
+  <!-- ===================== CLIENTS ===================== -->
+  <section class="section" id="clients">
+    <div class="container">
+      <div class="title-c reveal">
+        <span class="tc-eyebrow" data-i18n="clients.eyebrow">Clients &amp; ambassadorships</span>
+        <h2 class="d-1 tc-h" data-i18n="clients.title">Brands I've been the <em class="serif-em">face</em> of.</h2>
+        <p class="tc-note" data-i18n="clients.note"></p>
       </div>
-      <div class="social__links" id="socialLinks"><!-- rendered from data.js (SOCIAL) --></div>
+      <div class="clients-swiper reveal" data-d="1">
+        <div class="cs-viewport" id="clientsViewport">
+          <div class="cs-track" id="clientsGrid"></div>
+        </div>
+        <div class="cs-foot">
+          <button class="cs-nav" id="clientsPrev" aria-label="Previous client"><i class="bi bi-arrow-left"></i></button>
+          <button class="cs-nav" id="clientsNext" aria-label="Next client"><i class="bi bi-arrow-right"></i></button>
+        </div>
+      </div>
     </div>
-    <div class="social__grid reveal" data-d="2">
-      <a class="social__tile" data-social-tile href="#" target="_blank" rel="noopener"><img src="assets/img/beauty-glam-02.jpg" alt="Pardis — beauty portrait" loading="lazy" style="object-position:50% 26%"><span class="ig"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg></span></a>
-      <a class="social__tile" data-social-tile href="#" target="_blank" rel="noopener"><img src="assets/img/fashion-floral.jpg" alt="Pardis — floral resort look" loading="lazy" style="object-position:50% 18%"><span class="ig"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg></span></a>
-      <a class="social__tile" data-social-tile href="#" target="_blank" rel="noopener"><img src="assets/img/watch-cavalli.jpg" alt="Roberto Cavalli by Franck Muller watch — hand campaign" loading="lazy"><span class="ig"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg></span></a>
-      <a class="social__tile" data-social-tile href="#" target="_blank" rel="noopener"><img src="assets/img/couture-02.jpg" alt="Pardis — couture kaftan" loading="lazy" style="object-position:50% 10%"><span class="ig"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg></span></a>
-      <a class="social__tile" data-social-tile href="#" target="_blank" rel="noopener"><img src="assets/img/fashion-seated.jpg" alt="Pardis — editorial fashion" loading="lazy" style="object-position:50% 16%"><span class="ig"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg></span></a>
-      <a class="social__tile" data-social-tile href="#" target="_blank" rel="noopener"><img src="assets/img/beauty-pink.jpg" alt="Pardis — occasion beauty" loading="lazy" style="object-position:50% 24%"><span class="ig"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg></span></a>
+  </section>
+
+  <!-- ===================== WHY ===================== -->
+  <section class="section bg-surface" id="why">
+    <div class="container">
+      <div class="title-c reveal">
+        <span class="tc-eyebrow" data-i18n="why.eyebrow">Why Bardees for the Saudi market</span>
+        <h2 class="d-1 tc-h" data-i18n="why.title">Built for the <em class="serif-em">Saudi audience.</em></h2>
+        <p class="tc-note" data-i18n="why.note"></p>
+      </div>
+      <div class="row g-4" id="whyGrid"></div>
+    </div>
+  </section>
+
+  <!-- ===================== DISCIPLINES ===================== -->
+  <section class="section" id="index">
+    <div class="container">
+      <div class="title-c reveal">
+        <span class="tc-eyebrow" data-i18n="index.eyebrow">Contents — select a discipline</span>
+        <h2 class="d-1 tc-h" data-i18n="index.title">Choose the kind of <em class="serif-em">collaboration</em> you need.</h2>
+        <p class="tc-note" data-i18n="index.note"></p>
+      </div>
+      <div class="panels" id="discPanels"></div>
+    </div>
+  </section>
+
+  <!-- ===================== SELECTED WORK ===================== -->
+  <section class="section bg-surface" id="work">
+    <div class="container">
+      <div class="title-c reveal">
+        <span class="tc-eyebrow" data-i18n="work.eyebrow">Selected — Issue 01</span>
+        <h2 class="d-1 tc-h" data-i18n="work.title">Selected <em class="serif-em">work</em></h2>
+      </div>
+      <div class="masonry" id="worksGrid"></div>
+      <div class="text-center mt-5 reveal"><a class="btn btn-outline-gold" href="portfolio.html"><span data-i18n="work.viewAll">Browse all</span> <i class="bi bi-arrow-up-right"></i></a></div>
+    </div>
+  </section>
+
+  <!-- ===================== IN MOTION ===================== -->
+  <section class="section" id="showreel">
+    <div class="container">
+      <div class="title-c reveal">
+        <span class="tc-eyebrow" data-i18n="reels.eyebrow">Showreel</span>
+        <h2 class="d-1 tc-h" data-i18n="reels.title">See me <em class="serif-em">in motion</em>.</h2>
+        <p class="tc-note" data-i18n="reels.note"></p>
+      </div>
+      <div class="row g-3" id="reelsGrid"></div>
+    </div>
+  </section>
+
+  <!-- ===================== DIGITAL PRESENCE ===================== -->
+  <section class="presence-band">
+    <div class="presence-band__bg"><picture><source type="image/webp" srcset="assets/img/fashion-blazer-stand-wide.webp"><img src="assets/img/fashion-blazer-stand-wide.jpg" alt="" loading="lazy"></picture></div>
+    <div class="container">
+      <div class="title-c reveal">
+        <span class="tc-eyebrow" data-i18n="presence.eyebrow">Digital presence</span>
+        <h2 class="d-1 tc-h" data-i18n="presence.title">Audience &amp; <em class="serif-em">platforms</em>.</h2>
+      </div>
+      <div class="presence-stats row g-0 reveal" id="statsRow"></div>
+      <div class="row g-4 mt-5">
+        <div class="col-md-4 reveal"><p class="eyebrow mb-3" data-i18n="presence.platforms">Platforms</p><div id="platformsRow" class="d-flex flex-wrap gap-2"></div></div>
+        <div class="col-md-4 reveal" data-d="1"><p class="eyebrow mb-3" data-i18n="presence.style">Content style</p><div id="styleRow" class="d-flex flex-wrap gap-2"></div></div>
+        <div class="col-md-4 reveal" data-d="2"><p class="eyebrow mb-3" data-i18n="presence.audience">Audience focus</p><p class="fs-5 mb-0" data-i18n="presence.audienceV">Saudi Arabia · GCC · Arabic-speaking audience</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SERVICES ===================== -->
+  <section class="section" id="services">
+    <div class="container">
+      <div class="title-c reveal">
+        <span class="tc-eyebrow" data-i18n="services.eyebrow">What I offer</span>
+        <h2 class="d-1 tc-h" data-i18n="services.title">Services, <em class="serif-em">tailored</em>.</h2>
+      </div>
+      <div class="row g-4" id="servicesIndex"></div>
+      <div class="text-center mt-5 reveal"><a class="btn btn-outline-gold" href="services.html"><span data-i18n="services.more">View all services</span> <i class="bi bi-arrow-up-right"></i></a></div>
     </div>
   </section>
 
   <!-- ===================== PROCESS ===================== -->
-  <section class="section wrap" id="process">
-    <div class="head reveal">
-      <div>
-        <p class="eyebrow" style="margin-bottom:1rem" data-i18n="process.eyebrow">How a collaboration works</p>
-        <h2 class="head__title display" data-i18n="process.title">Four steps, <em>zero friction</em>.</h2>
+  <section class="section bg-surface" id="process">
+    <div class="container">
+      <div class="title-c reveal">
+        <span class="tc-eyebrow" data-i18n="process.eyebrow">How a collaboration works</span>
+        <h2 class="d-1 tc-h" data-i18n="process.title">Four steps, <em class="serif-em">zero friction</em>.</h2>
+      </div>
+      <div class="timeline reveal" data-d="1">
+        <div class="tstep"><div class="tstep__node">01</div><h3 class="tstep__t" data-i18n="process.s1t"></h3><p class="tstep__d" data-i18n="process.s1d"></p></div>
+        <div class="tstep"><div class="tstep__node">02</div><h3 class="tstep__t" data-i18n="process.s2t"></h3><p class="tstep__d" data-i18n="process.s2d"></p></div>
+        <div class="tstep"><div class="tstep__node">03</div><h3 class="tstep__t" data-i18n="process.s3t"></h3><p class="tstep__d" data-i18n="process.s3d"></p></div>
+        <div class="tstep"><div class="tstep__node">04</div><h3 class="tstep__t" data-i18n="process.s4t"></h3><p class="tstep__d" data-i18n="process.s4d"></p></div>
       </div>
     </div>
-    <div class="process__grid">
-      <div class="step reveal"><div class="step__n">01</div><h3 class="step__t" data-i18n="process.s1t">Choose a discipline</h3><p class="step__d" data-i18n="process.s1d">Pick the category that fits your campaign — from hand model to corporate representation.</p></div>
-      <div class="step reveal" data-d="1"><div class="step__n">02</div><h3 class="step__t" data-i18n="process.s2t">Share the brief</h3><p class="step__d" data-i18n="process.s2d">Dates, deliverables, usage rights and budget. The more detail, the sharper the proposal.</p></div>
-      <div class="step reveal" data-d="2"><div class="step__n">03</div><h3 class="step__t" data-i18n="process.s3t">Receive a proposal</h3><p class="step__d" data-i18n="process.s3d">Availability and a tailored quote within two business days — per assignment for corporate work.</p></div>
-      <div class="step reveal" data-d="3"><div class="step__n">04</div><h3 class="step__t" data-i18n="process.s4t">Create</h3><p class="step__d" data-i18n="process.s4d">On set, on stage, or in the room — one consistent, professional presence.</p></div>
-    </div>
-  </section>
-
-  <div class="goldline"></div>
-
-  <!-- ===================== SERVICES ===================== -->
-  <section class="section wrap" id="services">
-    <div class="head reveal">
-      <div>
-        <p class="eyebrow" style="margin-bottom:1rem" data-i18n="services.eyebrow">Ways to collaborate</p>
-        <h2 class="head__title display" data-i18n="services.title">Engagements, <em>tailored</em><br>to the brief.</h2>
-      </div>
-      <a class="btn" href="services.html"><span data-i18n="home.servicesMore">View all services</span> <span class="btn__arrow">↗</span></a>
-    </div>
-    <div class="services__grid" id="servicesGrid"><!-- rendered from data.js --></div>
   </section>
 
   <!-- ===================== FAQ ===================== -->
-  <section class="section wrap" id="faq">
-    <div class="head reveal">
-      <div>
-        <p class="eyebrow" style="margin-bottom:1rem" data-i18n="faq.eyebrow">Good to know</p>
-        <h2 class="head__title display" data-i18n="faq.title">Questions, <em>answered</em>.</h2>
+  <section class="section" id="faq">
+    <div class="container">
+      <div class="title-c reveal">
+        <span class="tc-eyebrow" data-i18n="faq.eyebrow">Good to know</span>
+        <h2 class="d-1 tc-h" data-i18n="faq.title">Questions, <em class="serif-em">answered</em>.</h2>
       </div>
-    </div>
-    <div class="faq__list reveal" data-d="1">
-      <div class="faq__item">
-        <button class="faq__q"><span data-i18n="faq.q1">How do rates work?</span><span class="faq__icon" aria-hidden="true"></span></button>
-        <div class="faq__a"><p data-i18n="faq.a1">Photo and film shoots are quoted by scope and usage. Corporate representation is priced per assignment — by the nature of the event and the duration of attendance.</p></div>
-      </div>
-      <div class="faq__item">
-        <button class="faq__q"><span data-i18n="faq.q2">Do you travel for bookings?</span><span class="faq__icon" aria-hidden="true"></span></button>
-        <div class="faq__a"><p data-i18n="faq.a2">Yes — available across the GCC and internationally. Travel and accommodation are arranged per booking.</p></div>
-      </div>
-      <div class="faq__item">
-        <button class="faq__q"><span data-i18n="faq.q3">How are usage rights handled?</span><span class="faq__icon" aria-hidden="true"></span></button>
-        <div class="faq__a"><p data-i18n="faq.a3">Usage, territory and duration are agreed up front and reflected in the quote. Buyouts and exclusivity are available on request.</p></div>
-      </div>
-      <div class="faq__item">
-        <button class="faq__q"><span data-i18n="faq.q4">Do you work with abaya &amp; modest fashion?</span><span class="faq__icon" aria-hidden="true"></span></button>
-        <div class="faq__a"><p data-i18n="faq.a4">Absolutely — abaya, modest and couture fashion are a core part of the portfolio.</p></div>
-      </div>
-      <div class="faq__item">
-        <button class="faq__q"><span data-i18n="faq.q5">How far ahead should we book?</span><span class="faq__icon" aria-hidden="true"></span></button>
-        <div class="faq__a"><p data-i18n="faq.a5">Two to three weeks is ideal, though rush bookings are considered subject to availability.</p></div>
+      <div class="reveal mx-auto" style="max-width:52rem" data-d="1">
+        <div class="faq-item"><button class="faq-q" aria-expanded="false"><span data-i18n="faq.q1"></span><span class="ic"></span></button><div class="faq-a"><div><p data-i18n="faq.a1"></p></div></div></div>
+        <div class="faq-item"><button class="faq-q" aria-expanded="false"><span data-i18n="faq.q2"></span><span class="ic"></span></button><div class="faq-a"><div><p data-i18n="faq.a2"></p></div></div></div>
+        <div class="faq-item"><button class="faq-q" aria-expanded="false"><span data-i18n="faq.q3"></span><span class="ic"></span></button><div class="faq-a"><div><p data-i18n="faq.a3"></p></div></div></div>
+        <div class="faq-item"><button class="faq-q" aria-expanded="false"><span data-i18n="faq.q4"></span><span class="ic"></span></button><div class="faq-a"><div><p data-i18n="faq.a4"></p></div></div></div>
+        <div class="faq-item"><button class="faq-q" aria-expanded="false"><span data-i18n="faq.q5"></span><span class="ic"></span></button><div class="faq-a"><div><p data-i18n="faq.a5"></p></div></div></div>
       </div>
     </div>
   </section>
 
   <!-- ===================== CTA ===================== -->
-  <section class="section cta">
-    <div class="cta__glow" aria-hidden="true"></div>
-    <div class="wrap cta__inner reveal">
-      <h2 class="cta__title display" data-i18n="cta.title">Let's make<br>something <em>unforgettable</em>.</h2>
-      <p class="cta__sub" data-i18n="cta.sub">Share your brief and receive a tailored proposal — bookings, campaigns, ambassadorships and corporate representation across the Gulf and beyond.</p>
-      <a class="btn btn--solid" href="booking.html"><span data-i18n="cta.button">Request a booking</span> <span class="btn__arrow">↗</span></a>
+  <section class="cta-band">
+    <span class="cta-band__glow" aria-hidden="true"></span>
+    <div class="container">
+      <div class="cta-frame reveal">
+        <span class="hero__flank d-inline-block mb-3" data-i18n="footer.eyebrow">Let's work together</span>
+        <h2 class="cta-band__title" data-i18n="cta.title">Let's make something <em>unforgettable</em>.</h2>
+        <p class="cta-band__sub" data-i18n="cta.sub"></p>
+        <div class="d-flex flex-wrap gap-3 justify-content-center">
+          <a class="btn btn-gold btn-lg" href="contact.html"><span data-i18n="cta.button">Work with me</span> <i class="bi bi-arrow-up-right"></i></a>
+          <a class="btn-line" href="contact.html"><span data-i18n="nav.book">Book</span> <i class="bi bi-arrow-up-right"></i></a>
+        </div>
+      </div>
     </div>
   </section>
 
   <!-- ===================== FOOTER ===================== -->
   <footer class="footer">
-    <div class="wrap">
-      <div class="footer__cta reveal">
+    <div class="footer__glow" aria-hidden="true"></div>
+    <div class="container">
+      <div class="footer__top">
         <div>
-          <p class="eyebrow" style="margin-bottom:1.2rem" data-i18n="footer.eyebrow">Start a conversation</p>
-          <h2 class="footer__lead display" data-i18n="footer.lead">Let's create<br>something <em>iconic</em>.</h2>
+          <a class="footer__mark" href="index.html"><span class="footer__mono">B</span>Bardees<span>.</span></a> <span class="footer__ar">بارديس رفعت</span>
+          <p class="footer__tag" data-i18n="footer.tagline"></p>
+          <div class="footer__socials">
+            <a href="#" target="_blank" rel="noopener" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+            <a href="#" target="_blank" rel="noopener" aria-label="TikTok"><i class="bi bi-tiktok"></i></a>
+            <a href="#" target="_blank" rel="noopener" aria-label="Snapchat"><i class="bi bi-snapchat"></i></a>
+            <a data-profile-whatsapp href="#" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a>
+            <a href="mailto:hello@bardeesrefaat.com" aria-label="Email"><i class="bi bi-envelope-fill"></i></a>
+          </div>
         </div>
-        <a class="btn btn--solid" href="booking.html"><span data-i18n="footer.start">Start a project</span> <span class="btn__arrow">↗</span></a>
+        <div class="footer__links">
+          <div>
+            <h5 data-i18n="footer.explore">Explore</h5>
+            <a class="line-link" href="index.html#index" data-i18n="nav.index">Index</a>
+            <a class="line-link" href="portfolio.html" data-i18n="nav.work">Work</a>
+            <a class="line-link" href="about.html" data-i18n="nav.about">About</a>
+            <a class="line-link" href="services.html" data-i18n="nav.services">Services</a>
+          </div>
+          <div>
+            <h5 data-i18n="footer.contact">Contact</h5>
+            <a class="line-link" href="contact.html" data-i18n="nav.book">Book</a>
+            <a class="line-link" data-profile-email href="mailto:hello@bardeesrefaat.com">hello@bardeesrefaat.com</a>
+            <a class="line-link" data-profile-whatsapp href="#" target="_blank" rel="noopener">WhatsApp</a>
+          </div>
+        </div>
       </div>
-
-      <div class="goldline" style="width:100%;margin-inline:0"></div>
-
-      <div class="footer__grid">
-        <div>
-          <div class="footer__mark display">Pardis<span>.</span> <span class="footer__ar ar">بارديس</span></div>
-          <p class="footer__tag" data-i18n="footer.tagline">Model · Brand Ambassador · Corporate Representative. Riyadh, Kingdom of Saudi Arabia.</p>
-          <div class="footer__social" id="footerSocial"><!-- rendered from data.js --></div>
-        </div>
-        <div>
-          <h5 data-i18n="footer.explore">Explore</h5>
-          <a class="line-link" href="#index" data-i18n="nav.index">The Index</a>
-          <a class="line-link" href="#work" data-i18n="nav.work">Selected Work</a>
-          <a class="line-link" href="about.html" data-i18n="nav.about">About</a>
-          <a class="line-link" href="services.html" data-i18n="nav.collaborate">Collaborate</a>
-        </div>
-        <div>
-          <h5 data-i18n="footer.contact">Contact</h5>
-          <a class="line-link" href="booking.html" data-i18n="footer.book">Request a booking</a>
-          <a class="line-link" data-profile-email href="mailto:hello@pardis.studio">hello@pardis.studio</a>
-          <a class="line-link" href="dashboard.html" data-i18n="footer.studio">Studio login</a>
-        </div>
-      </div>
-      <div class="footer__bar">
-        <span>© <span data-year></span> PARDIS — <span data-i18n="footer.rights">All rights reserved.</span></span>
-        <span>بارديس · Riyadh · GCC &amp; International</span>
+      <div class="footer__bottom">
+        <span>&copy; <span data-year></span> BARDEES REFAAT &mdash; <span data-i18n="footer.rights">All rights reserved.</span></span>
+        <span>بارديس رفعت · Saudi Arabia · GCC</span>
       </div>
     </div>
-    <div class="footer__huge" aria-hidden="true">PARDIS</div>
+    <div class="footer__wordmark" aria-hidden="true">BARDEES</div>
   </footer>
 
-  <script src="js/i18n.js"></script>
-  <script src="js/data.js"></script>
-  <script src="js/main.js"></script>
-  <script src="js/motion.js"></script>
+  <a href="#" class="btn btn-gold btn-lg-square rounded-circle back-to-top"><i class="bi bi-arrow-up"></i></a>
+
+  <script src="assets/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/i18n.js?v=14"></script>
+  <script src="assets/js/data.js?v=14"></script>
+  <script src="assets/js/app.js?v=14"></script>
 </body>
 </html>

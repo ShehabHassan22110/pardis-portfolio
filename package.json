@@ -1,0 +1,13 @@
+{
+  "name": "bardees-refaat-portfolio",
+  "version": "2.0.0",
+  "description": "BARDEES REFAAT — Saudi Market Model & Brand Ambassador. Bilingual (EN/AR) dark/light luxury portfolio built on Bootstrap 5 (Poseify base).",
+  "private": true,
+  "scripts": {
+    "images": "node scripts/images.js",
+    "serve": "node scripts/serve.js"
+  },
+  "devDependencies": {
+    "sharp": "^0.34.4"
+  }
+}

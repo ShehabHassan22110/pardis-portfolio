@@ -1,94 +1,153 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr" data-theme="light">
+<html lang="en" dir="ltr" data-theme="dark" data-bs-theme="dark">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script>(function(){try{var t=localStorage.getItem('noor-theme')||'light';document.documentElement.setAttribute('data-theme',t);var l=localStorage.getItem('noor-lang')||'en';document.documentElement.setAttribute('lang',l);document.documentElement.setAttribute('dir',l==='ar'?'rtl':'ltr');}catch(e){}})();</script>
-  <title>Category — PARDIS</title>
-  <meta name="description" content="Selected work by discipline — PARDIS portfolio." />
-  <meta name="theme-color" content="#F3EFE8" />
+  <title>Discipline — BARDEES REFAAT</title>
+  <meta name="description" content="Selected work by discipline — the BARDEES REFAAT portfolio." />
+  <meta name="theme-color" content="#0D0D0D" />
   <link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg" />
-  <link rel="apple-touch-icon" href="assets/brand/pardis-apple-touch.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=El+Messiri:wght@400;600&family=Jost:wght@300;400;500;600&family=Tajawal:wght@300;400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400;1,9..144,500&family=Reem+Kufi:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+  <link id="bs-css" href="assets/css/bootstrap.min.css" rel="stylesheet" />
+  <script>(function(){try{var t=localStorage.getItem('bardees-theme')||'dark',l=localStorage.getItem('bardees-lang')||'en',r=document.documentElement;r.setAttribute('data-theme',t);r.setAttribute('data-bs-theme',t);r.setAttribute('lang',l);r.setAttribute('dir',l==='ar'?'rtl':'ltr');if(l==='ar'){var b=document.getElementById('bs-css');if(b)b.href='assets/css/bootstrap.rtl.min.css';}}catch(e){}})();</script>
+  <link href="assets/css/style.css" rel="stylesheet" />
+  <link href="assets/css/theme.css?v=14" rel="stylesheet" />
 </head>
 <body>
+  <div id="loader" class="loader" aria-hidden="true">
+    <div class="loader__logo">
+      <svg class="brandmark" viewBox="0 0 220 200" role="img" aria-label="BARDEES">
+        <defs><linearGradient id="lgLoad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e0b489"/><stop offset=".5" stop-color="#c98a5e"/><stop offset="1" stop-color="#a8663f"/></linearGradient></defs>
+        <circle class="bm-ring" cx="110" cy="82" r="66" fill="none" stroke="url(#lgLoad)" stroke-width="1.4"/>
+        <text class="bm-b" x="110" y="114" text-anchor="middle" font-family="Fraunces, 'Bodoni Moda', serif" font-size="92" font-weight="500" fill="url(#lgLoad)">B</text>
+      </svg>
+      <div class="loader__word">BARDEES</div>
+      <div class="loader__line"></div>
+      <div class="loader__sub">SAUDI MARKET MODEL</div>
+    </div>
+  </div>
 
-  <header class="nav" id="nav">
-    <a href="index.html" class="brand"><span class="brand__mark">Pardis<span>.</span></span><span class="brand__sub">Portfolio</span></a>
-    <nav class="nav__links" aria-label="Primary">
-      <a class="nav__link" href="index.html#index" data-i18n="nav.index">Index</a>
-      <a class="nav__link" href="index.html#work" data-i18n="nav.work">Work</a>
-      <a class="nav__link" href="about.html" data-i18n="nav.about">About</a>
-      <a class="nav__link" href="services.html" data-i18n="nav.collaborate">Collaborate</a>
-      <a class="nav__link" href="booking.html" data-i18n="nav.contact">Contact</a>
-      <a class="btn btn--gold nav__cta" href="booking.html"><span data-i18n="nav.book">Book</span><span class="btn__arrow">↗</span></a>
-    </nav>
-    <button class="nav__burger" aria-label="Menu"><span></span><span></span></button>
-  </header>
-
-  <main id="catRoot">
-    <section class="cathero">
-      <div class="wrap cathero__inner">
-        <div class="cathero__text reveal">
-          <div class="cathero__meta">
-            <a class="eyebrow eyebrow--mist" href="index.html#index" data-i18n="common.back">← Back to the Index</a>
-          </div>
-          <div class="cathero__n" id="catN">01 / 07</div>
-          <h1 class="cathero__title display" id="catTitle"></h1>
-          <p class="cathero__tagline" id="catTagline"></p>
+  <nav class="navbar navbar-expand-lg is-solid" id="nav">
+    <div class="container">
+      <a class="navbar-brand" href="index.html"><span class="brand-mono">B</span><span>Bardees<span class="dot">.</span></span> <small class="text-muted-2" style="font-size:.85rem">بارديس</small></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-label="Menu"><i class="bi bi-list fs-3"></i></button>
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav mx-lg-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link" href="index.html#index" data-i18n="nav.index">Index</a></li>
+          <li class="nav-item"><a class="nav-link active" href="portfolio.html" data-i18n="nav.work">Work</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html" data-i18n="nav.about">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="services.html" data-i18n="nav.services">Services</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html" data-i18n="nav.contact">Contact</a></li>
+        </ul>
+        <div class="nav-utils">
+          <button class="chip-btn" data-theme-toggle aria-label="Toggle theme"><i class="bi bi-brightness-high"></i></button>
+          <button class="chip-btn" data-lang-toggle aria-label="Toggle language">ع</button>
+          <a class="btn btn-gold btn-sm" href="contact.html"><span data-i18n="nav.book">Book</span> <i class="bi bi-arrow-up-right"></i></a>
         </div>
-        <figure class="cathero__portrait curtain reveal" data-d="1">
-          <img id="catCover" src="" alt="" />
-        </figure>
       </div>
-    </section>
+    </div>
+  </nav>
 
-    <section class="wrap catmeta">
-      <p class="catmeta__desc reveal" id="catDesc"></p>
-      <div class="catmeta__sub reveal" data-d="1">
-        <h5 data-i18n="cat.within">Within this discipline</h5>
-        <ul id="catSub"></ul>
-        <a class="btn btn--gold" id="catBook" href="booking.html" style="margin-top:1.8rem"><span data-i18n="cat.book">Book this discipline</span> <span class="btn__arrow">↗</span></a>
+  <!-- hero -->
+  <section class="section" style="padding-top:clamp(120px,16vh,190px)">
+    <div class="container">
+      <div class="row g-5 align-items-center">
+        <div class="col-lg-6 reveal">
+          <a class="title-tag mb-3 d-inline-flex" href="index.html#index" style="text-decoration:none"><span data-i18n="common.back">← Back to the Index</span></a>
+          <div class="mt-3" style="font-family:var(--font-display);color:var(--muted)" id="catN">01 / 07</div>
+          <h1 class="d-hero mb-0" style="font-size:clamp(2.2rem,6vw,4rem)" id="catTitle"></h1>
+          <p class="mt-2" style="font-family:var(--font-display);font-size:1.3rem;color:var(--muted)" id="catAr"></p>
+          <p class="mt-3 fs-5" id="catTagline"></p>
+        </div>
+        <div class="col-lg-6 reveal" data-d="1"><div class="portrait-frame" id="catCover"></div></div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="wrap section" style="padding-top:clamp(40px,6vw,72px)">
-      <p class="eyebrow reveal" style="margin-bottom:1.4rem" data-i18n="cat.selected">Selected work — tap an image to enlarge</p>
-      <div class="gallery" id="catGallery"><!-- rendered from data.js --></div>
+  <!-- meta -->
+  <section class="pb-4"><div class="container">
+    <div class="row g-4 py-4" style="border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+      <div class="col-lg-8 reveal"><p class="fs-5 mb-0" id="catDesc"></p></div>
+      <div class="col-lg-4 reveal" data-d="1">
+        <h5 class="eyebrow mb-2" data-i18n="common.within">Within this discipline</h5>
+        <ul class="list-unstyled mb-3" id="catSub"></ul>
+        <a class="btn btn-gold" id="catBook" href="contact.html"><span data-i18n="common.bookThis">Enquire about this discipline</span> <i class="bi bi-arrow-up-right"></i></a>
+      </div>
+    </div>
+  </div></section>
 
-      <nav class="catnav" aria-label="Between disciplines">
-        <a class="prev" id="catPrev" href="#"><span class="k" data-i18n="cat.prev">← Previous</span><span class="t display" id="catPrevT"></span></a>
-        <a class="next" id="catNext" href="#"><span class="k" data-i18n="cat.next">Next →</span><span class="t display" id="catNextT"></span></a>
-      </nav>
-    </section>
-  </main>
+  <!-- gallery -->
+  <section class="section pt-2">
+    <div class="container">
+      <p class="eyebrow mb-4 reveal" data-i18n="common.selected">Selected work — tap an image to enlarge</p>
+      <div class="masonry" id="catGallery"></div>
+      <div class="d-flex justify-content-between align-items-center mt-5 pt-4" style="border-top:1px solid var(--border)">
+        <a class="d-flex flex-column" id="catPrev" href="#" style="text-decoration:none"><span class="eyebrow" data-i18n="common.prev">← Previous</span><span class="display-serif fs-4 text-accent" id="catPrevT"></span></a>
+        <a class="d-flex flex-column text-end" id="catNext" href="#" style="text-decoration:none"><span class="eyebrow" data-i18n="common.next">Next →</span><span class="display-serif fs-4 text-accent" id="catNextT"></span></a>
+      </div>
+    </div>
+  </section>
 
-  <section class="section cta">
-    <div class="cta__glow" aria-hidden="true"></div>
-    <div class="wrap cta__inner reveal">
-      <h2 class="cta__title display" data-i18n="cat.ctaTitle">Ready to <em>collaborate?</em></h2>
-      <p class="cta__sub" data-i18n="cat.ctaSub">Share your campaign and receive a tailored proposal.</p>
-      <a class="btn btn--solid" href="booking.html"><span data-i18n="cta.button">Request a booking</span> <span class="btn__arrow">↗</span></a>
+  <section class="cta-band">
+    <span class="cta-band__glow" aria-hidden="true"></span>
+    <div class="container">
+      <div class="cta-frame reveal">
+        <span class="hero__flank d-inline-block mb-3" data-i18n="footer.eyebrow">Let's work together</span>
+        <h2 class="cta-band__title" data-i18n="cta.title">Let's make something <em>unforgettable</em>.</h2>
+        <p class="cta-band__sub" data-i18n="cta.sub"></p>
+        <div class="d-flex flex-wrap gap-3 justify-content-center">
+          <a class="btn btn-gold btn-lg" href="contact.html"><span data-i18n="cta.button">Work with me</span> <i class="bi bi-arrow-up-right"></i></a>
+          <a class="btn-line" href="contact.html"><span data-i18n="nav.book">Book</span> <i class="bi bi-arrow-up-right"></i></a>
+        </div>
+      </div>
     </div>
   </section>
 
   <footer class="footer">
-    <div class="wrap">
-      <div class="footer__bar" style="border:none;margin:0;padding:0">
-        <span>© <span data-year></span> PARDIS — <span data-i18n="footer.rights">All rights reserved.</span></span>
-        <a href="index.html" style="color:var(--mist)" data-i18n="footer.explore">← Home</a>
+    <div class="footer__glow" aria-hidden="true"></div>
+    <div class="container">
+      <div class="footer__top">
+        <div>
+          <a class="footer__mark" href="index.html"><span class="footer__mono">B</span>Bardees<span>.</span></a> <span class="footer__ar">بارديس رفعت</span>
+          <p class="footer__tag" data-i18n="footer.tagline"></p>
+          <div class="footer__socials">
+            <a href="#" target="_blank" rel="noopener" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+            <a href="#" target="_blank" rel="noopener" aria-label="TikTok"><i class="bi bi-tiktok"></i></a>
+            <a href="#" target="_blank" rel="noopener" aria-label="Snapchat"><i class="bi bi-snapchat"></i></a>
+            <a data-profile-whatsapp href="#" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a>
+            <a href="mailto:hello@bardeesrefaat.com" aria-label="Email"><i class="bi bi-envelope-fill"></i></a>
+          </div>
+        </div>
+        <div class="footer__links">
+          <div>
+            <h5 data-i18n="footer.explore">Explore</h5>
+            <a class="line-link" href="index.html#index" data-i18n="nav.index">Index</a>
+            <a class="line-link" href="portfolio.html" data-i18n="nav.work">Work</a>
+            <a class="line-link" href="about.html" data-i18n="nav.about">About</a>
+            <a class="line-link" href="services.html" data-i18n="nav.services">Services</a>
+          </div>
+          <div>
+            <h5 data-i18n="footer.contact">Contact</h5>
+            <a class="line-link" href="contact.html" data-i18n="nav.book">Book</a>
+            <a class="line-link" data-profile-email href="mailto:hello@bardeesrefaat.com">hello@bardeesrefaat.com</a>
+            <a class="line-link" data-profile-whatsapp href="#" target="_blank" rel="noopener">WhatsApp</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span>&copy; <span data-year></span> BARDEES REFAAT &mdash; <span data-i18n="footer.rights">All rights reserved.</span></span>
+        <span>بارديس رفعت · Saudi Arabia · GCC</span>
       </div>
     </div>
+    <div class="footer__wordmark" aria-hidden="true">BARDEES</div>
   </footer>
-
-  <div class="lightbox" id="lightbox" aria-hidden="true"></div>
-
-  <script src="js/i18n.js"></script>
-  <script src="js/data.js"></script>
-  <script src="js/main.js"></script>
-  <script src="js/motion.js"></script>
+  <a href="#" class="btn btn-gold btn-lg-square rounded-circle back-to-top"><i class="bi bi-arrow-up"></i></a>
+  <script src="assets/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/i18n.js?v=14"></script>
+  <script src="assets/js/data.js?v=14"></script>
+  <script src="assets/js/app.js?v=14"></script>
 </body>
 </html>
