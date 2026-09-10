@@ -11,8 +11,8 @@
 const PROFILE = {
   name: "BARDEES REFAAT",
   nameShort: "Bardees",
-  nameAr: "بارديس رفعت",
-  nameArShort: "بارديس",
+  nameAr: "برديس رفعت",
+  nameArShort: "برديس",
   role: "Saudi Market Model & Brand Ambassador",
   roleAr: "عارضة السوق السعودي وسفيرة علامات تجارية",
   tagline: "Representing Brands. Connecting Markets.",
