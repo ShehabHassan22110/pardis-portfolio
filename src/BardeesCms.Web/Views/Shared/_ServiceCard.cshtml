@@ -1,0 +1,14 @@
+@model Service
+@{
+    var title = Site.Pick(Model.Title, Model.TitleAr);
+    var accent = Site.IsArabic ? Model.Title : Model.TitleAr;   // the bilingual flourish line
+    var desc = Site.Pick(Model.ShortDescription, Model.ShortDescriptionAr);
+    var icon = string.IsNullOrEmpty(Model.Icon) ? "star" : Model.Icon.Replace("bi-", "");
+}
+<article class="svc reveal">
+    <span class="svc__ic"><i class="bi bi-@icon"></i></span>
+    @if (!string.IsNullOrEmpty(Model.Number)) { <span class="svc__n">@Model.Number</span> }
+    <h3 class="svc__t">@title</h3>
+    @if (!string.IsNullOrEmpty(accent)) { <p class="svc__ar">@accent</p> }
+    @if (!string.IsNullOrEmpty(desc)) { <p class="svc__d">@desc</p> }
+</article>

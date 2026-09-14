@@ -1,0 +1,61 @@
+@{
+    var currentController = (ViewContext.RouteData.Values["controller"] as string ?? "").ToLowerInvariant();
+    Func<string[], string> active = controllers =>
+        controllers.Any(c => c.ToLowerInvariant() == currentController) ? "active" : "";
+}
+<aside class="admin-sidebar" id="adminSidebar">
+    <a class="admin-brand" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">
+        <span class="admin-brand__mono">B</span>
+        <span class="admin-brand__text">Bardees<span>.</span><small>CMS</small></span>
+    </a>
+
+    <nav class="admin-nav">
+        <a class="admin-nav__link @active(new[]{"Dashboard"})" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">
+            <i class="bi bi-grid-1x2"></i> Dashboard
+        </a>
+
+        <p class="admin-nav__group">Content</p>
+        <a class="admin-nav__link @active(new[]{"Hero"})" asp-area="Admin" asp-controller="Hero" asp-action="Index"><i class="bi bi-stars"></i> Hero</a>
+        <a class="admin-nav__link @active(new[]{"About"})" asp-area="Admin" asp-controller="About" asp-action="Index"><i class="bi bi-person-badge"></i> About</a>
+        <a class="admin-nav__link @active(new[]{"MarketPositions"})" asp-area="Admin" asp-controller="MarketPositions" asp-action="Index"><i class="bi bi-bullseye"></i> Market Position</a>
+        <a class="admin-nav__link @active(new[]{"Disciplines"})" asp-area="Admin" asp-controller="Disciplines" asp-action="Index"><i class="bi bi-collection"></i> Disciplines</a>
+        <a class="admin-nav__link @active(new[]{"Services"})" asp-area="Admin" asp-controller="Services" asp-action="Index"><i class="bi bi-briefcase"></i> Services</a>
+        <a class="admin-nav__link @active(new[]{"CollaborationSteps"})" asp-area="Admin" asp-controller="CollaborationSteps" asp-action="Index"><i class="bi bi-diagram-3"></i> Collaboration Steps</a>
+        <a class="admin-nav__link @active(new[]{"Faqs"})" asp-area="Admin" asp-controller="Faqs" asp-action="Index"><i class="bi bi-question-circle"></i> FAQ</a>
+        <a class="admin-nav__link @active(new[]{"PageSections"})" asp-area="Admin" asp-controller="PageSections" asp-action="Index"><i class="bi bi-layout-text-window"></i> Section Headings</a>
+
+        <p class="admin-nav__group">Portfolio</p>
+        <a class="admin-nav__link @active(new[]{"PortfolioProjects"})" asp-area="Admin" asp-controller="PortfolioProjects" asp-action="Index"><i class="bi bi-images"></i> Projects</a>
+        <a class="admin-nav__link @active(new[]{"Abayas"})" asp-area="Admin" asp-controller="Abayas" asp-action="Index"><i class="bi bi-bag-heart"></i> Abayas</a>
+        <a class="admin-nav__link @active(new[]{"Brands"})" asp-area="Admin" asp-controller="Brands" asp-action="Index"><i class="bi bi-patch-check"></i> Clients &amp; Brands</a>
+        <a class="admin-nav__link @active(new[]{"TrustedBrands"})" asp-area="Admin" asp-controller="TrustedBrands" asp-action="Index"><i class="bi bi-award"></i> Trusted Marquee</a>
+        <a class="admin-nav__link @active(new[]{"MediaLibrary"})" asp-area="Admin" asp-controller="MediaLibrary" asp-action="Index"><i class="bi bi-folder2-open"></i> Media Library</a>
+
+        <p class="admin-nav__group">Media</p>
+        <a class="admin-nav__link @active(new[]{"Videos"})" asp-area="Admin" asp-controller="Videos" asp-action="Index"><i class="bi bi-play-btn"></i> Videos</a>
+        <a class="admin-nav__link @active(new[]{"VideoCategories"})" asp-area="Admin" asp-controller="VideoCategories" asp-action="Index"><i class="bi bi-tags"></i> Video Categories</a>
+
+        <p class="admin-nav__group">Digital Presence</p>
+        <a class="admin-nav__link @active(new[]{"Platforms"})" asp-area="Admin" asp-controller="Platforms" asp-action="Index"><i class="bi bi-share"></i> Platforms</a>
+        <a class="admin-nav__link @active(new[]{"PresenceStats"})" asp-area="Admin" asp-controller="PresenceStats" asp-action="Index"><i class="bi bi-graph-up"></i> Stats</a>
+        <a class="admin-nav__link @active(new[]{"ContentStyles"})" asp-area="Admin" asp-controller="ContentStyles" asp-action="Index"><i class="bi bi-brush"></i> Content Styles</a>
+
+        <p class="admin-nav__group">Communication</p>
+        <a class="admin-nav__link @active(new[]{"ContactMessages"})" asp-area="Admin" asp-controller="ContactMessages" asp-action="Index"><i class="bi bi-inbox"></i> Messages</a>
+        <a class="admin-nav__link @active(new[]{"Contact"})" asp-area="Admin" asp-controller="Contact" asp-action="Index"><i class="bi bi-envelope-paper"></i> Contact Settings</a>
+
+        <p class="admin-nav__group">Website</p>
+        <a class="admin-nav__link @active(new[]{"SiteSettings"})" asp-area="Admin" asp-controller="SiteSettings" asp-action="Index"><i class="bi bi-gear"></i> Site Settings</a>
+        <a class="admin-nav__link @active(new[]{"Navigation"})" asp-area="Admin" asp-controller="Navigation" asp-action="Index"><i class="bi bi-signpost-split"></i> Navigation &amp; Footer</a>
+
+        <p class="admin-nav__group">SEO</p>
+        <a class="admin-nav__link @active(new[]{"SeoPages"})" asp-area="Admin" asp-controller="SeoPages" asp-action="Index"><i class="bi bi-search"></i> SEO Pages</a>
+
+        @if (User.IsInRole(Roles.SuperAdmin))
+        {
+            <p class="admin-nav__group">System</p>
+            <a class="admin-nav__link @active(new[]{"Users"})" asp-area="Admin" asp-controller="Users" asp-action="Index"><i class="bi bi-people"></i> Users &amp; Roles</a>
+            <a class="admin-nav__link @active(new[]{"ActivityLog"})" asp-area="Admin" asp-controller="ActivityLog" asp-action="Index"><i class="bi bi-clock-history"></i> Activity Log</a>
+        }
+    </nav>
+</aside>

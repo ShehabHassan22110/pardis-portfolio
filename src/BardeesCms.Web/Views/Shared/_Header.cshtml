@@ -1,0 +1,34 @@
+@model LayoutData
+@{
+    var s = Model.Settings;
+    var path = Context.Request.Path.Value ?? "/";
+    var brandShort = Site.Pick(s.BrandNameShort, s.BrandNameShortAr) ?? "Bardees";
+    var returnUrl = path + Context.Request.QueryString;
+    Func<string, bool> isActive = url =>
+    {
+        var clean = url.Split('#')[0].TrimEnd('/');
+        if (string.IsNullOrEmpty(clean)) return path == "/";
+        return path.TrimEnd('/').Equals(clean, StringComparison.OrdinalIgnoreCase);
+    };
+}
+<nav class="navbar navbar-expand-lg" id="nav">
+    <div class="container">
+        <a class="navbar-brand" href="/"><span class="brand-mono">@(brandShort.Substring(0,1))</span><span>@brandShort<span class="dot">.</span></span>
+            @if (!string.IsNullOrEmpty(s.BrandNameShortAr)) { <small class="text-muted-2" style="font-size:.85rem">@s.BrandNameShortAr</small> }
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Menu"><i class="bi bi-list fs-3"></i></button>
+        <div class="collapse navbar-collapse" id="navMenu">
+            <ul class="navbar-nav mx-lg-auto mb-2 mb-lg-0">
+                @foreach (var item in Model.HeaderNav)
+                {
+                    <li class="nav-item"><a class="nav-link @(isActive(item.Url) ? "active" : "")" href="@item.Url">@Site.Pick(item.Title, item.TitleAr)</a></li>
+                }
+            </ul>
+            <div class="nav-utils">
+                <button class="chip-btn" data-theme-toggle aria-label="Toggle theme"><i class="bi @(Site.Theme == "light" ? "bi-moon-stars" : "bi-brightness-high")"></i></button>
+                <a class="chip-btn" href="/set-language/@(Site.IsArabic ? "en" : "ar")?returnUrl=@Uri.EscapeDataString(returnUrl)" aria-label="Toggle language">@(Site.IsArabic ? "EN" : "ع")</a>
+                <a class="btn btn-gold btn-sm" href="/contact"><span>@Site.T("Book", "احجز")</span> <i class="bi bi-arrow-up-right"></i></a>
+            </div>
+        </div>
+    </div>
+</nav>

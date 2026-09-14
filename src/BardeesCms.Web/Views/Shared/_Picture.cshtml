@@ -1,0 +1,13 @@
+@model PictureVm
+@{
+    var webp = ImageResolver.WebpSrc(Model.Image, Model.Rendition);
+    var src = ImageResolver.Src(Model.Image, Model.Rendition);
+    var loading = Model.Eager ? "eager" : "lazy";
+}
+@if (!string.IsNullOrEmpty(src))
+{
+    <picture class="@Model.CssClass">
+        @if (!string.IsNullOrEmpty(webp)) { <source type="image/webp" srcset="@webp" /> }
+        <img src="@src" alt="@Model.Alt" class="@Model.ImgClass" loading="@loading" decoding="async" />
+    </picture>
+}

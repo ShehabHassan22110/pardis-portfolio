@@ -1,0 +1,61 @@
+@model AbayaFormVm
+@{
+    var isNew = Model.Id == 0;
+    ViewData["Title"] = isNew ? "New abaya" : "Edit abaya";
+    var header = new PageHeaderModel { Title = (string)ViewData["Title"]!, Subtitle = isNew ? "Add a design to the abaya collection." : Model.Name };
+    var preview = BardeesCms.Web.Services.ImageResolver.Src(Model.CoverImage, "portrait");
+}
+<partial name="_PageHeader" model="header" />
+
+<form asp-action="@(isNew ? "Create" : "Edit")" method="post" enctype="multipart/form-data" class="form-cms">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="CoverImage" />
+    <div asp-validation-summary="ModelOnly" class="admin-alert admin-alert--danger" style="display:@(ViewData.ModelState.IsValid ? "none" : "flex")"></div>
+
+    <div class="editor-layout">
+        <div class="card-cms"><div class="card-cms__body">
+            <div class="field-pair">
+                <div class="form-row"><label asp-for="Name" class="lang-tag">EN</label><input asp-for="Name" class="form-control" /><span asp-validation-for="Name" class="text-danger"></span></div>
+                <div class="form-row"><label asp-for="NameAr" class="lang-tag">AR</label><input asp-for="NameAr" class="form-control" dir="rtl" /></div>
+            </div>
+            <div class="form-row"><label asp-for="Slug"></label><input asp-for="Slug" class="form-control" placeholder="Auto-generated from name if blank" /></div>
+            <div class="field-pair">
+                <div class="form-row"><label asp-for="Fabric" class="lang-tag">Fabric · EN</label><input asp-for="Fabric" class="form-control" placeholder="e.g. Crêpe · Hand embroidery" /></div>
+                <div class="form-row"><label asp-for="FabricAr" class="lang-tag">Fabric · AR</label><input asp-for="FabricAr" class="form-control" dir="rtl" /></div>
+            </div>
+            <div class="field-pair">
+                <div class="form-row"><label asp-for="Description" class="lang-tag">About · EN</label><textarea asp-for="Description" class="form-control" style="min-height:80px"></textarea></div>
+                <div class="form-row"><label asp-for="DescriptionAr" class="lang-tag">About · AR</label><textarea asp-for="DescriptionAr" class="form-control" dir="rtl" style="min-height:80px"></textarea></div>
+            </div>
+        </div></div>
+
+        <div class="card-cms"><div class="card-cms__body">
+            <h3 class="section-title">Image</h3>
+            <div class="img-upload" style="margin-bottom:8px">
+                <img id="coverPreview" class="img-upload__preview" style="object-fit:cover;aspect-ratio:4/5" src="@preview" alt="" />
+                <div>
+                    <label class="btn-ghost" for="CoverImageFile"><i class="bi bi-upload"></i> Choose image</label>
+                    <input class="d-none" type="file" asp-for="CoverImageFile" accept="image/*" data-preview="#coverPreview" />
+                    <div class="hint">Portrait works best. @if (!string.IsNullOrEmpty(Model.CoverImage)) { <span>Current: @Model.CoverImage</span> }</div>
+                    <span asp-validation-for="CoverImageFile" class="text-danger"></span>
+                </div>
+            </div>
+
+            <hr style="border-color:var(--a-line)" />
+            <h3 class="section-title">Options</h3>
+            <div class="form-row"><label asp-for="Type"></label>
+                <select asp-for="Type" asp-items="Html.GetEnumSelectList<BardeesCms.Web.Models.Enums.AbayaType>()" class="form-select"></select>
+            </div>
+            <div class="form-row"><label asp-for="DisplayOrder"></label><input asp-for="DisplayOrder" type="number" class="form-control" /></div>
+            <div class="form-row" style="display:flex;gap:20px;align-items:center;margin-top:14px"><label class="switch"><input asp-for="IsFeatured" /><span class="switch__slider"></span></label> <span>Featured</span></div>
+            <div class="form-row" style="display:flex;gap:20px;align-items:center"><label class="switch"><input asp-for="IsActive" /><span class="switch__slider"></span></label> <span>Active (visible)</span></div>
+            <div style="display:flex;gap:10px;margin-top:22px">
+                <button type="submit" class="btn-gold"><i class="bi bi-check-lg"></i> Save</button>
+                <a class="btn-ghost" asp-action="Index">Cancel</a>
+            </div>
+        </div></div>
+    </div>
+</form>
+
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

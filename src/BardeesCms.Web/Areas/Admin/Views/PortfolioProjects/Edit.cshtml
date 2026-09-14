@@ -1,0 +1,146 @@
+@model PortfolioProjectFormVm
+@{
+    var isNew = Model.Id == 0;
+    ViewData["Title"] = isNew ? "New project" : "Edit project";
+    var header = new PageHeaderModel { Title = (string)ViewData["Title"]!, Subtitle = isNew ? "Add a portfolio project." : Model.Title };
+    var disciplines = (List<Discipline>)(ViewBag.Disciplines ?? new List<Discipline>());
+}
+<partial name="_PageHeader" model="header" />
+
+@if (!isNew)
+{
+    <div style="margin-bottom:14px"><a class="btn-ghost" href="/work/@Model.Slug" target="_blank"><i class="bi bi-box-arrow-up-right"></i> Preview</a></div>
+}
+
+<form asp-action="@(isNew ? "Create" : "Edit")" method="post" enctype="multipart/form-data" class="form-cms">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="CoverImage" />
+    <input type="hidden" asp-for="ThumbnailImage" />
+    <div asp-validation-summary="ModelOnly" class="admin-alert admin-alert--danger" style="display:@(ViewData.ModelState.IsValid ? "none" : "flex")"></div>
+
+    <div class="editor-layout">
+        @* ---- LEFT: main info ------------------------------------------------ *@
+        <div class="card-cms"><div class="card-cms__body">
+            <div class="field-pair">
+                <div class="form-row"><label asp-for="Title" class="lang-tag">EN</label><input asp-for="Title" class="form-control" data-slug-source="#Slug" /><span asp-validation-for="Title" class="text-danger"></span></div>
+                <div class="form-row"><label asp-for="TitleAr" class="lang-tag">AR</label><input asp-for="TitleAr" class="form-control" dir="rtl" /></div>
+            </div>
+            <div class="form-row">
+                <label asp-for="Slug"></label>
+                <input asp-for="Slug" id="Slug" class="form-control" placeholder="auto-generated from title" />
+                <span class="hint">Used in the URL: /work/<strong>your-slug</strong>. Leave blank to auto-generate.</span>
+                <span asp-validation-for="Slug" class="text-danger"></span>
+            </div>
+            <div class="field-pair">
+                <div class="form-row"><label asp-for="ShortDescription" class="lang-tag">Short · EN</label><textarea asp-for="ShortDescription" class="form-control" style="min-height:80px"></textarea></div>
+                <div class="form-row"><label asp-for="ShortDescriptionAr" class="lang-tag">Short · AR</label><textarea asp-for="ShortDescriptionAr" class="form-control" dir="rtl" style="min-height:80px"></textarea></div>
+            </div>
+            <div class="field-pair">
+                <div class="form-row"><label asp-for="Description" class="lang-tag">Full · EN</label><textarea asp-for="Description" class="form-control"></textarea></div>
+                <div class="form-row"><label asp-for="DescriptionAr" class="lang-tag">Full · AR</label><textarea asp-for="DescriptionAr" class="form-control" dir="rtl"></textarea></div>
+            </div>
+            <div class="field-pair">
+                <div class="form-row"><label asp-for="ClientName" class="lang-tag">Client · EN</label><input asp-for="ClientName" class="form-control" /></div>
+                <div class="form-row"><label asp-for="ClientNameAr" class="lang-tag">Client · AR</label><input asp-for="ClientNameAr" class="form-control" dir="rtl" /></div>
+            </div>
+            <div class="field-pair">
+                <div class="form-row"><label asp-for="Tag" class="lang-tag">Tag · EN</label><input asp-for="Tag" class="form-control" placeholder="Makeup · Glam" /></div>
+                <div class="form-row"><label asp-for="TagAr" class="lang-tag">Tag · AR</label><input asp-for="TagAr" class="form-control" dir="rtl" /></div>
+            </div>
+            <div class="field-pair">
+                <div class="form-row"><label asp-for="ProjectUrl"></label><input asp-for="ProjectUrl" class="form-control" placeholder="https://…" /><span asp-validation-for="ProjectUrl" class="text-danger"></span></div>
+                <div class="form-row"><label asp-for="InstagramUrl"></label><input asp-for="InstagramUrl" class="form-control" placeholder="https://instagram.com/…" /><span asp-validation-for="InstagramUrl" class="text-danger"></span></div>
+            </div>
+        </div></div>
+
+        @* ---- RIGHT: publish sidebar + images -------------------------------- *@
+        <div class="card-cms"><div class="card-cms__body">
+            <h3 class="section-title">Publish</h3>
+            <div class="form-row" style="display:flex;gap:20px;align-items:center;margin-top:6px">
+                <label class="switch"><input asp-for="IsPublished" /><span class="switch__slider"></span></label> <span>Published</span>
+            </div>
+            <div class="form-row" style="display:flex;gap:20px;align-items:center">
+                <label class="switch"><input asp-for="IsFeatured" /><span class="switch__slider"></span></label> <span>Featured</span>
+            </div>
+            <div class="form-row">
+                <label asp-for="DisciplineId"></label>
+                <select asp-for="DisciplineId" class="form-select">
+                    <option value="">— none —</option>
+                    @foreach (var d in disciplines)
+                    {
+                        <option value="@d.Id" selected="@(Model.DisciplineId == d.Id)">@d.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="form-row"><label asp-for="Year"></label><input asp-for="Year" class="form-control" placeholder="2025" /></div>
+            <div class="field-pair">
+                <div class="form-row"><label asp-for="Location" class="lang-tag">EN</label><input asp-for="Location" class="form-control" /></div>
+                <div class="form-row"><label asp-for="LocationAr" class="lang-tag">AR</label><input asp-for="LocationAr" class="form-control" dir="rtl" /></div>
+            </div>
+            <div class="form-row"><label asp-for="DisplayOrder"></label><input asp-for="DisplayOrder" type="number" class="form-control" /></div>
+
+            <hr style="border-color:var(--a-line)" />
+            <h3 class="section-title">Cover image</h3>
+            <div class="img-upload" style="margin-bottom:8px">
+                <img id="coverPreview" class="img-upload__preview" src="@(string.IsNullOrEmpty(Model.CoverImage) ? "" : Model.CoverImage)" alt="" />
+                <div>
+                    <label class="btn-ghost" for="CoverImageFile"><i class="bi bi-upload"></i> Choose cover</label>
+                    <input class="d-none" type="file" asp-for="CoverImageFile" accept="image/*" data-preview="#coverPreview" />
+                    <div class="hint">Large hero-quality image. Max 8 MB.</div>
+                    <span asp-validation-for="CoverImageFile" class="text-danger"></span>
+                </div>
+            </div>
+
+            <h3 class="section-title">Thumbnail</h3>
+            <div class="img-upload" style="margin-bottom:8px">
+                <img id="thumbPreview" class="img-upload__preview" src="@(string.IsNullOrEmpty(Model.ThumbnailImage) ? "" : Model.ThumbnailImage)" alt="" />
+                <div>
+                    <label class="btn-ghost" for="ThumbnailImageFile"><i class="bi bi-upload"></i> Choose thumbnail</label>
+                    <input class="d-none" type="file" asp-for="ThumbnailImageFile" accept="image/*" data-preview="#thumbPreview" />
+                    <div class="hint">Used in grids/cards. Optional.</div>
+                    <span asp-validation-for="ThumbnailImageFile" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div style="display:flex;gap:10px;margin-top:22px">
+                <button type="submit" class="btn-gold"><i class="bi bi-check-lg"></i> Save</button>
+                <a class="btn-ghost" asp-action="Index">Cancel</a>
+            </div>
+        </div></div>
+    </div>
+
+    @* ---- Gallery (full width) ---------------------------------------------- *@
+    <div class="card-cms" style="margin-top:20px"><div class="card-cms__body">
+        <h3 class="section-title">Gallery</h3>
+        @if (isNew)
+        {
+            <p class="hint">Save the project first, then add gallery images here.</p>
+        }
+        <div class="form-row">
+            <label asp-for="GalleryFiles"></label>
+            <input type="file" asp-for="GalleryFiles" accept="image/*" multiple class="form-control" />
+            <span class="hint">Upload one or more images; they are appended to the gallery on save.</span>
+        </div>
+    </div></div>
+</form>
+
+@if (!isNew && Model.Media.Any())
+{
+    @Html.AntiForgeryToken()
+    <div class="card-cms" style="margin-top:20px"><div class="card-cms__body">
+        <h3 class="section-title">Current media <span class="hint">— drag to reorder</span></h3>
+        <div class="gallery-grid" data-sortable="@Url.Action("ReorderMedia")" style="display:flex;flex-wrap:wrap;gap:14px;margin-top:10px">
+            @foreach (var m in Model.Media)
+            {
+                <div class="gallery-thumb" data-id="@m.Id" style="position:relative;width:130px">
+                    <i class="bi bi-grip-vertical drag-handle" style="position:absolute;top:6px;left:6px;cursor:grab;background:rgba(0,0,0,.55);padding:2px 4px;border-radius:4px"></i>
+                    <img src="@m.FilePath" alt="@m.AltText" style="width:130px;height:130px;object-fit:cover;border-radius:8px;display:block" />
+                    <button type="button" class="btn-icon" data-delete-url="@Url.Action("DeleteMedia", new { id = m.Id })" data-delete-name="this image" title="Remove" style="position:absolute;top:6px;right:6px;background:rgba(0,0,0,.55)"><i class="bi bi-trash"></i></button>
+                </div>
+            }
+        </div>
+    </div></div>
+}
+
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

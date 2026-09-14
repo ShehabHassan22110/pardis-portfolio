@@ -1,0 +1,55 @@
+@model MarketPositionFormVm
+@{
+    var isNew = Model.Id == 0;
+    ViewData["Title"] = isNew ? "New position" : "Edit position";
+    var header = new PageHeaderModel { Title = (string)ViewData["Title"]!, Subtitle = isNew ? "Add a market positioning point." : Model.Title };
+}
+<partial name="_PageHeader" model="header" />
+
+<form asp-action="@(isNew ? "Create" : "Edit")" method="post" enctype="multipart/form-data" class="form-cms">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="Image" />
+    <div asp-validation-summary="ModelOnly" class="admin-alert admin-alert--danger" style="display:@(ViewData.ModelState.IsValid ? "none" : "flex")"></div>
+
+    <div class="editor-layout">
+        <div class="card-cms"><div class="card-cms__body">
+            <div class="field-pair">
+                <div class="form-row"><label asp-for="Title" class="lang-tag">EN</label><input asp-for="Title" class="form-control" /><span asp-validation-for="Title" class="text-danger"></span></div>
+                <div class="form-row"><label asp-for="TitleAr" class="lang-tag">AR</label><input asp-for="TitleAr" class="form-control" dir="rtl" /></div>
+            </div>
+            <div class="field-pair">
+                <div class="form-row"><label asp-for="Description" class="lang-tag">About · EN</label><textarea asp-for="Description" class="form-control" style="min-height:80px"></textarea></div>
+                <div class="form-row"><label asp-for="DescriptionAr" class="lang-tag">About · AR</label><textarea asp-for="DescriptionAr" class="form-control" dir="rtl" style="min-height:80px"></textarea></div>
+            </div>
+            <div class="field-pair">
+                <div class="form-row"><label asp-for="Location" class="lang-tag">Location · EN</label><input asp-for="Location" class="form-control" placeholder="Riyadh" /></div>
+                <div class="form-row"><label asp-for="LocationAr" class="lang-tag">Location · AR</label><input asp-for="LocationAr" class="form-control" dir="rtl" /></div>
+            </div>
+        </div></div>
+
+        <div class="card-cms"><div class="card-cms__body">
+            <h3 class="section-title">Image</h3>
+            <div class="img-upload" style="margin-bottom:8px">
+                <img id="imagePreview" class="img-upload__preview" style="object-fit:cover" src="@(string.IsNullOrEmpty(Model.Image) ? "" : Model.Image)" alt="" />
+                <div>
+                    <label class="btn-ghost" for="ImageFile"><i class="bi bi-upload"></i> Choose image</label>
+                    <input class="d-none" type="file" asp-for="ImageFile" accept="image/*" data-preview="#imagePreview" />
+                    <div class="hint">Max 8 MB.</div>
+                    <span asp-validation-for="ImageFile" class="text-danger"></span>
+                </div>
+            </div>
+            <hr style="border-color:var(--a-line)" />
+            <h3 class="section-title">Options</h3>
+            <div class="form-row"><label asp-for="Icon"></label><input asp-for="Icon" class="form-control" placeholder="e.g. bi-globe" /></div>
+            <div class="form-row"><label asp-for="DisplayOrder"></label><input asp-for="DisplayOrder" type="number" class="form-control" /></div>
+            <div class="form-row" style="display:flex;gap:20px;align-items:center;margin-top:14px"><label class="switch"><input asp-for="IsActive" /><span class="switch__slider"></span></label> <span>Active</span></div>
+            <div style="display:flex;gap:10px;margin-top:22px">
+                <button type="submit" class="btn-gold"><i class="bi bi-check-lg"></i> Save</button>
+                <a class="btn-ghost" asp-action="Index">Cancel</a>
+            </div>
+        </div></div>
+    </div>
+</form>
+
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

@@ -1,0 +1,17 @@
+@model PageSection
+@*
+    Editorial section heading (eyebrow + title + note). Title/Note may contain small
+    inline HTML (<em>) authored in the CMS, so they are rendered raw. Content is
+    admin-authored (trusted) — do not feed untrusted input here.
+*@
+@if (Model is not null)
+{
+    var eyebrow = Site.Pick(Model.Eyebrow, Model.EyebrowAr);
+    var title = Site.Pick(Model.Title, Model.TitleAr);
+    var note = Site.Pick(Model.Note, Model.NoteAr);
+    <div class="title-c reveal">
+        @if (!string.IsNullOrEmpty(eyebrow)) { <span class="tc-eyebrow">@eyebrow</span> }
+        @if (!string.IsNullOrEmpty(title)) { <h2 class="d-1 tc-h">@Html.Raw(title)</h2> }
+        @if (!string.IsNullOrEmpty(note)) { <p class="tc-note">@Html.Raw(note)</p> }
+    </div>
+}

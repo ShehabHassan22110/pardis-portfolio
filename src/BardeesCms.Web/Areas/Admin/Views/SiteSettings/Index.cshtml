@@ -1,0 +1,111 @@
+@model SiteSettingsFormVm
+@{
+    ViewData["Title"] = "Site settings";
+    var header = new PageHeaderModel { Title = "Site settings", Subtitle = "Global branding, contact, social and SEO defaults." };
+}
+<partial name="_PageHeader" model="header" />
+
+<form asp-action="Index" method="post" enctype="multipart/form-data" class="form-cms">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="Logo" />
+    <div asp-validation-summary="ModelOnly" class="admin-alert admin-alert--danger" style="display:@(ViewData.ModelState.IsValid ? "none" : "flex")"></div>
+
+    <div class="card-cms"><div class="card-cms__body">
+        <h3 class="section-title">Branding</h3>
+        <div class="field-pair">
+            <div class="form-row"><label asp-for="SiteName" class="lang-tag">Site name · EN</label><input asp-for="SiteName" class="form-control" /><span asp-validation-for="SiteName" class="text-danger"></span></div>
+            <div class="form-row"><label asp-for="SiteNameAr" class="lang-tag">Site name · AR</label><input asp-for="SiteNameAr" class="form-control" dir="rtl" /></div>
+        </div>
+        <div class="field-pair">
+            <div class="form-row"><label asp-for="BrandName" class="lang-tag">Brand · EN</label><input asp-for="BrandName" class="form-control" /><span asp-validation-for="BrandName" class="text-danger"></span></div>
+            <div class="form-row"><label asp-for="BrandNameAr" class="lang-tag">Brand · AR</label><input asp-for="BrandNameAr" class="form-control" dir="rtl" /></div>
+        </div>
+        <div class="field-pair">
+            <div class="form-row"><label asp-for="BrandNameShort" class="lang-tag">Brand short · EN</label><input asp-for="BrandNameShort" class="form-control" /></div>
+            <div class="form-row"><label asp-for="BrandNameShortAr" class="lang-tag">Brand short · AR</label><input asp-for="BrandNameShortAr" class="form-control" dir="rtl" /></div>
+        </div>
+        <div class="field-pair">
+            <div class="form-row"><label asp-for="Role" class="lang-tag">Role · EN</label><input asp-for="Role" class="form-control" /></div>
+            <div class="form-row"><label asp-for="RoleAr" class="lang-tag">Role · AR</label><input asp-for="RoleAr" class="form-control" dir="rtl" /></div>
+        </div>
+        <div class="field-pair">
+            <div class="form-row"><label asp-for="Tagline" class="lang-tag">Tagline · EN</label><input asp-for="Tagline" class="form-control" /></div>
+            <div class="form-row"><label asp-for="TaglineAr" class="lang-tag">Tagline · AR</label><input asp-for="TaglineAr" class="form-control" dir="rtl" /></div>
+        </div>
+        <div class="field-pair">
+            <div class="form-row"><label asp-for="Description" class="lang-tag">Description · EN</label><textarea asp-for="Description" class="form-control" style="min-height:80px"></textarea></div>
+            <div class="form-row"><label asp-for="DescriptionAr" class="lang-tag">Description · AR</label><textarea asp-for="DescriptionAr" class="form-control" dir="rtl" style="min-height:80px"></textarea></div>
+        </div>
+        <hr style="border-color:var(--a-line)" />
+        <div class="img-upload" style="margin-bottom:8px">
+            <img id="logoPreview" class="img-upload__preview" style="object-fit:contain;padding:8px" src="@(string.IsNullOrEmpty(Model.Logo) ? "" : Model.Logo)" alt="" />
+            <div>
+                <label class="btn-ghost" for="LogoFile"><i class="bi bi-upload"></i> Choose logo</label>
+                <input class="d-none" type="file" asp-for="LogoFile" accept="image/*" data-preview="#logoPreview" />
+                <div class="hint">PNG/SVG works best. Max 8 MB.</div>
+                <span asp-validation-for="LogoFile" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-row"><label asp-for="Favicon"></label><input asp-for="Favicon" class="form-control" placeholder="/favicon.ico" /></div>
+    </div></div>
+
+    <div class="card-cms"><div class="card-cms__body">
+        <h3 class="section-title">Contact</h3>
+        <div class="form-row"><label asp-for="Email"></label><input asp-for="Email" class="form-control" /><span asp-validation-for="Email" class="text-danger"></span></div>
+        <div class="form-row"><label asp-for="Phone"></label><input asp-for="Phone" class="form-control" /></div>
+        <div class="form-row"><label asp-for="WhatsApp"></label><input asp-for="WhatsApp" class="form-control" /></div>
+        <div class="field-pair">
+            <div class="form-row"><label asp-for="Location" class="lang-tag">Location · EN</label><input asp-for="Location" class="form-control" /></div>
+            <div class="form-row"><label asp-for="LocationAr" class="lang-tag">Location · AR</label><input asp-for="LocationAr" class="form-control" dir="rtl" /></div>
+        </div>
+        <div class="field-pair">
+            <div class="form-row"><label asp-for="CopyrightText" class="lang-tag">Copyright · EN</label><input asp-for="CopyrightText" class="form-control" /></div>
+            <div class="form-row"><label asp-for="CopyrightTextAr" class="lang-tag">Copyright · AR</label><input asp-for="CopyrightTextAr" class="form-control" dir="rtl" /></div>
+        </div>
+    </div></div>
+
+    <div class="card-cms"><div class="card-cms__body">
+        <h3 class="section-title">Social</h3>
+        <div class="form-row"><label asp-for="InstagramUrl"></label><input asp-for="InstagramUrl" class="form-control" placeholder="https://…" /></div>
+        <div class="form-row"><label asp-for="TikTokUrl"></label><input asp-for="TikTokUrl" class="form-control" placeholder="https://…" /></div>
+        <div class="form-row"><label asp-for="FacebookUrl"></label><input asp-for="FacebookUrl" class="form-control" placeholder="https://…" /></div>
+        <div class="form-row"><label asp-for="SnapchatUrl"></label><input asp-for="SnapchatUrl" class="form-control" placeholder="https://…" /></div>
+        <div class="form-row"><label asp-for="LinkedInUrl"></label><input asp-for="LinkedInUrl" class="form-control" placeholder="https://…" /></div>
+        <div class="form-row"><label asp-for="YouTubeUrl"></label><input asp-for="YouTubeUrl" class="form-control" placeholder="https://…" /></div>
+    </div></div>
+
+    <div class="card-cms"><div class="card-cms__body">
+        <h3 class="section-title">Default SEO</h3>
+        <div class="form-row"><label asp-for="DefaultMetaTitle"></label><input asp-for="DefaultMetaTitle" class="form-control" /></div>
+        <div class="form-row"><label asp-for="DefaultMetaDescription"></label><textarea asp-for="DefaultMetaDescription" class="form-control" style="min-height:80px"></textarea></div>
+        <div class="form-row"><label asp-for="DefaultOgImage"></label><input asp-for="DefaultOgImage" class="form-control" placeholder="/images/og.jpg" /></div>
+    </div></div>
+
+    <div class="card-cms"><div class="card-cms__body">
+        <h3 class="section-title">Booking</h3>
+        <div class="form-row"><label asp-for="BookingEmail"></label><input asp-for="BookingEmail" class="form-control" /><span asp-validation-for="BookingEmail" class="text-danger"></span></div>
+        <div class="form-row"><label asp-for="BookingWhatsApp"></label><input asp-for="BookingWhatsApp" class="form-control" /></div>
+    </div></div>
+
+    <div class="card-cms"><div class="card-cms__body">
+        <h3 class="section-title">Analytics</h3>
+        <div class="form-row"><label asp-for="GoogleAnalyticsId"></label><input asp-for="GoogleAnalyticsId" class="form-control" placeholder="G-XXXXXXXXXX" /></div>
+        <div class="form-row"><label asp-for="GoogleTagManagerId"></label><input asp-for="GoogleTagManagerId" class="form-control" placeholder="GTM-XXXXXXX" /></div>
+    </div></div>
+
+    @if (User.IsInRole(Roles.SuperAdmin))
+    {
+        <div class="card-cms"><div class="card-cms__body">
+            <h3 class="section-title">Advanced</h3>
+            <div class="form-row"><label asp-for="CustomCss"></label><textarea asp-for="CustomCss" class="form-control" style="min-height:120px;font-family:monospace"></textarea></div>
+            <div class="form-row"><label asp-for="CustomJs"></label><textarea asp-for="CustomJs" class="form-control" style="min-height:120px;font-family:monospace"></textarea></div>
+        </div></div>
+    }
+
+    <div style="display:flex;gap:10px;margin-top:22px">
+        <button type="submit" class="btn-gold"><i class="bi bi-check-lg"></i> Save settings</button>
+    </div>
+</form>
+
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

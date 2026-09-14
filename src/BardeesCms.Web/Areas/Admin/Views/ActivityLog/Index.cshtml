@@ -1,0 +1,51 @@
+@model List<ActivityLog>
+@{
+    ViewData["Title"] = "Activity Log";
+    var result = (PagedResult<ActivityLog>)ViewBag.Result;
+    var isSuperAdmin = User.IsInRole(Roles.SuperAdmin);
+    var header = new PageHeaderModel { Title = "Activity Log", Subtitle = "Audit trail of admin actions." };
+    var pager = new PagerModel { Page = result.Page, TotalPages = result.TotalPages, TotalItems = result.TotalItems, FirstItem = result.FirstItem, LastItem = result.LastItem, RouteValues = new Dictionary<string, string?> { ["search"] = result.Search } };
+}
+@Html.AntiForgeryToken()
+<partial name="_PageHeader" model="header" />
+
+<form class="toolbar" method="get">
+    <div class="search"><i class="bi bi-search"></i><input class="form-control" type="search" name="search" value="@result.Search" placeholder="Search action, entity, user…" /></div>
+    <button class="btn-ghost" type="submit"><i class="bi bi-funnel"></i> Search</button>
+    @if (isSuperAdmin && Model.Any())
+    {
+        <button type="button" class="btn-ghost" style="margin-left:auto" data-delete-url="@Url.Action("Clear")" data-delete-name="the entire activity log"><i class="bi bi-trash"></i> Clear log</button>
+    }
+</form>
+
+<div class="card-cms"><div class="card-cms__body" style="padding:0">
+    @if (Model.Any())
+    {
+        <table class="table-cms">
+            <thead><tr>
+                <th style="width:110px">Action</th>
+                <th>Entity</th>
+                <th>Description</th>
+                <th class="d-none d-md-table-cell">User</th>
+                <th style="width:130px" class="d-none d-lg-table-cell">IP</th>
+                <th style="width:160px" class="d-none d-md-table-cell">When</th>
+            </tr></thead>
+            <tbody>
+            @foreach (var l in Model)
+            {
+                <tr>
+                    <td data-label="Action"><span class="badge-cms">@l.Action</span></td>
+                    <td data-label="Entity">@l.EntityName@(string.IsNullOrEmpty(l.EntityId) ? "" : $" #{l.EntityId}")</td>
+                    <td data-label="Description" style="max-width:44ch;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">@l.Description</td>
+                    <td data-label="User" class="d-none d-md-table-cell">@l.UserName</td>
+                    <td data-label="IP" class="d-none d-lg-table-cell"><span class="hint">@l.IpAddress</span></td>
+                    <td data-label="When" class="d-none d-md-table-cell">@l.CreatedAt.ToString("dd MMM yyyy, HH:mm")</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+    else { <div class="empty-state"><i class="bi bi-clock-history"></i><h3>No activity yet</h3><p>Admin actions will be recorded here.</p></div> }
+</div></div>
+
+<partial name="_Pager" model="pager" />

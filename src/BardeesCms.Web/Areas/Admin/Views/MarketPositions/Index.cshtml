@@ -1,0 +1,63 @@
+@model List<MarketPosition>
+@{
+    ViewData["Title"] = "Market Positioning";
+    var result = (PagedResult<MarketPosition>)ViewBag.Result;
+    var canReorder = string.IsNullOrEmpty(result.Sort) && string.IsNullOrEmpty(result.Search);
+    var header = new PageHeaderModel { Title = "Market Positioning", Subtitle = "\"Why Bardees\" positioning points shown in the market section.", ActionText = "New position", ActionUrl = Url.Action("Create") };
+    var pager = new PagerModel { Page = result.Page, TotalPages = result.TotalPages, TotalItems = result.TotalItems, FirstItem = result.FirstItem, LastItem = result.LastItem, RouteValues = new Dictionary<string, string?> { ["search"] = result.Search, ["sort"] = result.Sort, ["filter"] = result.Filter } };
+}
+@Html.AntiForgeryToken()
+<partial name="_PageHeader" model="header" />
+
+<form class="toolbar" method="get">
+    <div class="search"><i class="bi bi-search"></i><input class="form-control" type="search" name="search" value="@result.Search" placeholder="Search positions…" /></div>
+    <select class="form-select" style="max-width:180px" name="filter" onchange="this.form.submit()">
+        <option value="">All</option>
+        <option value="active" selected="@(result.Filter == "active")">Active</option>
+        <option value="inactive" selected="@(result.Filter == "inactive")">Inactive</option>
+    </select>
+    <select class="form-select" style="max-width:180px" name="sort" onchange="this.form.submit()">
+        <option value="">Manual order</option>
+        <option value="title" selected="@(result.Sort == "title")">Title A–Z</option>
+        <option value="recent" selected="@(result.Sort == "recent")">Newest</option>
+    </select>
+    <button class="btn-ghost" type="submit"><i class="bi bi-funnel"></i> Filter</button>
+</form>
+
+<div class="card-cms"><div class="card-cms__body" style="padding:0">
+    @if (Model.Any())
+    {
+        <table class="table-cms" data-sortable="@(canReorder ? Url.Action("Reorder") : null)">
+            <thead><tr>
+                @if (canReorder) { <th style="width:34px"></th> }
+                <th style="width:64px">Image</th><th>Position</th>
+                <th class="d-none d-md-table-cell">Location</th>
+                <th style="width:80px">Active</th>
+                <th style="width:120px;text-align:right">Actions</th>
+            </tr></thead>
+            <tbody>
+            @foreach (var m in Model)
+            {
+                <tr data-id="@m.Id">
+                    @if (canReorder) { <td data-label=""><i class="bi bi-grip-vertical drag-handle"></i></td> }
+                    <td data-label="Image">
+                        @if (!string.IsNullOrEmpty(m.Image)) { <img class="thumb" src="@m.Image" alt="@m.Title" /> }
+                        else if (!string.IsNullOrEmpty(m.Icon)) { <span class="thumb" style="display:grid;place-items:center"><i class="bi @m.Icon" style="color:var(--a-gold-2)"></i></span> }
+                        else { <span class="thumb" style="display:grid;place-items:center"><i class="bi bi-geo-alt" style="color:var(--a-muted)"></i></span> }
+                    </td>
+                    <td data-label="Position"><a class="cell-title" asp-action="Edit" asp-route-id="@m.Id">@m.Title</a><div class="cell-ar">@m.TitleAr</div></td>
+                    <td data-label="Location" class="d-none d-md-table-cell">@m.Location</td>
+                    <td data-label="Active"><label class="switch"><input type="checkbox" data-toggle-url="@Url.Action("Toggle", new { id = m.Id })" @(m.IsActive ? "checked" : "") /><span class="switch__slider"></span></label></td>
+                    <td data-label="Actions"><div class="row-actions">
+                        <a class="btn-icon" asp-action="Edit" asp-route-id="@m.Id" title="Edit"><i class="bi bi-pencil"></i></a>
+                        <button type="button" class="btn-icon" data-delete-url="@Url.Action("Delete", new { id = m.Id })" data-delete-name="@m.Title" title="Delete"><i class="bi bi-trash"></i></button>
+                    </div></td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+    else { <div class="empty-state"><i class="bi bi-geo-alt"></i><h3>No positions yet</h3><a class="btn-gold" style="margin-top:12px" asp-action="Create"><i class="bi bi-plus-lg"></i> New position</a></div> }
+</div></div>
+
+<partial name="_Pager" model="pager" />

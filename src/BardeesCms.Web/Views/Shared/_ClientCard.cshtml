@@ -1,0 +1,22 @@
+@model Brand
+@{
+    var name = Site.Pick(Model.Name, Model.NameAr);
+    var role = Site.Pick(Model.Role, Model.RoleAr);
+    var coverage = Site.T("GCC", "الخليج");
+    // Logos are base names → /assets/img/<name>.png, or an uploaded/absolute path.
+    var logo = string.IsNullOrEmpty(Model.Logo) ? null
+        : (ImageResolver.IsDirectPath(Model.Logo) ? ImageResolver.Src(Model.Logo) : $"/assets/img/{Model.Logo}.png");
+}
+<figure class="client-card cs-slide m-0">
+    <div class="client-plate">
+        @if (!string.IsNullOrEmpty(logo))
+        {
+            <span class="client-logo" role="img" aria-label="@name" style="-webkit-mask-image:url(@logo);mask-image:url(@logo)"></span>
+        }
+        else { <span class="client-name" style="font-family:var(--font-display)">@name</span> }
+    </div>
+    <figcaption class="client-meta">
+        <span class="client-name">@name</span>
+        <span class="client-role">@role · @coverage</span>
+    </figcaption>
+</figure>

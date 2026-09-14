@@ -1,0 +1,66 @@
+@model List<NavigationItem>
+@{
+    ViewData["Title"] = "Navigation";
+    var result = (PagedResult<NavigationItem>)ViewBag.Result;
+    var canReorder = string.IsNullOrEmpty(result.Sort) && string.IsNullOrEmpty(result.Search);
+    var header = new PageHeaderModel { Title = "Navigation", Subtitle = "Header and footer links shown across the public site.", ActionText = "New link", ActionUrl = Url.Action("Create") };
+    var pager = new PagerModel { Page = result.Page, TotalPages = result.TotalPages, TotalItems = result.TotalItems, FirstItem = result.FirstItem, LastItem = result.LastItem, RouteValues = new Dictionary<string, string?> { ["search"] = result.Search, ["sort"] = result.Sort, ["filter"] = result.Filter } };
+}
+@Html.AntiForgeryToken()
+<partial name="_PageHeader" model="header" />
+
+<form class="toolbar" method="get">
+    <div class="search"><i class="bi bi-search"></i><input class="form-control" type="search" name="search" value="@result.Search" placeholder="Search links…" /></div>
+    <select class="form-select" style="max-width:180px" name="filter" onchange="this.form.submit()">
+        <option value="">All locations</option>
+        <option value="header" selected="@(result.Filter == "header")">Header</option>
+        <option value="footer" selected="@(result.Filter == "footer")">Footer</option>
+    </select>
+    <select class="form-select" style="max-width:180px" name="sort" onchange="this.form.submit()">
+        <option value="">Manual order</option>
+        <option value="title" selected="@(result.Sort == "title")">Title A–Z</option>
+    </select>
+    <button class="btn-ghost" type="submit"><i class="bi bi-funnel"></i> Filter</button>
+</form>
+
+<div class="card-cms"><div class="card-cms__body" style="padding:0">
+    @if (Model.Any())
+    {
+        <table class="table-cms" data-sortable="@(canReorder ? Url.Action("Reorder") : null)">
+            <thead><tr>
+                @if (canReorder) { <th style="width:34px"></th> }
+                <th>Link</th>
+                <th class="d-none d-md-table-cell">URL</th>
+                <th style="width:110px">Location</th>
+                <th class="d-none d-md-table-cell" style="width:140px">Group</th>
+                <th style="width:80px">Active</th>
+                <th style="width:120px;text-align:right">Actions</th>
+            </tr></thead>
+            <tbody>
+            @foreach (var n in Model)
+            {
+                <tr data-id="@n.Id">
+                    @if (canReorder) { <td data-label=""><i class="bi bi-grip-vertical drag-handle"></i></td> }
+                    <td data-label="Link">
+                        <a class="cell-title" asp-action="Edit" asp-route-id="@n.Id">@n.Title</a>
+                        <div class="cell-ar">@n.TitleAr</div>
+                    </td>
+                    <td data-label="URL" class="d-none d-md-table-cell"><span style="font-size:.8rem;color:var(--a-muted)">@n.Url</span></td>
+                    <td data-label="Location">
+                        @if (n.Location == NavLocation.Footer) { <span class="badge-cms badge-soon">Footer</span> } else { <span class="badge-cms">Header</span> }
+                    </td>
+                    <td data-label="Group" class="d-none d-md-table-cell">@(string.IsNullOrEmpty(n.Group) ? "—" : n.Group)</td>
+                    <td data-label="Active"><label class="switch"><input type="checkbox" data-toggle-url="@Url.Action("Toggle", new { id = n.Id })" @(n.IsActive ? "checked" : "") /><span class="switch__slider"></span></label></td>
+                    <td data-label="Actions"><div class="row-actions">
+                        <a class="btn-icon" asp-action="Edit" asp-route-id="@n.Id" title="Edit"><i class="bi bi-pencil"></i></a>
+                        <button type="button" class="btn-icon" data-delete-url="@Url.Action("Delete", new { id = n.Id })" data-delete-name="@n.Title" title="Delete"><i class="bi bi-trash"></i></button>
+                    </div></td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+    else { <div class="empty-state"><i class="bi bi-signpost-2"></i><h3>No navigation links yet</h3><a class="btn-gold" style="margin-top:12px" asp-action="Create"><i class="bi bi-plus-lg"></i> New link</a></div> }
+</div></div>
+
+<partial name="_Pager" model="pager" />

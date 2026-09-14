@@ -1,0 +1,95 @@
+{
+  "photos": [
+    {
+      "name": "couture-01",
+      "hero": true,
+      "cutout": false
+    },
+    {
+      "name": "couture-02",
+      "hero": false,
+      "cutout": false
+    },
+    {
+      "name": "couture-03",
+      "hero": true,
+      "cutout": false
+    },
+    {
+      "name": "couture-04",
+      "hero": false,
+      "cutout": false
+    },
+    {
+      "name": "hand-calvinklein",
+      "hero": false,
+      "cutout": false
+    },
+    {
+      "name": "hand-coach",
+      "hero": false,
+      "cutout": false
+    },
+    {
+      "name": "hand-cavalli",
+      "hero": false,
+      "cutout": false
+    },
+    {
+      "name": "hand-ferragamo",
+      "hero": false,
+      "cutout": false
+    },
+    {
+      "name": "fashion-floral",
+      "hero": true,
+      "cutout": false
+    },
+    {
+      "name": "fashion-blazer-seated",
+      "hero": false,
+      "cutout": false
+    },
+    {
+      "name": "fashion-blazer-stand",
+      "hero": true,
+      "cutout": false
+    },
+    {
+      "name": "fashion-pink",
+      "hero": false,
+      "cutout": false
+    },
+    {
+      "name": "fashion-olive",
+      "hero": true,
+      "cutout": true
+    },
+    {
+      "name": "ambassador-instore",
+      "hero": false,
+      "cutout": false
+    },
+    {
+      "name": "beauty-01",
+      "hero": false,
+      "cutout": false
+    },
+    {
+      "name": "beauty-02",
+      "hero": false,
+      "cutout": false
+    },
+    {
+      "name": "beauty-03",
+      "hero": false,
+      "cutout": false
+    }
+  ],
+  "logos": [
+    "brand-mecroline",
+    "brand-alhomaidhi",
+    "brand-alhomaidhi-group"
+  ],
+  "cutouts": []
+}

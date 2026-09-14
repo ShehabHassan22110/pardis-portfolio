@@ -1,0 +1,48 @@
+@model MediaEditVm
+@{
+    ViewData["Title"] = "Edit media";
+    var header = new PageHeaderModel { Title = "Edit media", Subtitle = Model.OriginalFileName };
+    var preview = string.IsNullOrEmpty(Model.ThumbnailPath) ? Model.FilePath : Model.ThumbnailPath;
+}
+<partial name="_PageHeader" model="header" />
+
+<form asp-action="Edit" method="post" enctype="multipart/form-data" class="form-cms">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="FilePath" />
+    <input type="hidden" asp-for="ThumbnailPath" />
+    <input type="hidden" asp-for="OriginalFileName" />
+
+    <div class="editor-layout">
+        <div class="card-cms"><div class="card-cms__body">
+            <div class="field-pair">
+                <div class="form-row"><label asp-for="AltText" class="lang-tag">Alt · EN</label><input asp-for="AltText" class="form-control" /></div>
+                <div class="form-row"><label asp-for="AltTextAr" class="lang-tag">Alt · AR</label><input asp-for="AltTextAr" class="form-control" dir="rtl" /></div>
+            </div>
+            <div class="field-pair">
+                <div class="form-row"><label asp-for="Caption" class="lang-tag">Caption · EN</label><textarea asp-for="Caption" class="form-control" style="min-height:80px"></textarea></div>
+                <div class="form-row"><label asp-for="CaptionAr" class="lang-tag">Caption · AR</label><textarea asp-for="CaptionAr" class="form-control" dir="rtl" style="min-height:80px"></textarea></div>
+            </div>
+            <div class="form-row">
+                <label asp-for="ReplacementFile"></label>
+                <input asp-for="ReplacementFile" type="file" class="form-control" accept="image/*,video/*" />
+                <span class="hint">Optional. Uploads a new file in place of the current one (the URL is reused where possible).</span>
+                <span asp-validation-for="ReplacementFile" class="text-danger"></span>
+            </div>
+        </div></div>
+
+        <div class="card-cms"><div class="card-cms__body">
+            <h3 class="section-title">Preview</h3>
+            <div style="aspect-ratio:4/3;border-radius:10px;overflow:hidden;background:var(--a-surface-2);display:grid;place-items:center">
+                <img src="@preview" alt="@Model.AltText" style="width:100%;height:100%;object-fit:contain" />
+            </div>
+            <div class="hint" style="margin-top:8px;word-break:break-all">@Model.FilePath</div>
+            <div style="display:flex;gap:10px;margin-top:18px">
+                <button type="submit" class="btn-gold"><i class="bi bi-check-lg"></i> Save</button>
+                <a class="btn-ghost" asp-action="Index">Cancel</a>
+            </div>
+        </div></div>
+    </div>
+</form>
+
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

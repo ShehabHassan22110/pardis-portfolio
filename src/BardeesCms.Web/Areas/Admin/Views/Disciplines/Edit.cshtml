@@ -1,0 +1,79 @@
+@model DisciplineFormVm
+@{
+    var isNew = Model.Id == 0;
+    ViewData["Title"] = isNew ? "New discipline" : "Edit discipline";
+    var header = new PageHeaderModel { Title = (string)ViewData["Title"]!, Subtitle = isNew ? "Add a content category." : Model.Name };
+}
+<partial name="_PageHeader" model="header" />
+
+<form asp-action="@(isNew ? "Create" : "Edit")" method="post" enctype="multipart/form-data" class="form-cms">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="CoverImage" />
+    <div asp-validation-summary="ModelOnly" class="admin-alert admin-alert--danger" style="display:@(ViewData.ModelState.IsValid ? "none" : "flex")"></div>
+
+    <div class="editor-layout">
+        <div class="card-cms"><div class="card-cms__body">
+            <div class="field-pair">
+                <div class="form-row"><label asp-for="Name" class="lang-tag">EN</label><input asp-for="Name" class="form-control" data-slug-source="#Slug" /><span asp-validation-for="Name" class="text-danger"></span></div>
+                <div class="form-row"><label asp-for="NameAr" class="lang-tag">AR</label><input asp-for="NameAr" class="form-control" dir="rtl" /></div>
+            </div>
+            <div class="form-row">
+                <label asp-for="Slug"></label>
+                <input asp-for="Slug" id="Slug" class="form-control" placeholder="auto-generated from name" />
+                <span class="hint">Used in the URL: /disciplines/<strong>your-slug</strong>. Leave blank to auto-generate.</span>
+                <span asp-validation-for="Slug" class="text-danger"></span>
+            </div>
+            <div class="field-pair">
+                <div class="form-row"><label asp-for="Tagline" class="lang-tag">Tagline · EN</label><input asp-for="Tagline" class="form-control" /></div>
+                <div class="form-row"><label asp-for="TaglineAr" class="lang-tag">Tagline · AR</label><input asp-for="TaglineAr" class="form-control" dir="rtl" /></div>
+            </div>
+            <div class="field-pair">
+                <div class="form-row"><label asp-for="Description" class="lang-tag">About · EN</label><textarea asp-for="Description" class="form-control"></textarea></div>
+                <div class="form-row"><label asp-for="DescriptionAr" class="lang-tag">About · AR</label><textarea asp-for="DescriptionAr" class="form-control" dir="rtl"></textarea></div>
+            </div>
+
+            <hr style="border-color:var(--a-line)" />
+            <h3 class="section-title">Sub-items</h3>
+            <p class="hint" style="margin-bottom:10px">Sub-specialisations listed under this discipline. Leave a row blank to skip it.</p>
+            @for (var i = 0; i < Model.SubItems.Count; i++)
+            {
+                <div class="field-pair">
+                    <div class="form-row"><input asp-for="SubItems[i].Name" class="form-control" placeholder="Sub-item name (EN)" /></div>
+                    <div class="form-row"><input asp-for="SubItems[i].NameAr" class="form-control" dir="rtl" placeholder="الاسم (AR)" /></div>
+                </div>
+            }
+        </div></div>
+
+        <div class="card-cms"><div class="card-cms__body">
+            <h3 class="section-title">Cover image</h3>
+            <div class="img-upload" style="margin-bottom:8px">
+                <img id="coverPreview" class="img-upload__preview" src="@(string.IsNullOrEmpty(Model.CoverImage) ? "" : Model.CoverImage)" alt="" />
+                <div>
+                    <label class="btn-ghost" for="CoverImageFile"><i class="bi bi-upload"></i> Choose image</label>
+                    <input class="d-none" type="file" asp-for="CoverImageFile" accept="image/*" data-preview="#coverPreview" />
+                    <div class="hint">Landscape works best. Max 8 MB.</div>
+                    <span asp-validation-for="CoverImageFile" class="text-danger"></span>
+                </div>
+            </div>
+            <hr style="border-color:var(--a-line)" />
+            <h3 class="section-title">Options</h3>
+            <div class="form-row">
+                <label asp-for="Status"></label>
+                <select asp-for="Status" asp-items="Html.GetEnumSelectList<DisciplineStatus>()" class="form-select"></select>
+            </div>
+            <div class="form-row"><label asp-for="Number"></label><input asp-for="Number" class="form-control" placeholder="01" /></div>
+            <div class="form-row"><label asp-for="Icon"></label><input asp-for="Icon" class="form-control" placeholder="e.g. bi-camera" /></div>
+            <div class="form-row"><label asp-for="DisplayOrder"></label><input asp-for="DisplayOrder" type="number" class="form-control" /></div>
+            <div class="form-row" style="display:flex;gap:20px;align-items:center;margin-top:18px">
+                <label class="switch"><input asp-for="IsActive" /><span class="switch__slider"></span></label> <span>Active</span>
+            </div>
+            <div style="display:flex;gap:10px;margin-top:22px">
+                <button type="submit" class="btn-gold"><i class="bi bi-check-lg"></i> Save</button>
+                <a class="btn-ghost" asp-action="Index">Cancel</a>
+            </div>
+        </div></div>
+    </div>
+</form>
+
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

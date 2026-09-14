@@ -1,0 +1,76 @@
+@model ProjectDetailViewModel
+@{
+    Layout = "_Layout";
+    var p = Model.Project;
+    var title = Site.Pick(p.Title, p.TitleAr);
+    ViewData["Title"] = title;
+    var cover = string.IsNullOrEmpty(p.CoverImage) ? p.ThumbnailImage : p.CoverImage;
+    var images = p.Media.Where(m => m.MediaType == MediaType.Image).OrderBy(m => m.DisplayOrder).ToList();
+    var origin = $"{Context.Request.Scheme}://{Context.Request.Host}";
+}
+
+@section JsonLd {
+    <script type="application/ld+json">
+    {"@@context":"https://schema.org","@@type":"BreadcrumbList","itemListElement":[
+      {"@@type":"ListItem","position":1,"name":"@Site.T("Home","الرئيسية")","item":"@origin/"},
+      {"@@type":"ListItem","position":2,"name":"@Site.T("Work","الأعمال")","item":"@origin/work"},
+      {"@@type":"ListItem","position":3,"name":"@Html.Raw(System.Text.Json.JsonEncodedText.Encode(title ?? ""))"}
+    ]}
+    </script>
+}
+
+<section class="section page-hero">
+    <div class="container">
+        <a class="line-link reveal" href="/work">@Site.T("← Back to work", "→ العودة للأعمال")</a>
+        <div class="title-c reveal mt-3" style="margin-inline:0;text-align:start">
+            @if (!string.IsNullOrEmpty(p.Tag)) { <span class="tc-eyebrow">@Site.Pick(p.Tag, p.TagAr)</span> }
+            <h2 class="d-1 tc-h">@title</h2>
+            @if (!string.IsNullOrEmpty(p.ClientName)) { <p class="tc-note" style="margin-inline:0">@Site.Pick(p.ClientName, p.ClientNameAr)</p> }
+        </div>
+
+        <figure class="reveal" style="border-radius:18px;overflow:hidden;margin:1.5rem 0">
+            @{ var coverPic = new PictureVm { Image = cover, Rendition = "wide", Alt = title ?? "", Eager = true }; }
+            <partial name="_Picture" model="coverPic" />
+        </figure>
+
+        <div class="row g-4 reveal">
+            <div class="col-lg-8">
+                @if (!string.IsNullOrEmpty(p.Description)) { <p class="project-lead fs-5">@Html.Raw(Site.Pick(p.Description, p.DescriptionAr))</p> }
+                else if (!string.IsNullOrEmpty(p.ShortDescription)) { <p class="project-lead fs-5">@Site.Pick(p.ShortDescription, p.ShortDescriptionAr)</p> }
+            </div>
+            <div class="col-lg-4">
+                <ul class="about-facts">
+                    @if (p.Discipline is not null) { <li><span class="k">@Site.T("Discipline", "التخصص")</span><span class="v">@Site.Pick(p.Discipline.Name, p.Discipline.NameAr)</span></li> }
+                    @if (!string.IsNullOrEmpty(p.Year)) { <li><span class="k">@Site.T("Year", "السنة")</span><span class="v">@p.Year</span></li> }
+                    @if (!string.IsNullOrEmpty(p.Location)) { <li><span class="k">@Site.T("Location", "الموقع")</span><span class="v">@Site.Pick(p.Location, p.LocationAr)</span></li> }
+                </ul>
+                @if (!string.IsNullOrEmpty(p.InstagramUrl)) { <a class="btn-line" href="@p.InstagramUrl" target="_blank" rel="noopener">Instagram <i class="bi bi-instagram"></i></a> }
+            </div>
+        </div>
+
+        @if (images.Any())
+        {
+            <div class="project-gallery">
+                @foreach (var m in images)
+                {
+                    <figure class="reveal">
+                        <img src="@ImageResolver.Src(m.FilePath)" alt="@Site.Pick(m.AltText, m.AltTextAr)" loading="lazy" decoding="async"
+                             data-lightbox data-full="@ImageResolver.Src(m.FilePath)" data-caption="@Site.Pick(m.Caption, m.CaptionAr)" role="button" tabindex="0" />
+                    </figure>
+                }
+            </div>
+        }
+    </div>
+</section>
+
+@if (Model.Related.Any())
+{
+    <section class="section bg-surface">
+        <div class="container">
+            <div class="title-c reveal"><span class="tc-eyebrow">@Site.T("More work", "المزيد")</span></div>
+            <div class="masonry">
+                @foreach (var r in Model.Related) { <partial name="_WorkCard" model="r" /> }
+            </div>
+        </div>
+    </section>
+}

@@ -1,0 +1,44 @@
+@model Service
+@{
+    Layout = "_Layout";
+    var title = Site.Pick(Model.Title, Model.TitleAr);
+    ViewData["Title"] = title;
+    var icon = string.IsNullOrEmpty(Model.Icon) ? "star" : Model.Icon.Replace("bi-", "");
+    var origin = $"{Context.Request.Scheme}://{Context.Request.Host}";
+}
+
+@section JsonLd {
+    <script type="application/ld+json">
+    {"@@context":"https://schema.org","@@type":"BreadcrumbList","itemListElement":[
+      {"@@type":"ListItem","position":1,"name":"@Site.T("Home","الرئيسية")","item":"@origin/"},
+      {"@@type":"ListItem","position":2,"name":"@Site.T("Services","الخدمات")","item":"@origin/services"},
+      {"@@type":"ListItem","position":3,"name":@Html.Raw(System.Text.Json.JsonSerializer.Serialize(title))}
+    ]}
+    </script>
+}
+
+<section class="section page-hero">
+    <div class="container">
+        <a class="line-link reveal" href="/services">@Site.T("← All services", "→ كل الخدمات")</a>
+        <div class="title-c reveal mt-3" style="margin-inline:0;text-align:start">
+            <span class="tc-eyebrow"><i class="bi bi-@icon"></i> @(Model.Number)</span>
+            <h2 class="d-1 tc-h">@title</h2>
+            @{ var accent = Site.IsArabic ? Model.Title : Model.TitleAr; }
+            @if (!string.IsNullOrEmpty(accent)) { <p class="tc-note" style="margin-inline:0">@accent</p> }
+        </div>
+        <div class="row g-4 reveal align-items-start">
+            <div class="@(string.IsNullOrEmpty(Model.Image) ? "col-lg-8" : "col-lg-7")">
+                @if (!string.IsNullOrEmpty(Model.Description)) { <p class="project-lead fs-5">@Html.Raw(Site.Pick(Model.Description, Model.DescriptionAr))</p> }
+                else if (!string.IsNullOrEmpty(Model.ShortDescription)) { <p class="project-lead fs-5">@Site.Pick(Model.ShortDescription, Model.ShortDescriptionAr)</p> }
+                <a class="btn btn-gold mt-3" href="/contact?type=@Uri.EscapeDataString(Model.Title)">@Site.T("Enquire about this", "استفسر عن هذه الخدمة") <i class="bi bi-arrow-up-right"></i></a>
+            </div>
+            @if (!string.IsNullOrEmpty(Model.Image))
+            {
+                <div class="col-lg-5">
+                    @{ var svcPic = new PictureVm { Image = Model.Image, Rendition = "portrait", Alt = title ?? "", CssClass = "d-block" }; }
+                    <figure style="border-radius:16px;overflow:hidden;margin:0"><partial name="_Picture" model="svcPic" /></figure>
+                </div>
+            }
+        </div>
+    </div>
+</section>

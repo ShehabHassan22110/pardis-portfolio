@@ -1,0 +1,73 @@
+@model ServicesViewModel
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = Site.T("Services", "الخدمات");
+}
+
+<section class="section page-hero">
+    <div class="container">
+        @if (Model.Heading is not null)
+        {
+            <partial name="_SectionHeading" model="Model.Heading" />
+        }
+        else
+        {
+            <div class="title-c reveal"><span class="tc-eyebrow">@Site.T("What I offer", "ما أقدّمه")</span><h2 class="d-1 tc-h">@Html.Raw(Site.T("Services, <em>tailored</em>.", "خدمات <em>مصمّمة</em>."))</h2></div>
+        }
+        <div class="row g-4">
+            @foreach (var svc in Model.Services)
+            {
+                <div class="col-sm-6 col-lg-4"><partial name="_ServiceCard" model="svc" /></div>
+            }
+        </div>
+    </div>
+</section>
+
+@if (Model.Steps.Any())
+{
+    <section class="section bg-surface">
+        <div class="container">
+            <div class="title-c reveal"><span class="tc-eyebrow">@Site.T("How a collaboration works", "كيف يتم التعاون")</span><h2 class="d-1 tc-h">@Html.Raw(Site.T("Four steps, <em>zero friction</em>.", "خطوات <em>بلا تعقيد</em>."))</h2></div>
+            <div class="timeline reveal" data-d="1">
+                @foreach (var step in Model.Steps)
+                {
+                    <div class="tstep">
+                        <div class="tstep__node">@(string.IsNullOrEmpty(step.StepNumber) ? (step.DisplayOrder + 1).ToString("00") : step.StepNumber)</div>
+                        <h3 class="tstep__t">@Site.Pick(step.Title, step.TitleAr)</h3>
+                        <p class="tstep__d">@Site.Pick(step.Description, step.DescriptionAr)</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+}
+
+@if (Model.Faqs.Any())
+{
+    <section class="section">
+        <div class="container">
+            <div class="title-c reveal"><span class="tc-eyebrow">@Site.T("Good to know", "معلومات مفيدة")</span><h2 class="d-1 tc-h">@Html.Raw(Site.T("Questions, <em>answered</em>.", "أسئلة <em>وأجوبتها</em>."))</h2></div>
+            <div class="reveal mx-auto" style="max-width:52rem" data-d="1">
+                @foreach (var f in Model.Faqs)
+                {
+                    <div class="faq-item">
+                        <button class="faq-q" aria-expanded="false"><span>@Site.Pick(f.Question, f.QuestionAr)</span><span class="ic"></span></button>
+                        <div class="faq-a"><div><p>@Site.Pick(f.Answer, f.AnswerAr)</p></div></div>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+}
+
+<section class="cta-band">
+    <span class="cta-band__glow" aria-hidden="true"></span>
+    <div class="container">
+        <div class="cta-frame reveal">
+            <h2 class="cta-band__title">@Html.Raw(Site.T("Let's build your <em>campaign</em>.", "لنصنع <em>حملتك</em>."))</h2>
+            <div class="d-flex flex-wrap gap-3 justify-content-center">
+                <a class="btn btn-gold btn-lg" href="/contact">@Site.T("Work with me", "لنعمل معاً") <i class="bi bi-arrow-up-right"></i></a>
+            </div>
+        </div>
+    </div>
+</section>

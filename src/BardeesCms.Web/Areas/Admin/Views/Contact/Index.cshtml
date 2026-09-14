@@ -1,0 +1,56 @@
+@model ContactSettingsFormVm
+@{
+    ViewData["Title"] = "Contact settings";
+    var header = new PageHeaderModel { Title = "Contact settings", Subtitle = "Contact / booking page details." };
+}
+<partial name="_PageHeader" model="header" />
+
+<form asp-action="Index" method="post" class="form-cms">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+    <div asp-validation-summary="ModelOnly" class="admin-alert admin-alert--danger" style="display:@(ViewData.ModelState.IsValid ? "none" : "flex")"></div>
+
+    <div class="card-cms"><div class="card-cms__body">
+        <h3 class="section-title">Heading</h3>
+        <div class="field-pair">
+            <div class="form-row"><label asp-for="Title" class="lang-tag">Title · EN</label><input asp-for="Title" class="form-control" /></div>
+            <div class="form-row"><label asp-for="TitleAr" class="lang-tag">Title · AR</label><input asp-for="TitleAr" class="form-control" dir="rtl" /></div>
+        </div>
+        <div class="field-pair">
+            <div class="form-row"><label asp-for="Description" class="lang-tag">Description · EN</label><textarea asp-for="Description" class="form-control" style="min-height:80px"></textarea></div>
+            <div class="form-row"><label asp-for="DescriptionAr" class="lang-tag">Description · AR</label><textarea asp-for="DescriptionAr" class="form-control" dir="rtl" style="min-height:80px"></textarea></div>
+        </div>
+    </div></div>
+
+    <div class="card-cms"><div class="card-cms__body">
+        <h3 class="section-title">Contact details</h3>
+        <div class="form-row"><label asp-for="Email"></label><input asp-for="Email" class="form-control" /><span asp-validation-for="Email" class="text-danger"></span></div>
+        <div class="form-row"><label asp-for="Phone"></label><input asp-for="Phone" class="form-control" /></div>
+        <div class="form-row"><label asp-for="WhatsApp"></label><input asp-for="WhatsApp" class="form-control" /></div>
+        <div class="field-pair">
+            <div class="form-row"><label asp-for="Location" class="lang-tag">Location · EN</label><input asp-for="Location" class="form-control" /></div>
+            <div class="form-row"><label asp-for="LocationAr" class="lang-tag">Location · AR</label><input asp-for="LocationAr" class="form-control" dir="rtl" /></div>
+        </div>
+        <div class="form-row"><label asp-for="Instagram"></label><input asp-for="Instagram" class="form-control" placeholder="@("@handle") or URL" /></div>
+    </div></div>
+
+    <div class="card-cms"><div class="card-cms__body">
+        <h3 class="section-title">Booking</h3>
+        <div class="field-pair">
+            <div class="form-row"><label asp-for="BookingText" class="lang-tag">Booking text · EN</label><textarea asp-for="BookingText" class="form-control" style="min-height:80px"></textarea></div>
+            <div class="form-row"><label asp-for="BookingTextAr" class="lang-tag">Booking text · AR</label><textarea asp-for="BookingTextAr" class="form-control" dir="rtl" style="min-height:80px"></textarea></div>
+        </div>
+        <div class="field-pair">
+            <div class="form-row"><label asp-for="BookingButtonText" class="lang-tag">Button · EN</label><input asp-for="BookingButtonText" class="form-control" /></div>
+            <div class="form-row"><label asp-for="BookingButtonTextAr" class="lang-tag">Button · AR</label><input asp-for="BookingButtonTextAr" class="form-control" dir="rtl" /></div>
+        </div>
+        <div class="form-row"><label asp-for="BookingUrl"></label><input asp-for="BookingUrl" class="form-control" placeholder="https://…" /></div>
+        <div class="form-row" style="display:flex;gap:20px;align-items:center;margin-top:14px"><label class="switch"><input asp-for="IsActive" /><span class="switch__slider"></span></label> <span>Active</span></div>
+    </div></div>
+
+    <div style="display:flex;gap:10px;margin-top:22px">
+        <button type="submit" class="btn-gold"><i class="bi bi-check-lg"></i> Save</button>
+    </div>
+</form>
+
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

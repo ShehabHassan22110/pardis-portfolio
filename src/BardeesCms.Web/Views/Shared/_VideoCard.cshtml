@@ -1,0 +1,31 @@
+@model Video
+@{
+    var title = Site.Pick(Model.Title, Model.TitleAr);
+    var client = Site.Pick(Model.Client, Model.ClientAr);
+    var cat = Model.VideoCategory is null ? "" : Site.Pick(Model.VideoCategory.Name, Model.VideoCategory.NameAr);
+    var isYt = Model.Provider == VideoProvider.YouTube && !string.IsNullOrEmpty(Model.ProviderVideoId);
+    var poster = !string.IsNullOrEmpty(Model.Thumbnail) ? ImageResolver.Src(Model.Thumbnail)
+        : isYt ? $"https://i.ytimg.com/vi/{Model.ProviderVideoId}/maxresdefault.jpg" : "";
+    // Poster fallback: maxres → hqdefault → hide (so invalid/pending IDs never show a broken image).
+    var onerr = isYt && string.IsNullOrEmpty(Model.Thumbnail)
+        ? $"this.onerror=function(){{this.style.display='none'}};this.src='https://i.ytimg.com/vi/{Model.ProviderVideoId}/hqdefault.jpg'"
+        : "this.style.display='none'";
+    var portraitCls = Model.IsPortrait ? " vid-card--portrait" : "";
+    // Playback trigger: YouTube id, or an uploaded MP4 path.
+    var trigger = isYt ? $"data-youtube=\"{Model.ProviderVideoId}\"" :
+        Model.Provider == VideoProvider.Mp4 && !string.IsNullOrEmpty(Model.VideoFile) ? $"data-video=\"{ImageResolver.Src(Model.VideoFile)}\"" :
+        !string.IsNullOrEmpty(Model.VideoUrl) ? $"data-video=\"{Model.VideoUrl}\"" : "";
+}
+<article class="vid-card reveal vf-pop@(portraitCls)" data-cat="@Model.VideoCategoryId" @Html.Raw(trigger) @(Model.IsPortrait ? "data-portrait=1" : "") role="button" tabindex="0" aria-label="Play @title">
+    <div class="vid-card__thumb">
+        @if (Model.IsPortrait && !string.IsNullOrEmpty(poster)) { <img class="vid-card__bg" src="@poster" alt="" aria-hidden="true" loading="lazy" decoding="async" onerror="@onerr" /> }
+        @if (!string.IsNullOrEmpty(poster)) { <img class="vid-card__img" src="@poster" alt="@title" loading="lazy" decoding="async" onerror="@onerr" /> }
+        <span class="vid-card__scrim" aria-hidden="true"></span>
+        <span class="vid-card__play"><i class="bi bi-play-fill"></i></span>
+        @if (!string.IsNullOrEmpty(cat)) { <span class="vid-card__cat">@cat</span> }
+    </div>
+    <div class="vid-card__body">
+        <h3 class="vid-card__t">@title</h3>
+        @if (!string.IsNullOrEmpty(client)) { <p class="vid-card__sub">@client</p> }
+    </div>
+</article>

@@ -1,0 +1,70 @@
+@model List<PortfolioProject>
+@{
+    ViewData["Title"] = "Portfolio Projects";
+    var result = (PagedResult<PortfolioProject>)ViewBag.Result;
+    var canReorder = string.IsNullOrEmpty(result.Sort) && string.IsNullOrEmpty(result.Search);
+    var header = new PageHeaderModel { Title = "Portfolio Projects", Subtitle = "Selected work shown across the site. Drag to reorder, toggle to publish.", ActionText = "New project", ActionUrl = Url.Action("Create") };
+    var pager = new PagerModel { Page = result.Page, TotalPages = result.TotalPages, TotalItems = result.TotalItems, FirstItem = result.FirstItem, LastItem = result.LastItem, RouteValues = new Dictionary<string, string?> { ["search"] = result.Search, ["sort"] = result.Sort, ["filter"] = result.Filter } };
+}
+@Html.AntiForgeryToken()
+<partial name="_PageHeader" model="header" />
+
+<form class="toolbar" method="get">
+    <div class="search"><i class="bi bi-search"></i><input class="form-control" type="search" name="search" value="@result.Search" placeholder="Search projects…" /></div>
+    <select class="form-select" style="max-width:180px" name="filter" onchange="this.form.submit()">
+        <option value="">All</option>
+        <option value="published" selected="@(result.Filter == "published")">Published</option>
+        <option value="draft" selected="@(result.Filter == "draft")">Draft</option>
+        <option value="featured" selected="@(result.Filter == "featured")">Featured</option>
+    </select>
+    <select class="form-select" style="max-width:180px" name="sort" onchange="this.form.submit()">
+        <option value="">Manual order</option>
+        <option value="title" selected="@(result.Sort == "title")">Title</option>
+        <option value="recent" selected="@(result.Sort == "recent")">Newest</option>
+    </select>
+    <button class="btn-ghost" type="submit"><i class="bi bi-funnel"></i> Filter</button>
+</form>
+
+<div class="card-cms"><div class="card-cms__body" style="padding:0">
+    @if (Model.Any())
+    {
+        <table class="table-cms" data-sortable="@(canReorder ? Url.Action("Reorder") : null)">
+            <thead><tr>
+                @if (canReorder) { <th style="width:34px"></th> }
+                <th style="width:72px">Cover</th><th>Project</th>
+                <th class="d-none d-md-table-cell">Discipline</th>
+                <th style="width:90px">Featured</th><th style="width:110px">Published</th>
+                <th style="width:150px;text-align:right">Actions</th>
+            </tr></thead>
+            <tbody>
+            @foreach (var p in Model)
+            {
+                <tr data-id="@p.Id">
+                    @if (canReorder) { <td data-label=""><i class="bi bi-grip-vertical drag-handle"></i></td> }
+                    <td data-label="Cover">
+                        @{ var cover = p.ThumbnailImage ?? p.CoverImage; }
+                        @if (!string.IsNullOrEmpty(cover)) { <img class="thumb" src="@cover" alt="@p.Title" /> }
+                        else { <span class="thumb" style="display:grid;place-items:center"><i class="bi bi-image" style="color:var(--a-muted)"></i></span> }
+                    </td>
+                    <td data-label="Project">
+                        <a class="cell-title" asp-action="Edit" asp-route-id="@p.Id">@p.Title</a>
+                        <div class="cell-ar">@p.TitleAr</div>
+                        @if (!p.IsPublished) { <span class="badge-cms" style="margin-top:4px">Draft</span> } else { <span class="badge-cms badge-featured" style="margin-top:4px"><i class="bi bi-check-circle"></i> Published</span> }
+                    </td>
+                    <td data-label="Discipline" class="d-none d-md-table-cell">@(p.Discipline?.Name ?? "—")</td>
+                    <td data-label="Featured">@if (p.IsFeatured) { <span class="badge-cms badge-featured"><i class="bi bi-star-fill"></i></span> } else { <span style="color:var(--a-muted)">—</span> }</td>
+                    <td data-label="Published"><label class="switch"><input type="checkbox" data-toggle-url="@Url.Action("Toggle", new { id = p.Id })" @(p.IsPublished ? "checked" : "") /><span class="switch__slider"></span></label></td>
+                    <td data-label="Actions"><div class="row-actions">
+                        <a class="btn-icon" href="/work/@p.Slug" target="_blank" title="Preview"><i class="bi bi-box-arrow-up-right"></i></a>
+                        <a class="btn-icon" asp-action="Edit" asp-route-id="@p.Id" title="Edit"><i class="bi bi-pencil"></i></a>
+                        <button type="button" class="btn-icon" data-delete-url="@Url.Action("Delete", new { id = p.Id })" data-delete-name="@p.Title" title="Delete"><i class="bi bi-trash"></i></button>
+                    </div></td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+    else { <div class="empty-state"><i class="bi bi-images"></i><h3>No projects yet</h3><a class="btn-gold" style="margin-top:12px" asp-action="Create"><i class="bi bi-plus-lg"></i> New project</a></div> }
+</div></div>
+
+<partial name="_Pager" model="pager" />

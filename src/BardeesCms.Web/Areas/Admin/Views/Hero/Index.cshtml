@@ -1,0 +1,109 @@
+@model HeroFormVm
+@{
+    ViewData["Title"] = "Hero section";
+    var header = new PageHeaderModel { Title = "Hero section", Subtitle = "Homepage masthead and rotating slides." };
+    // Render existing slides plus a few blank rows for quick additions.
+    var slides = Model.Slides ?? new List<HeroSlideVm>();
+    var rowCount = slides.Count + 3;
+}
+<partial name="_PageHeader" model="header" />
+
+<form asp-action="Index" method="post" enctype="multipart/form-data" class="form-cms">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="BackgroundImage" />
+    <div asp-validation-summary="ModelOnly" class="admin-alert admin-alert--danger" style="display:@(ViewData.ModelState.IsValid ? "none" : "flex")"></div>
+
+    <div class="card-cms"><div class="card-cms__body">
+        <h3 class="section-title">Masthead</h3>
+        <div class="field-pair">
+            <div class="form-row"><label asp-for="Eyebrow" class="lang-tag">Eyebrow · EN</label><input asp-for="Eyebrow" class="form-control" /></div>
+            <div class="form-row"><label asp-for="EyebrowAr" class="lang-tag">Eyebrow · AR</label><input asp-for="EyebrowAr" class="form-control" dir="rtl" /></div>
+        </div>
+        <div class="field-pair">
+            <div class="form-row"><label asp-for="Title" class="lang-tag">Title · EN</label><input asp-for="Title" class="form-control" /><span asp-validation-for="Title" class="text-danger"></span></div>
+            <div class="form-row"><label asp-for="TitleAr" class="lang-tag">Title · AR</label><input asp-for="TitleAr" class="form-control" dir="rtl" /></div>
+        </div>
+        <div class="field-pair">
+            <div class="form-row"><label asp-for="Subtitle" class="lang-tag">Subtitle · EN</label><input asp-for="Subtitle" class="form-control" /></div>
+            <div class="form-row"><label asp-for="SubtitleAr" class="lang-tag">Subtitle · AR</label><input asp-for="SubtitleAr" class="form-control" dir="rtl" /></div>
+        </div>
+        <div class="field-pair">
+            <div class="form-row"><label asp-for="Description" class="lang-tag">Description · EN</label><textarea asp-for="Description" class="form-control" style="min-height:80px"></textarea></div>
+            <div class="form-row"><label asp-for="DescriptionAr" class="lang-tag">Description · AR</label><textarea asp-for="DescriptionAr" class="form-control" dir="rtl" style="min-height:80px"></textarea></div>
+        </div>
+        <div class="field-pair">
+            <div class="form-row"><label asp-for="Sectors" class="lang-tag">Sectors · EN</label><input asp-for="Sectors" class="form-control" placeholder="Travel · Tourism · Hospitality" /></div>
+            <div class="form-row"><label asp-for="SectorsAr" class="lang-tag">Sectors · AR</label><input asp-for="SectorsAr" class="form-control" dir="rtl" /></div>
+        </div>
+    </div></div>
+
+    <div class="card-cms"><div class="card-cms__body">
+        <h3 class="section-title">Buttons</h3>
+        <div class="field-pair">
+            <div class="form-row"><label asp-for="PrimaryButtonText" class="lang-tag">Primary · EN</label><input asp-for="PrimaryButtonText" class="form-control" /></div>
+            <div class="form-row"><label asp-for="PrimaryButtonTextAr" class="lang-tag">Primary · AR</label><input asp-for="PrimaryButtonTextAr" class="form-control" dir="rtl" /></div>
+        </div>
+        <div class="form-row"><label asp-for="PrimaryButtonUrl"></label><input asp-for="PrimaryButtonUrl" class="form-control" placeholder="/contact" /></div>
+        <div class="field-pair">
+            <div class="form-row"><label asp-for="SecondaryButtonText" class="lang-tag">Secondary · EN</label><input asp-for="SecondaryButtonText" class="form-control" /></div>
+            <div class="form-row"><label asp-for="SecondaryButtonTextAr" class="lang-tag">Secondary · AR</label><input asp-for="SecondaryButtonTextAr" class="form-control" dir="rtl" /></div>
+        </div>
+        <div class="form-row"><label asp-for="SecondaryButtonUrl"></label><input asp-for="SecondaryButtonUrl" class="form-control" placeholder="/portfolio" /></div>
+    </div></div>
+
+    <div class="card-cms"><div class="card-cms__body">
+        <h3 class="section-title">Background &amp; badge</h3>
+        <div class="img-upload" style="margin-bottom:8px">
+            <img id="bgPreview" class="img-upload__preview" src="@(string.IsNullOrEmpty(Model.BackgroundImage) ? "" : Model.BackgroundImage)" alt="" />
+            <div>
+                <label class="btn-ghost" for="BackgroundImageFile"><i class="bi bi-upload"></i> Choose background</label>
+                <input class="d-none" type="file" asp-for="BackgroundImageFile" accept="image/*" data-preview="#bgPreview" />
+                <div class="hint">Large, high-quality image. Max 8 MB.</div>
+                <span asp-validation-for="BackgroundImageFile" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-row"><label asp-for="BackgroundVideo"></label><input asp-for="BackgroundVideo" class="form-control" placeholder="/media/hero.mp4" /></div>
+        <div class="field-pair">
+            <div class="form-row"><label asp-for="FeaturedLabel" class="lang-tag">Featured label · EN</label><input asp-for="FeaturedLabel" class="form-control" /></div>
+            <div class="form-row"><label asp-for="FeaturedLabelAr" class="lang-tag">Featured label · AR</label><input asp-for="FeaturedLabelAr" class="form-control" dir="rtl" /></div>
+        </div>
+        <div class="form-row"><label asp-for="IssueNumber"></label><input asp-for="IssueNumber" class="form-control" placeholder="No. 01" /></div>
+        <div class="form-row" style="display:flex;gap:20px;align-items:center;margin-top:14px"><label class="switch"><input asp-for="IsActive" /><span class="switch__slider"></span></label> <span>Active</span></div>
+    </div></div>
+
+    <div class="card-cms"><div class="card-cms__body">
+        <h3 class="section-title">Slides</h3>
+        <p class="hint">Rows left with an empty image are ignored on save.</p>
+        <table class="table-cms">
+            <thead>
+                <tr><th>Image (path / base name)</th><th>Label EN</th><th>Label AR</th><th style="width:90px">Order</th><th style="width:70px">Active</th></tr>
+            </thead>
+            <tbody>
+                @for (var i = 0; i < rowCount; i++)
+                {
+                    var s = i < slides.Count ? slides[i] : new HeroSlideVm { IsActive = true };
+                    <tr>
+                        <td>
+                            <input type="hidden" name="Slides[@i].Id" value="@s.Id" />
+                            <input name="Slides[@i].Image" value="@s.Image" class="form-control" placeholder="/uploads/hero/look-01.jpg" />
+                        </td>
+                        <td><input name="Slides[@i].Label" value="@s.Label" class="form-control" /></td>
+                        <td><input name="Slides[@i].LabelAr" value="@s.LabelAr" class="form-control" dir="rtl" /></td>
+                        <td><input name="Slides[@i].DisplayOrder" value="@s.DisplayOrder" type="number" class="form-control" /></td>
+                        <td style="text-align:center">
+                            <label class="switch"><input type="checkbox" name="Slides[@i].IsActive" value="true" @(s.IsActive ? "checked" : "") /><span class="switch__slider"></span></label>
+                            <input type="hidden" name="Slides[@i].IsActive" value="false" />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div></div>
+
+    <div style="display:flex;gap:10px;margin-top:22px">
+        <button type="submit" class="btn-gold"><i class="bi bi-check-lg"></i> Save</button>
+    </div>
+</form>
+
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

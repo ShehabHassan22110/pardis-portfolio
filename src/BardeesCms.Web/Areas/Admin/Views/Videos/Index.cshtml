@@ -1,0 +1,64 @@
+@model List<Video>
+@{
+    ViewData["Title"] = "Videos";
+    var result = (PagedResult<Video>)ViewBag.Result;
+    var canReorder = string.IsNullOrEmpty(result.Sort) && string.IsNullOrEmpty(result.Search);
+    var header = new PageHeaderModel { Title = "Videos", Subtitle = "Showreels and campaign films shown in the In Motion gallery.", ActionText = "New video", ActionUrl = Url.Action("Create") };
+    var pager = new PagerModel { Page = result.Page, TotalPages = result.TotalPages, TotalItems = result.TotalItems, FirstItem = result.FirstItem, LastItem = result.LastItem, RouteValues = new Dictionary<string, string?> { ["search"] = result.Search, ["sort"] = result.Sort, ["filter"] = result.Filter } };
+}
+@Html.AntiForgeryToken()
+<partial name="_PageHeader" model="header" />
+
+<form class="toolbar" method="get">
+    <div class="search"><i class="bi bi-search"></i><input class="form-control" type="search" name="search" value="@result.Search" placeholder="Search videos…" /></div>
+    <select class="form-select" style="max-width:180px" name="filter" onchange="this.form.submit()">
+        <option value="">All</option>
+        <option value="published" selected="@(result.Filter == "published")">Published</option>
+        <option value="draft" selected="@(result.Filter == "draft")">Draft</option>
+        <option value="featured" selected="@(result.Filter == "featured")">Featured</option>
+    </select>
+    <button class="btn-ghost" type="submit"><i class="bi bi-funnel"></i> Filter</button>
+</form>
+
+<div class="card-cms"><div class="card-cms__body" style="padding:0">
+    @if (Model.Any())
+    {
+        <table class="table-cms" data-sortable="@(canReorder ? Url.Action("Reorder") : null)">
+            <thead><tr>
+                @if (canReorder) { <th style="width:34px"></th> }
+                <th style="width:96px">Preview</th><th>Title</th>
+                <th class="d-none d-md-table-cell">Category</th>
+                <th class="d-none d-md-table-cell" style="width:110px">Provider</th>
+                <th style="width:90px">Featured</th><th style="width:90px">Published</th>
+                <th style="width:120px;text-align:right">Actions</th>
+            </tr></thead>
+            <tbody>
+            @foreach (var v in Model)
+            {
+                var poster = !string.IsNullOrEmpty(v.Thumbnail) ? v.Thumbnail
+                    : (v.Provider == VideoProvider.YouTube && !string.IsNullOrEmpty(v.ProviderVideoId)
+                        ? $"https://img.ytimg.com/vi/{v.ProviderVideoId}/hqdefault.jpg" : null);
+                <tr data-id="@v.Id">
+                    @if (canReorder) { <td data-label=""><i class="bi bi-grip-vertical drag-handle"></i></td> }
+                    <td data-label="Preview">
+                        @if (!string.IsNullOrEmpty(poster)) { <img class="thumb" style="width:88px;aspect-ratio:16/9;object-fit:cover" src="@poster" alt="@v.Title" /> }
+                        else { <span class="thumb" style="width:88px;display:grid;place-items:center"><i class="bi bi-play-circle" style="color:var(--a-muted)"></i></span> }
+                    </td>
+                    <td data-label="Title"><a class="cell-title" asp-action="Edit" asp-route-id="@v.Id">@v.Title</a><div class="cell-ar">@v.TitleAr</div></td>
+                    <td data-label="Category" class="d-none d-md-table-cell">@(v.VideoCategory?.Name ?? "—")</td>
+                    <td data-label="Provider" class="d-none d-md-table-cell"><span class="badge-cms">@v.Provider</span></td>
+                    <td data-label="Featured">@if (v.IsFeatured) { <span class="badge-cms badge-featured"><i class="bi bi-star-fill"></i></span> } else { <span style="color:var(--a-muted)">—</span> }</td>
+                    <td data-label="Published"><label class="switch"><input type="checkbox" data-toggle-url="@Url.Action("Toggle", new { id = v.Id })" @(v.IsPublished ? "checked" : "") /><span class="switch__slider"></span></label></td>
+                    <td data-label="Actions"><div class="row-actions">
+                        <a class="btn-icon" asp-action="Edit" asp-route-id="@v.Id" title="Edit"><i class="bi bi-pencil"></i></a>
+                        <button type="button" class="btn-icon" data-delete-url="@Url.Action("Delete", new { id = v.Id })" data-delete-name="@v.Title" title="Delete"><i class="bi bi-trash"></i></button>
+                    </div></td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+    else { <div class="empty-state"><i class="bi bi-play-btn"></i><h3>No videos yet</h3><a class="btn-gold" style="margin-top:12px" asp-action="Create"><i class="bi bi-plus-lg"></i> New video</a></div> }
+</div></div>
+
+<partial name="_Pager" model="pager" />

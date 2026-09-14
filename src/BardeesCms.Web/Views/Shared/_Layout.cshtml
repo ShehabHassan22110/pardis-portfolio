@@ -1,0 +1,96 @@
+@inject IPublicContentService Content
+@{
+    var layout = await Content.GetLayoutAsync();
+    var s = layout.Settings;
+    var seo = ViewData["Seo"] as SeoPage;
+    var lang = Site.Lang;
+    var isAr = Site.IsArabic;
+
+    string title = Site.Pick(seo?.MetaTitle, seo?.MetaTitleAr)
+        ?? (string?)ViewData["Title"]
+        ?? Site.Pick(s.DefaultMetaTitle, null) ?? s.BrandName;
+    string desc = Site.Pick(seo?.MetaDescription, seo?.MetaDescriptionAr)
+        ?? s.DefaultMetaDescription ?? Site.Pick(s.Description, s.DescriptionAr) ?? "";
+    string ogTitle = Site.Pick(seo?.OgTitle, seo?.OgTitleAr) ?? title;
+    string ogDesc = Site.Pick(seo?.OgDescription, seo?.OgDescriptionAr) ?? desc;
+    string? ogImage = seo?.OgImage ?? s.DefaultOgImage;
+    string robots = seo?.Robots ?? "index,follow";
+    var bootstrapCss = isAr ? "/assets/css/bootstrap.rtl.min.css" : "/assets/css/bootstrap.min.css";
+    var origin = $"{Context.Request.Scheme}://{Context.Request.Host}";
+    string Abs(string path) => path.StartsWith("http", StringComparison.OrdinalIgnoreCase) ? path : origin + path;
+    string? ogImageAbs = string.IsNullOrEmpty(ogImage) ? null : Abs(ImageResolver.Src(ogImage));
+}
+<!DOCTYPE html>
+<html lang="@lang" dir="@Site.Dir" data-theme="@Site.Theme" data-bs-theme="@Site.Theme">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@title</title>
+    <meta name="description" content="@desc" />
+    <meta name="robots" content="@robots" />
+    <meta name="theme-color" content="#1a1511" />
+    @if (!string.IsNullOrEmpty(seo?.Keywords)) { <meta name="keywords" content="@seo.Keywords" /> }
+    <link rel="canonical" href="@(seo?.CanonicalUrl ?? $"{Context.Request.Scheme}://{Context.Request.Host}{Context.Request.Path}")" />
+    <link rel="icon" type="image/svg+xml" href="@(string.IsNullOrEmpty(s.Favicon) ? "/assets/brand/favicon.svg" : ImageResolver.Src(s.Favicon))" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="@s.BrandName" />
+    <meta property="og:locale" content="@(isAr ? "ar_SA" : "en_US")" />
+    <meta property="og:url" content="@Abs(Context.Request.Path)" />
+    <meta property="og:title" content="@ogTitle" />
+    <meta property="og:description" content="@ogDesc" />
+    @if (!string.IsNullOrEmpty(ogImageAbs)) { <meta property="og:image" content="@ogImageAbs" /> }
+    <meta name="twitter:card" content="@(string.IsNullOrEmpty(ogImageAbs) ? "summary" : "summary_large_image")" />
+    <meta name="twitter:title" content="@ogTitle" />
+    <meta name="twitter:description" content="@ogDesc" />
+    @if (!string.IsNullOrEmpty(ogImageAbs)) { <meta name="twitter:image" content="@ogImageAbs" /> }
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400;1,9..144,500&family=Reem+Kufi:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+    <link id="bs-css" href="@bootstrapCss" rel="stylesheet" />
+    <link href="/assets/css/style.css" rel="stylesheet" asp-append-version="true" />
+    <link href="/assets/css/theme.css" rel="stylesheet" asp-append-version="true" />
+    <link href="/assets/css/public.css" rel="stylesheet" asp-append-version="true" />
+    <partial name="_JsonLd" model="layout" />
+    @await RenderSectionAsync("JsonLd", required: false)
+    @await RenderSectionAsync("Head", required: false)
+    @if (!string.IsNullOrEmpty(s.GoogleAnalyticsId))
+    {
+        <script async src="https://www.googletagmanager.com/gtag/js?id=@s.GoogleAnalyticsId"></script>
+        <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','@s.GoogleAnalyticsId');</script>
+    }
+    @if (!string.IsNullOrEmpty(s.CustomCss)) { <style>@Html.Raw(s.CustomCss)</style> }
+</head>
+<body>
+    <div id="loader" class="loader" aria-hidden="true">
+        <div class="loader__logo">
+            <svg class="brandmark" viewBox="0 0 220 200" role="img" aria-label="@Site.Pick(s.BrandName, s.BrandNameAr)">
+                <defs><linearGradient id="lgLoad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e0b489" /><stop offset=".5" stop-color="#c98a5e" /><stop offset="1" stop-color="#a8663f" /></linearGradient></defs>
+                <circle class="bm-ring" cx="110" cy="82" r="66" fill="none" stroke="url(#lgLoad)" stroke-width="1.4" />
+                <text class="bm-b" x="110" y="114" text-anchor="middle" font-family="Fraunces, 'Bodoni Moda', serif" font-size="92" font-weight="500" fill="url(#lgLoad)">@((Site.Pick(s.BrandNameShort, s.BrandNameShortAr) ?? "B").Substring(0,1))</text>
+            </svg>
+            <div class="loader__word">@(Site.Pick(s.BrandName, s.BrandNameAr)?.Split(' ').FirstOrDefault())</div>
+            <div class="loader__line"></div>
+            <div class="loader__sub">@(Site.Pick(s.Role, s.RoleAr)?.ToUpperInvariant())</div>
+        </div>
+    </div>
+
+    <a class="skip-link" href="#main">@Site.T("Skip to content", "تخطَّ إلى المحتوى")</a>
+    <partial name="_Header" model="layout" />
+
+    <main id="main">
+        @RenderBody()
+    </main>
+
+    <partial name="_Footer" model="layout" />
+
+    <a href="#" class="btn btn-gold btn-lg-square rounded-circle back-to-top" aria-label="Back to top"><i class="bi bi-arrow-up"></i></a>
+
+    <script src="/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="/assets/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+    @if (!string.IsNullOrEmpty(s.CustomJs)) { <script>@Html.Raw(s.CustomJs)</script> }
+</body>
+</html>

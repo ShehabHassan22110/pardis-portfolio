@@ -1,0 +1,45 @@
+@model UserEditVm
+@{
+    ViewData["Title"] = "Edit user";
+    var header = new PageHeaderModel { Title = "Edit user", Subtitle = Model.Email };
+    var roles = (string[])ViewBag.Roles;
+}
+<partial name="_PageHeader" model="header" />
+
+<form asp-action="Edit" method="post" class="form-cms">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+    <div asp-validation-summary="All" class="admin-alert admin-alert--danger" style="display:@(ViewData.ModelState.IsValid ? "none" : "flex")"></div>
+
+    <div class="editor-layout">
+        <div class="card-cms"><div class="card-cms__body">
+            <div class="form-row"><label asp-for="Email"></label><input asp-for="Email" class="form-control" readonly /></div>
+            <div class="form-row"><label asp-for="FullName"></label><input asp-for="FullName" class="form-control" /><span asp-validation-for="FullName" class="text-danger"></span></div>
+        </div></div>
+
+        <div class="card-cms"><div class="card-cms__body">
+            <h3 class="section-title">Role &amp; access</h3>
+            <div class="form-row">
+                <label asp-for="Role"></label>
+                <select asp-for="Role" class="form-select">
+                    @foreach (var r in roles)
+                    {
+                        <option value="@r" selected="@(Model.Role == r)">@r</option>
+                    }
+                </select>
+                <span asp-validation-for="Role" class="text-danger"></span>
+            </div>
+            <div class="form-row" style="display:flex;gap:20px;align-items:center;margin-top:14px">
+                <label class="switch"><input asp-for="IsActive" /><span class="switch__slider"></span></label> <span>Active</span>
+            </div>
+            <div style="display:flex;gap:10px;margin-top:22px">
+                <button type="submit" class="btn-gold"><i class="bi bi-check-lg"></i> Save</button>
+                <a class="btn-ghost" asp-action="Index">Cancel</a>
+            </div>
+        </div></div>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

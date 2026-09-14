@@ -1,0 +1,38 @@
+@model LayoutData
+@{
+    var s = Model.Settings;
+    var origin = $"{Context.Request.Scheme}://{Context.Request.Host}";
+    string Abs(string? p) => string.IsNullOrEmpty(p) ? "" : (p.StartsWith("http", StringComparison.OrdinalIgnoreCase) ? p : origin + ImageResolver.Src(p));
+    var sameAs = new[] { s.InstagramUrl, s.TikTokUrl, s.SnapchatUrl, s.FacebookUrl, s.YouTubeUrl, s.LinkedInUrl }
+        .Where(u => !string.IsNullOrWhiteSpace(u) && u != "#").ToArray();
+
+    var person = new Dictionary<string, object?>
+    {
+        ["@context"] = "https://schema.org",
+        ["@type"] = "Person",
+        ["name"] = s.BrandName,
+        ["alternateName"] = s.BrandNameAr,
+        ["jobTitle"] = s.Role,
+        ["url"] = origin,
+        ["description"] = s.Description,
+        ["image"] = string.IsNullOrEmpty(s.DefaultOgImage) ? null : Abs(s.DefaultOgImage),
+        ["email"] = string.IsNullOrEmpty(s.Email) ? null : $"mailto:{s.Email}",
+        ["address"] = string.IsNullOrEmpty(s.Location) ? null : new Dictionary<string, object?> { ["@type"] = "PostalAddress", ["addressCountry"] = s.Location },
+        ["sameAs"] = sameAs.Length > 0 ? sameAs : null,
+    };
+    var website = new Dictionary<string, object?>
+    {
+        ["@context"] = "https://schema.org",
+        ["@type"] = "WebSite",
+        ["name"] = s.SiteName,
+        ["url"] = origin,
+        ["inLanguage"] = Site.IsArabic ? "ar" : "en",
+    };
+    var opts = new System.Text.Json.JsonSerializerOptions
+    {
+        DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull,
+        Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+    };
+}
+<script type="application/ld+json">@Html.Raw(System.Text.Json.JsonSerializer.Serialize(person, opts))</script>
+<script type="application/ld+json">@Html.Raw(System.Text.Json.JsonSerializer.Serialize(website, opts))</script>

@@ -1,0 +1,133 @@
+@model ContactViewModel
+@{
+    Layout = "_Layout";
+    var cs = Model.Settings;
+    ViewData["Title"] = Site.Pick(cs?.Title, cs?.TitleAr) ?? Site.T("Contact", "تواصل");
+    var wa = (cs?.WhatsApp ?? "").Trim();
+    var email = (cs?.Email ?? "").Trim();
+    var ig = (cs?.Instagram ?? "").Trim();
+    var tiktok = (cs?.TikTok ?? "").Trim();
+    bool Real(string? v) => !string.IsNullOrEmpty(v) && v != "#";
+    var waIntro = Site.T("Hello Bardees, I'd like to discuss a collaboration.", "مرحباً برديس، أود التحدث بخصوص تعاون.");
+}
+
+<section class="section page-hero">
+    <div class="container">
+        <div class="title-c reveal" style="margin-inline:0;text-align:start">
+            <span class="tc-eyebrow">@Site.T("Let's work together", "لنعمل معاً")</span>
+            <h2 class="d-1 tc-h">@Html.Raw(Site.Pick(cs?.Title, cs?.TitleAr) ?? Site.T("Let's make something <em>unforgettable</em>.", "لنصنع شيئاً <em>لا يُنسى</em>."))</h2>
+            @if (!string.IsNullOrEmpty(cs?.Description)) { <p class="tc-note" style="margin-inline:0;max-width:60ch">@Site.Pick(cs.Description, cs.DescriptionAr)</p> }
+        </div>
+
+        <div class="contact-grid reveal" data-d="1">
+            <div>
+                @if (Model.Sent)
+                {
+                    <div class="form-success">
+                        <i class="bi bi-check-circle" style="font-size:2.4rem;color:var(--accent-2)"></i>
+                        <h3 class="mt-3">@Site.T("Message sent", "تم الإرسال")</h3>
+                        <p class="mb-0">@Site.T("Thank you — I'll be in touch shortly.", "شكراً لك — سأعود إليك قريباً.")</p>
+                    </div>
+                }
+                else
+                {
+                    <form method="post" action="/contact" novalidate id="contactForm"
+                          data-wa="@wa" data-email="@email" data-wa-intro="@waIntro">
+                        @Html.AntiForgeryToken()
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                        <div class="hp-field" aria-hidden="true"><label>Website</label><input asp-for="Form.Website" tabindex="-1" autocomplete="off" /></div>
+                        <div class="form-2col">
+                            <div class="form-field"><label asp-for="Form.Name">@Site.T("Name", "الاسم")</label><input asp-for="Form.Name" /><span asp-validation-for="Form.Name" class="text-danger"></span></div>
+                            <div class="form-field"><label asp-for="Form.Email">@Site.T("Email", "البريد")</label><input asp-for="Form.Email" type="email" /><span asp-validation-for="Form.Email" class="text-danger"></span></div>
+                        </div>
+                        <div class="form-2col">
+                            <div class="form-field"><label asp-for="Form.Phone">@Site.T("Phone", "الهاتف")</label><input asp-for="Form.Phone" /></div>
+                            <div class="form-field"><label asp-for="Form.Company">@Site.T("Company", "الشركة")</label><input asp-for="Form.Company" /></div>
+                        </div>
+                        <div class="form-field">
+                            <label asp-for="Form.Subject">@Site.T("Type of collaboration", "نوع التعاون")</label>
+                            <select asp-for="Form.Subject">
+                                <option value="">@Site.T("— Select —", "— اختر —")</option>
+                                @foreach (var d in Model.Disciplines)
+                                {
+                                    var name = Site.Pick(d.Name, d.NameAr);
+                                    <option value="@d.Name" selected="@(Model.Form.Subject == d.Name)">@name</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-field"><label asp-for="Form.Message">@Site.T("Message", "الرسالة")</label><textarea asp-for="Form.Message" rows="5"></textarea><span asp-validation-for="Form.Message" class="text-danger"></span></div>
+                        <div class="d-flex flex-wrap gap-2 align-items-center">
+                            <button type="submit" class="btn btn-gold btn-lg">@Site.T("Send message", "إرسال") <i class="bi bi-arrow-up-right"></i></button>
+                            @if (Real(wa)) { <button type="button" class="btn-line btn-lg" id="waSend" style="color:#25D366;border-color:#25D366">@Site.T("Send on WhatsApp", "أرسل عبر واتساب") <i class="bi bi-whatsapp"></i></button> }
+                            @if (Real(email)) { <button type="button" class="btn-line btn-lg" id="mailSend">@Site.T("Send by email", "أرسل بالبريد") <i class="bi bi-envelope"></i></button> }
+                        </div>
+                        <p class="small mt-2" style="color:var(--muted)">@Site.T("“Send message” saves to Bardees' inbox. WhatsApp is the fastest reply.", "«إرسال» يحفظ رسالتك في بريد برديس. واتساب هو الأسرع للرد.")</p>
+                    </form>
+                }
+            </div>
+
+            <aside>
+                @if (Real(wa))
+                {
+                    <a class="btn btn-gold btn-lg w-100 mb-3 justify-content-center" style="display:flex;align-items:center;gap:.5rem"
+                       href="https://wa.me/@wa?text=@Uri.EscapeDataString(waIntro)" target="_blank" rel="noopener">
+                        <i class="bi bi-whatsapp"></i> @Site.T("Chat on WhatsApp", "تحدّث عبر واتساب")
+                    </a>
+                    <p class="small mb-4" style="color:var(--muted)">@Site.T("The fastest way to reach Bardees.", "أسرع طريقة للوصول إلى برديس.")</p>
+                }
+                <ul class="about-facts">
+                    @if (Real(email)) { <li><span class="k">@Site.T("Email", "البريد")</span><span class="v"><a href="mailto:@email">@email</a></span></li> }
+                    @if (!string.IsNullOrEmpty(cs?.Phone) && cs.Phone != "+966 5X XXX XXXX") { <li><span class="k">@Site.T("Phone", "الهاتف")</span><span class="v">@cs.Phone</span></li> }
+                    @if (!string.IsNullOrEmpty(cs?.Location)) { <li><span class="k">@Site.T("Location", "الموقع")</span><span class="v">@Site.Pick(cs.Location, cs.LocationAr)</span></li> }
+                </ul>
+                <p class="eyebrow mt-4 mb-2">@Site.T("Find me on", "تابعني على")</p>
+                <div class="d-flex flex-wrap gap-2">
+                    @if (Real(wa)) { <a class="btn-line" href="https://wa.me/@wa" target="_blank" rel="noopener">WhatsApp <i class="bi bi-whatsapp"></i></a> }
+                    @if (Real(ig)) { <a class="btn-line" href="@ig" target="_blank" rel="noopener">Instagram <i class="bi bi-instagram"></i></a> }
+                    @if (Real(tiktok)) { <a class="btn-line" href="@tiktok" target="_blank" rel="noopener">TikTok <i class="bi bi-tiktok"></i></a> }
+                </div>
+            </aside>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        (function () {
+            var form = document.getElementById('contactForm');
+            if (!form) return;
+            var val = function (n) { var el = form.querySelector('[name="' + n + '"]'); return el ? el.value.trim() : ''; };
+            function buildMessage() {
+                var name = val('Form.Name'), company = val('Form.Company'), subject = val('Form.Subject'),
+                    email = val('Form.Email'), phone = val('Form.Phone'), msg = val('Form.Message');
+                var lines = [form.dataset.waIntro];
+                if (name) { lines.push('@Site.T("Name", "الاسم")' + ': ' + name + (company ? ' — ' + company : '')); }
+                if (subject) { lines.push('@Site.T("Type", "النوع")' + ': ' + subject); }
+                if (msg) { lines.push('', msg); }
+                var contact = [];
+                if (email) contact.push(email);
+                if (phone) contact.push(phone);
+                if (contact.length) { lines.push('', contact.join(' · ')); }
+                return lines.join('\n');
+            }
+            var waBtn = document.getElementById('waSend');
+            if (waBtn) {
+                waBtn.addEventListener('click', function () {
+                    var num = (form.dataset.wa || '').replace(/[^0-9]/g, '');
+                    if (!num) return;
+                    window.open('https://wa.me/' + num + '?text=' + encodeURIComponent(buildMessage()), '_blank', 'noopener');
+                });
+            }
+            var mailBtn = document.getElementById('mailSend');
+            if (mailBtn) {
+                mailBtn.addEventListener('click', function () {
+                    var to = form.dataset.email || '';
+                    if (!to) return;
+                    var subject = val('Form.Subject') || '@Site.T("Collaboration enquiry", "طلب تعاون")';
+                    window.location.href = 'mailto:' + to + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(buildMessage());
+                });
+            }
+        })();
+    </script>
+}

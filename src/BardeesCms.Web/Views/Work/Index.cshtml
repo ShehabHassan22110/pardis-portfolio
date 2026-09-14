@@ -1,0 +1,37 @@
+@model WorkIndexViewModel
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = Site.T("Selected Work", "أعمال مختارة");
+}
+
+<section class="section page-hero">
+    <div class="container">
+        <div class="title-c reveal">
+            <span class="tc-eyebrow">@Site.T("Portfolio", "أعمال")</span>
+            <h2 class="d-1 tc-h">@Html.Raw(Site.T("Selected <em>work</em>", "أعمال <em>مختارة</em>"))</h2>
+        </div>
+
+        <nav class="work-filter reveal" aria-label="Filter by discipline">
+            <a href="/work" class="@(string.IsNullOrEmpty(Model.ActiveDiscipline) ? "active" : "")">@Site.T("All", "الكل")</a>
+            @foreach (var d in Model.Disciplines)
+            {
+                <a href="/work?discipline=@d.Slug" class="@(Model.ActiveDiscipline == d.Slug ? "active" : "")">@Site.Pick(d.Name, d.NameAr)</a>
+            }
+        </nav>
+
+        @if (Model.Projects.Any())
+        {
+            <div class="masonry">
+                @foreach (var p in Model.Projects) { <partial name="_WorkCard" model="p" /> }
+            </div>
+        }
+        else
+        {
+            <div class="text-center py-5 reveal">
+                <p class="eyebrow mb-3" style="color:var(--accent)">@Site.T("Portfolio in progress", "قيد الإنشاء")</p>
+                <p class="mx-auto mb-4" style="max-width:32rem">@Site.T("Selected work for this discipline is being added. Get in touch to discuss a collaboration.", "يتم حالياً إضافة الأعمال لهذا التخصص. تواصل معنا لمناقشة تعاون.")</p>
+                <a class="btn btn-gold" href="/contact">@Site.T("Enquire", "استفسر") <i class="bi bi-arrow-up-right"></i></a>
+            </div>
+        }
+    </div>
+</section>

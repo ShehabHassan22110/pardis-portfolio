@@ -1,0 +1,95 @@
+@model AbayasViewModel
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = Site.T("Abayas", "العبايات");
+    var wa = (Model.WhatsApp ?? "").Trim();
+    var heading = Model.Heading;
+
+    // Order groups: Ready-to-Wear first, then Custom. Each renders only if it has designs.
+    var groups = new (AbayaType Type, string En, string Ar, string NoteEn, string NoteAr)[]
+    {
+        (AbayaType.ReadyToWear, "Ready to Wear", "جاهزة للارتداء",
+            "Finished designs, available as shown.", "تصاميم جاهزة متوفّرة كما تظهر."),
+        (AbayaType.Custom, "Custom Tailoring", "تفصيل حسب الطلب",
+            "Made to measure — choose fabric, colour and detailing.", "تفصيل حسب المقاس — اختاري الخامة واللون والتفاصيل."),
+    };
+
+    string RequestLink(Abaya a)
+    {
+        var name = Site.Pick(a.Name, a.NameAr);
+        var msg = Site.T(
+            $"Hello Bardees, I'd like to request the “{name}” abaya.",
+            $"مرحباً برديس، أرغب في طلب عباية “{name}”.");
+        return string.IsNullOrEmpty(wa) ? "/contact" : $"https://wa.me/{wa}?text={Uri.EscapeDataString(msg)}";
+    }
+}
+
+<section class="section page-hero" id="abaya-collection">
+    <div class="container">
+        @if (heading is not null)
+        {
+            <partial name="_SectionHeading" model="heading" />
+        }
+        else
+        {
+            <div class="title-c reveal">
+                <span class="tc-eyebrow">@Site.T("Bardees Abaya Collection", "مجموعة عبايات برديس")</span>
+                <h2 class="d-1 tc-h">@Html.Raw(Site.T("Designed &amp; tailored by <em>Bardees</em>.", "تصميم وتفصيل <em>برديس</em>."))</h2>
+                <p class="tc-note">@Site.T("A personal line of abayas — from ready-to-wear pieces to made-to-measure tailoring. Order directly over WhatsApp.", "خط عبايات خاص — من القطع الجاهزة إلى التفصيل حسب الطلب. اطلبي مباشرةً عبر واتساب.")</p>
+            </div>
+        }
+
+        @if (!Model.Abayas.Any())
+        {
+            <div class="text-center py-5"><p class="tc-note">@Site.T("New designs are being added soon.", "تُضاف تصاميم جديدة قريباً.")</p></div>
+        }
+
+        @foreach (var g in groups)
+        {
+            var items = Model.Abayas.Where(a => a.Type == g.Type).ToList();
+            if (!items.Any()) { continue; }
+            <div class="abaya-group reveal">
+                <div class="abaya-group__head">
+                    <h3 class="abaya-group__title">@Site.T(g.En, g.Ar)</h3>
+                    <p class="abaya-group__note">@Site.T(g.NoteEn, g.NoteAr)</p>
+                </div>
+                <div class="abaya-grid">
+                    @foreach (var a in items)
+                    {
+                        var img = string.IsNullOrEmpty(a.CoverImage) ? a.ThumbnailImage : a.CoverImage;
+                        var name = Site.Pick(a.Name, a.NameAr);
+                        var fabric = Site.Pick(a.Fabric, a.FabricAr);
+                        var pic = new PictureVm { Image = img, Rendition = "portrait", Alt = name ?? "" };
+                        <figure class="abaya-card m-0">
+                            <div class="abaya-card__img"><partial name="_Picture" model="pic" /></div>
+                            <figcaption class="abaya-card__body">
+                                <span class="abaya-card__name">@name</span>
+                                @if (!string.IsNullOrEmpty(fabric)) { <span class="abaya-card__fabric">@fabric</span> }
+                                <a class="btn btn-gold btn-sm abaya-card__cta" href="@RequestLink(a)" target="_blank" rel="noopener">
+                                    @Site.T("Request Order", "اطلبي التصميم") <i class="bi bi-whatsapp"></i>
+                                </a>
+                            </figcaption>
+                        </figure>
+                    }
+                </div>
+            </div>
+        }
+
+        @* How to order *@
+        <div class="abaya-how reveal" data-d="1">
+            <h3 class="abaya-how__title">@Site.T("How to order", "طريقة الطلب")</h3>
+            <ol class="abaya-how__steps">
+                <li>@Site.T("Browse the designs and tap “Request Order” on the piece you love.", "تصفّحي التصاميم واضغطي «اطلبي التصميم» على القطعة التي تعجبك.")</li>
+                <li>@Site.T("Share your size, preferred colour and any custom detailing over WhatsApp.", "شاركي مقاسك واللون المفضّل وأي تفاصيل خاصة عبر واتساب.")</li>
+                <li>@Site.T("Confirm the details and delivery — and it's on its way.", "أكّدي التفاصيل والتوصيل — وتكون في طريقها إليك.")</li>
+            </ol>
+            @if (!string.IsNullOrEmpty(wa))
+            {
+                var openMsg = Site.T("Hello Bardees, I'd like to ask about the abaya collection.", "مرحباً برديس، أود الاستفسار عن مجموعة العبايات.");
+                <a class="btn btn-gold btn-lg" href="https://wa.me/@wa?text=@Uri.EscapeDataString(openMsg)" target="_blank" rel="noopener">
+                    @Site.T("Order on WhatsApp", "اطلبي عبر واتساب") <i class="bi bi-whatsapp"></i>
+                </a>
+            }
+        </div>
+    </div>
+</section>

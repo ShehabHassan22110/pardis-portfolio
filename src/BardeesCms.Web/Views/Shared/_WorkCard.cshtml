@@ -1,0 +1,14 @@
+@model PortfolioProject
+@{
+    var img = string.IsNullOrEmpty(Model.CoverImage) ? Model.ThumbnailImage : Model.CoverImage;
+    var title = Site.Pick(Model.Title, Model.TitleAr);
+    var tag = Site.Pick(Model.Tag, Model.TagAr);
+    var pic = new PictureVm { Image = img, Rendition = "portrait", Alt = title ?? "", ImgClass = "" };
+}
+<a class="mtile reveal" href="/work/@Model.Slug" aria-label="@title">
+    <partial name="_Picture" model="pic" />
+    <span class="mtile__ov"><span>
+        @if (!string.IsNullOrEmpty(tag)) { <span class="mtile__k">@tag</span> }
+        <span class="mtile__t">@title</span>
+    </span></span>
+</a>

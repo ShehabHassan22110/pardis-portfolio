@@ -1,0 +1,51 @@
+@model ContactMessage
+@{
+    ViewData["Title"] = "Message";
+    var header = new PageHeaderModel { Title = $"Message from {Model.Name}", Subtitle = Model.CreatedAt.ToString("dddd, dd MMM yyyy · HH:mm") };
+    var subject = string.IsNullOrEmpty(Model.Subject) ? "Your enquiry" : Model.Subject;
+    var mailto = $"mailto:{Uri.EscapeDataString(Model.Email)}?subject={Uri.EscapeDataString("Re: " + subject)}";
+    var waDigits = new string((Model.Phone ?? "").Where(char.IsDigit).ToArray());
+    var whatsapp = string.IsNullOrEmpty(waDigits) ? null : $"https://wa.me/{waDigits}";
+}
+@Html.AntiForgeryToken()
+<partial name="_PageHeader" model="header" />
+
+<div class="editor-layout">
+    <div class="card-cms"><div class="card-cms__body">
+        <h3 class="section-title">@subject</h3>
+        <p style="white-space:pre-wrap;line-height:1.7;margin:0">@Model.Message</p>
+    </div></div>
+
+    <div class="card-cms"><div class="card-cms__body">
+        <h3 class="section-title">Sender</h3>
+        <div class="form-row"><label>Name</label><div>@Model.Name</div></div>
+        <div class="form-row"><label>Email</label><div><a href="@mailto">@Model.Email</a></div></div>
+        @if (!string.IsNullOrEmpty(Model.Phone)) { <div class="form-row"><label>Phone</label><div>@Model.Phone</div></div> }
+        @if (!string.IsNullOrEmpty(Model.Company)) { <div class="form-row"><label>Company</label><div>@Model.Company</div></div> }
+        @if (!string.IsNullOrEmpty(Model.IpAddress)) { <div class="form-row"><label>IP address</label><div class="hint">@Model.IpAddress</div></div> }
+
+        <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:14px">
+            <a class="btn-gold" href="@mailto"><i class="bi bi-reply"></i> Reply by email</a>
+            @if (whatsapp != null) { <a class="btn-ghost" href="@whatsapp" target="_blank" rel="noopener"><i class="bi bi-whatsapp"></i> WhatsApp</a> }
+        </div>
+
+        <hr style="border-color:var(--a-line)" />
+        <h3 class="section-title">Status</h3>
+        <form asp-action="SetStatus" method="post" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="id" value="@Model.Id" />
+            <select class="form-select" name="status" style="max-width:200px">
+                @foreach (var s in Enum.GetValues<MessageStatus>())
+                {
+                    <option value="@s" selected="@(Model.Status == s)">@s</option>
+                }
+            </select>
+            <button type="submit" class="btn-ghost"><i class="bi bi-check-lg"></i> Update</button>
+        </form>
+
+        <div style="display:flex;gap:10px;margin-top:22px">
+            <a class="btn-ghost" asp-action="Index"><i class="bi bi-arrow-left"></i> Back to inbox</a>
+            <button type="button" class="btn-icon" data-delete-url="@Url.Action("Delete", new { id = Model.Id })" data-delete-name="message from @Model.Name" title="Delete"><i class="bi bi-trash"></i></button>
+        </div>
+    </div></div>
+</div>

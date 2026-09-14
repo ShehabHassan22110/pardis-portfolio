@@ -1,0 +1,60 @@
+@model BrandFormVm
+@{
+    var isNew = Model.Id == 0;
+    ViewData["Title"] = isNew ? "New client" : "Edit client";
+    var header = new PageHeaderModel { Title = (string)ViewData["Title"]!, Subtitle = isNew ? "Add a client / ambassadorship." : Model.Name };
+}
+<partial name="_PageHeader" model="header" />
+
+<form asp-action="@(isNew ? "Create" : "Edit")" method="post" enctype="multipart/form-data" class="form-cms">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="Logo" />
+    <div asp-validation-summary="ModelOnly" class="admin-alert admin-alert--danger" style="display:@(ViewData.ModelState.IsValid ? "none" : "flex")"></div>
+
+    <div class="editor-layout">
+        <div class="card-cms"><div class="card-cms__body">
+            <div class="field-pair">
+                <div class="form-row"><label asp-for="Name" class="lang-tag">EN</label><input asp-for="Name" class="form-control" /><span asp-validation-for="Name" class="text-danger"></span></div>
+                <div class="form-row"><label asp-for="NameAr" class="lang-tag">AR</label><input asp-for="NameAr" class="form-control" dir="rtl" /></div>
+            </div>
+            <div class="field-pair">
+                <div class="form-row"><label asp-for="Role" class="lang-tag">Role · EN</label><input asp-for="Role" class="form-control" placeholder="Brand Ambassador" /></div>
+                <div class="form-row"><label asp-for="RoleAr" class="lang-tag">Role · AR</label><input asp-for="RoleAr" class="form-control" dir="rtl" /></div>
+            </div>
+            <div class="field-pair">
+                <div class="form-row"><label asp-for="Sector" class="lang-tag">Sector · EN</label><input asp-for="Sector" class="form-control" placeholder="Watches" /></div>
+                <div class="form-row"><label asp-for="SectorAr" class="lang-tag">Sector · AR</label><input asp-for="SectorAr" class="form-control" dir="rtl" /></div>
+            </div>
+            <div class="field-pair">
+                <div class="form-row"><label asp-for="Description" class="lang-tag">About · EN</label><textarea asp-for="Description" class="form-control" style="min-height:80px"></textarea></div>
+                <div class="form-row"><label asp-for="DescriptionAr" class="lang-tag">About · AR</label><textarea asp-for="DescriptionAr" class="form-control" dir="rtl" style="min-height:80px"></textarea></div>
+            </div>
+            <div class="form-row"><label asp-for="WebsiteUrl"></label><input asp-for="WebsiteUrl" class="form-control" placeholder="https://…" /><span asp-validation-for="WebsiteUrl" class="text-danger"></span></div>
+        </div></div>
+
+        <div class="card-cms"><div class="card-cms__body">
+            <h3 class="section-title">Logo</h3>
+            <div class="img-upload" style="margin-bottom:8px">
+                <img id="logoPreview" class="img-upload__preview" style="object-fit:contain;padding:8px" src="@(string.IsNullOrEmpty(Model.Logo) ? "" : Model.Logo)" alt="" />
+                <div>
+                    <label class="btn-ghost" for="LogoFile"><i class="bi bi-upload"></i> Choose logo</label>
+                    <input class="d-none" type="file" asp-for="LogoFile" accept="image/*" data-preview="#logoPreview" />
+                    <div class="hint">PNG/SVG silhouette works best. Max 8 MB.</div>
+                    <span asp-validation-for="LogoFile" class="text-danger"></span>
+                </div>
+            </div>
+            <hr style="border-color:var(--a-line)" />
+            <h3 class="section-title">Options</h3>
+            <div class="form-row"><label asp-for="DisplayOrder"></label><input asp-for="DisplayOrder" type="number" class="form-control" /></div>
+            <div class="form-row" style="display:flex;gap:20px;align-items:center;margin-top:14px"><label class="switch"><input asp-for="IsFeatured" /><span class="switch__slider"></span></label> <span>Featured</span></div>
+            <div class="form-row" style="display:flex;gap:20px;align-items:center"><label class="switch"><input asp-for="IsActive" /><span class="switch__slider"></span></label> <span>Active</span></div>
+            <div style="display:flex;gap:10px;margin-top:22px">
+                <button type="submit" class="btn-gold"><i class="bi bi-check-lg"></i> Save</button>
+                <a class="btn-ghost" asp-action="Index">Cancel</a>
+            </div>
+        </div></div>
+    </div>
+</form>
+
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

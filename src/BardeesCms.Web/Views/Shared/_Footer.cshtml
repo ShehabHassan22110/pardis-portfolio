@@ -1,0 +1,72 @@
+@model LayoutData
+@{
+    var s = Model.Settings;
+    var brandShort = Site.Pick(s.BrandNameShort, s.BrandNameShortAr) ?? "Bardees";
+    var brandFull = Site.Pick(s.BrandName, s.BrandNameAr) ?? s.BrandName;
+    var wa = string.IsNullOrEmpty(s.WhatsApp) ? null : $"https://wa.me/{s.WhatsApp}";
+    var email = string.IsNullOrEmpty(s.Email) ? null : s.Email;
+    (string? url, string icon, string label)[] socials =
+    {
+        (s.InstagramUrl, "instagram", "Instagram"),
+        (s.TikTokUrl, "tiktok", "TikTok"),
+        (s.SnapchatUrl, "snapchat", "Snapchat"),
+        (s.YouTubeUrl, "youtube", "YouTube"),
+        (wa, "whatsapp", "WhatsApp"),
+        (email is null ? null : $"mailto:{email}", "envelope-fill", "Email"),
+    };
+    var exploreLinks = Model.FooterNav.SelectMany(g => g)
+        .Where(i => !(i.Url ?? "").Contains("contact", StringComparison.OrdinalIgnoreCase))
+        .OrderBy(i => i.DisplayOrder).ToList();
+}
+<footer class="footer">
+    <div class="footer__glow" aria-hidden="true"></div>
+    <span class="footer__accent" aria-hidden="true"></span>
+    <div class="container">
+        <div class="footer__top">
+            <div class="footer__brand-col">
+                <a class="footer__mark" href="/"><span class="footer__mono">@brandShort.Substring(0,1)</span>@brandShort<span>.</span></a>
+                @if (!string.IsNullOrEmpty(s.BrandNameAr)) { <span class="footer__ar">@s.BrandNameAr</span> }
+                <p class="footer__tag">@Site.Pick(s.Tagline, s.TaglineAr)</p>
+                <div class="footer__socials">
+                    @foreach (var soc in socials.Where(x => !string.IsNullOrEmpty(x.url) && x.url != "#"))
+                    {
+                        <a href="@soc.url" target="_blank" rel="noopener" aria-label="@soc.label"><i class="bi bi-@soc.icon"></i></a>
+                    }
+                </div>
+            </div>
+
+            <div class="footer__links">
+                <div class="footer__col">
+                    <h5>@Site.T("Explore", "استكشف")</h5>
+                    @foreach (var item in exploreLinks)
+                    {
+                        <a class="line-link" href="@item.Url">@Site.Pick(item.Title, item.TitleAr)</a>
+                    }
+                </div>
+
+                <div class="footer__col footer__contact">
+                    <h5>@Site.T("Get in touch", "تواصل معنا")</h5>
+                    @if (!string.IsNullOrEmpty(email))
+                    {
+                        <a class="footer__contact-item" href="mailto:@email"><i class="bi bi-envelope"></i><span>@email</span></a>
+                    }
+                    @if (!string.IsNullOrEmpty(wa))
+                    {
+                        <a class="footer__contact-item" href="@wa" target="_blank" rel="noopener"><i class="bi bi-whatsapp"></i><span>@Site.T("WhatsApp", "واتساب")</span></a>
+                    }
+                    @if (!string.IsNullOrEmpty(s.Location))
+                    {
+                        <span class="footer__contact-item footer__contact-item--static"><i class="bi bi-geo-alt"></i><span>@Site.Pick(s.Location, s.LocationAr)</span></span>
+                    }
+                    <a class="btn btn-gold btn-sm footer__cta" href="/contact">@Site.T("Start a project", "ابدأ مشروعاً") <i class="bi bi-arrow-up-right"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer__bottom">
+            <span>&copy; @DateTime.Now.Year @Site.Pick(s.CopyrightText, s.CopyrightTextAr) &mdash; @Site.T("All rights reserved.", "جميع الحقوق محفوظة.")</span>
+            <span>@Site.Pick(s.BrandNameAr, s.BrandNameAr) @(string.IsNullOrEmpty(s.Location) ? "" : "· " + Site.Pick(s.Location, s.LocationAr))</span>
+        </div>
+    </div>
+    <div class="footer__wordmark" aria-hidden="true">@(brandFull?.Split(' ').FirstOrDefault())</div>
+</footer>

@@ -1,0 +1,69 @@
+@model List<ContactMessage>
+@{
+    ViewData["Title"] = "Messages";
+    var result = (PagedResult<ContactMessage>)ViewBag.Result;
+    var unread = (int)ViewBag.UnreadCount;
+    var header = new PageHeaderModel { Title = "Messages", Subtitle = unread > 0 ? $"Inbox — {unread} unread." : "Inbox — inbound contact & booking enquiries." };
+    var pager = new PagerModel { Page = result.Page, TotalPages = result.TotalPages, TotalItems = result.TotalItems, FirstItem = result.FirstItem, LastItem = result.LastItem, RouteValues = new Dictionary<string, string?> { ["search"] = result.Search, ["filter"] = result.Filter } };
+
+    (string cls, string label) Badge(MessageStatus s) => s switch
+    {
+        MessageStatus.Unread => ("badge-featured", "Unread"),
+        MessageStatus.Read => ("", "Read"),
+        MessageStatus.Replied => ("badge-featured", "Replied"),
+        MessageStatus.Archived => ("", "Archived"),
+        _ => ("", s.ToString())
+    };
+}
+@Html.AntiForgeryToken()
+<partial name="_PageHeader" model="header" />
+
+<form class="toolbar" method="get">
+    <div class="search"><i class="bi bi-search"></i><input class="form-control" type="search" name="search" value="@result.Search" placeholder="Search name, email, subject…" /></div>
+    <select class="form-select" style="max-width:180px" name="filter" onchange="this.form.submit()">
+        <option value="">All</option>
+        <option value="Unread" selected="@(result.Filter == "Unread")">Unread</option>
+        <option value="Read" selected="@(result.Filter == "Read")">Read</option>
+        <option value="Replied" selected="@(result.Filter == "Replied")">Replied</option>
+        <option value="Archived" selected="@(result.Filter == "Archived")">Archived</option>
+    </select>
+    <button class="btn-ghost" type="submit"><i class="bi bi-funnel"></i> Filter</button>
+</form>
+
+<div class="card-cms"><div class="card-cms__body" style="padding:0">
+    @if (Model.Any())
+    {
+        <table class="table-cms">
+            <thead><tr>
+                <th>From</th>
+                <th class="d-none d-md-table-cell">Subject</th>
+                <th style="width:110px">Status</th>
+                <th style="width:150px" class="d-none d-md-table-cell">Received</th>
+                <th style="width:120px;text-align:right">Actions</th>
+            </tr></thead>
+            <tbody>
+            @foreach (var m in Model)
+            {
+                var unreadRow = m.Status == MessageStatus.Unread;
+                var badge = Badge(m.Status);
+                <tr data-id="@m.Id" style="@(unreadRow ? "font-weight:600" : "")">
+                    <td data-label="From">
+                        <a class="cell-title" asp-action="Details" asp-route-id="@m.Id">@m.Name</a>
+                        <div style="font-size:.78rem;color:var(--a-muted)">@m.Email</div>
+                    </td>
+                    <td data-label="Subject" class="d-none d-md-table-cell">@(string.IsNullOrEmpty(m.Subject) ? "—" : m.Subject)</td>
+                    <td data-label="Status"><span class="badge-cms @badge.cls">@badge.label</span></td>
+                    <td data-label="Received" class="d-none d-md-table-cell">@m.CreatedAt.ToString("dd MMM yyyy, HH:mm")</td>
+                    <td data-label="Actions"><div class="row-actions">
+                        <a class="btn-icon" asp-action="Details" asp-route-id="@m.Id" title="Open"><i class="bi bi-envelope-open"></i></a>
+                        <button type="button" class="btn-icon" data-delete-url="@Url.Action("Delete", new { id = m.Id })" data-delete-name="message from @m.Name" title="Delete"><i class="bi bi-trash"></i></button>
+                    </div></td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+    else { <div class="empty-state"><i class="bi bi-inbox"></i><h3>No messages</h3><p>Inbound enquiries will appear here.</p></div> }
+</div></div>
+
+<partial name="_Pager" model="pager" />

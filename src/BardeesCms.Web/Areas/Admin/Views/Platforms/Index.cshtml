@@ -1,0 +1,59 @@
+@model List<Platform>
+@{
+    ViewData["Title"] = "Digital Presence";
+    var result = (PagedResult<Platform>)ViewBag.Result;
+    var canReorder = string.IsNullOrEmpty(result.Sort) && string.IsNullOrEmpty(result.Search);
+    var header = new PageHeaderModel { Title = "Digital Presence", Subtitle = "Social / digital platforms shown in the presence section.", ActionText = "New platform", ActionUrl = Url.Action("Create") };
+    var pager = new PagerModel { Page = result.Page, TotalPages = result.TotalPages, TotalItems = result.TotalItems, FirstItem = result.FirstItem, LastItem = result.LastItem, RouteValues = new Dictionary<string, string?> { ["search"] = result.Search, ["sort"] = result.Sort, ["filter"] = result.Filter } };
+}
+@Html.AntiForgeryToken()
+<partial name="_PageHeader" model="header" />
+
+<form class="toolbar" method="get">
+    <div class="search"><i class="bi bi-search"></i><input class="form-control" type="search" name="search" value="@result.Search" placeholder="Search platforms…" /></div>
+    <select class="form-select" style="max-width:180px" name="filter" onchange="this.form.submit()">
+        <option value="">All</option>
+        <option value="active" selected="@(result.Filter == "active")">Active</option>
+        <option value="inactive" selected="@(result.Filter == "inactive")">Inactive</option>
+    </select>
+    <select class="form-select" style="max-width:180px" name="sort" onchange="this.form.submit()">
+        <option value="">Manual order</option>
+        <option value="name" selected="@(result.Sort == "name")">Name A–Z</option>
+        <option value="recent" selected="@(result.Sort == "recent")">Newest</option>
+    </select>
+    <button class="btn-ghost" type="submit"><i class="bi bi-funnel"></i> Filter</button>
+</form>
+
+<div class="card-cms"><div class="card-cms__body" style="padding:0">
+    @if (Model.Any())
+    {
+        <table class="table-cms" data-sortable="@(canReorder ? Url.Action("Reorder") : null)">
+            <thead><tr>
+                @if (canReorder) { <th style="width:34px"></th> }
+                <th style="width:48px"></th><th>Platform</th>
+                <th class="d-none d-md-table-cell">Followers</th>
+                <th style="width:80px">Active</th>
+                <th style="width:120px;text-align:right">Actions</th>
+            </tr></thead>
+            <tbody>
+            @foreach (var p in Model)
+            {
+                <tr data-id="@p.Id">
+                    @if (canReorder) { <td data-label=""><i class="bi bi-grip-vertical drag-handle"></i></td> }
+                    <td data-label=""><i class="bi @(string.IsNullOrEmpty(p.Icon) ? "bi-globe" : p.Icon)" style="color:var(--a-gold-2);font-size:1.2rem"></i></td>
+                    <td data-label="Platform"><a class="cell-title" asp-action="Edit" asp-route-id="@p.Id">@p.Name</a><div class="cell-ar">@(string.IsNullOrEmpty(p.Username) ? p.NameAr : p.Username)</div></td>
+                    <td data-label="Followers" class="d-none d-md-table-cell">@p.Followers</td>
+                    <td data-label="Active"><label class="switch"><input type="checkbox" data-toggle-url="@Url.Action("Toggle", new { id = p.Id })" @(p.IsActive ? "checked" : "") /><span class="switch__slider"></span></label></td>
+                    <td data-label="Actions"><div class="row-actions">
+                        <a class="btn-icon" asp-action="Edit" asp-route-id="@p.Id" title="Edit"><i class="bi bi-pencil"></i></a>
+                        <button type="button" class="btn-icon" data-delete-url="@Url.Action("Delete", new { id = p.Id })" data-delete-name="@p.Name" title="Delete"><i class="bi bi-trash"></i></button>
+                    </div></td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+    else { <div class="empty-state"><i class="bi bi-share"></i><h3>No platforms yet</h3><a class="btn-gold" style="margin-top:12px" asp-action="Create"><i class="bi bi-plus-lg"></i> New platform</a></div> }
+</div></div>
+
+<partial name="_Pager" model="pager" />

@@ -1,0 +1,355 @@
+@model HomeViewModel
+@{
+    Layout = "_Layout";
+    var h = Model.Hero;
+    var about = Model.About;
+    var presenceBg = Model.HeroSlides.FirstOrDefault()?.Image ?? "fashion-blazer-stand";
+    var secTrusted = Model.Section("trusted");
+    var secClients = Model.Section("clients");
+    var secWhy = Model.Section("why");
+    var secDisc = Model.Section("disciplines");
+    var secWork = Model.Section("work");
+    var secShowreel = Model.Section("showreel");
+    var secPresence = Model.Section("presence");
+    var secServices = Model.Section("services");
+    var secProcess = Model.Section("process");
+    var secFaq = Model.Section("faq");
+    var secAbaya = Model.Section("abaya");
+    var cta = Model.Section("cta");
+}
+
+@* ===================== HERO ===================== *@
+@if (h is not null)
+{
+    <header class="hero hero--side">
+        <div class="hero__bg" id="heroBg">
+            @for (var i = 0; i < Model.HeroSlides.Count; i++)
+            {
+                var slide = Model.HeroSlides[i];
+                var pic = new PictureVm { Image = slide.Image, Rendition = "wide", Alt = Site.Pick(slide.Label, slide.LabelAr) ?? "", Eager = i == 0 };
+                <div class="slide@(i == 0 ? " active" : "")" data-label="@Site.Pick(slide.Label, slide.LabelAr)"><partial name="_Picture" model="pic" /></div>
+            }
+        </div>
+        <div class="hero__veil"></div>
+        <button class="hero__nav hero__side prev" id="heroPrev" aria-label="Previous"><i class="bi bi-chevron-left"></i></button>
+        <button class="hero__nav hero__side next" id="heroNext" aria-label="Next"><i class="bi bi-chevron-right"></i></button>
+        <div class="hero__inner">
+            <div class="container">
+                <div class="hero__col">
+                    @if (!string.IsNullOrEmpty(h.FeaturedLabel)) { <span class="hero__flank reveal">@Site.Pick(h.FeaturedLabel, h.FeaturedLabelAr)</span> }
+                    <h1 class="hero__mast d-block mt-3 mb-3">@Site.Pick(h.Title, h.TitleAr)<br><span class="gold">@Site.Pick(h.Subtitle, h.SubtitleAr)</span></h1>
+                    @if (!string.IsNullOrEmpty(h.Eyebrow))
+                    {
+                        <p class="text-uppercase mb-3 reveal" data-d="1" style="letter-spacing:.14em;font-size:.85rem;color:rgba(240,233,220,.9)">@Site.Pick(h.Eyebrow, h.EyebrowAr)</p>
+                    }
+                    @if (!string.IsNullOrEmpty(h.Description))
+                    {
+                        <p class="hero__lead mb-3 reveal" data-d="2" style="max-width:46ch;color:rgba(240,233,220,.9)">@Html.Raw(Site.Pick(h.Description, h.DescriptionAr))</p>
+                    }
+                    @if (!string.IsNullOrEmpty(h.Sectors)) { <p class="hero__sectors reveal mb-4" data-d="2">@Site.Pick(h.Sectors, h.SectorsAr)</p> }
+                    <div class="d-flex flex-wrap gap-2 reveal" data-d="2">
+                        @if (!string.IsNullOrEmpty(h.PrimaryButtonText)) { <a class="btn btn-gold" href="@(h.PrimaryButtonUrl ?? "#work")">@Site.Pick(h.PrimaryButtonText, h.PrimaryButtonTextAr) <i class="bi bi-arrow-up-right"></i></a> }
+                        @if (!string.IsNullOrEmpty(h.SecondaryButtonText)) { <a class="btn-line" href="@(h.SecondaryButtonUrl ?? "/contact")" style="color:#f0e9dc;border-color:rgba(255,255,255,.5)">@Site.Pick(h.SecondaryButtonText, h.SecondaryButtonTextAr) <i class="bi bi-arrow-up-right"></i></a> }
+                    </div>
+                </div>
+                <div class="hero__ctrl reveal" data-d="3">
+                    <span class="display-serif fs-6" id="heroLabel" style="color:#f0e9dc">@Site.Pick(Model.HeroSlides.FirstOrDefault()?.Label, Model.HeroSlides.FirstOrDefault()?.LabelAr)</span>
+                    <span style="font-family:var(--font-display);color:rgba(240,233,220,.6)"><em class="fst-normal" style="color:var(--accent-2)" id="heroIndex">01</em><span id="heroTotal">/0@(Model.HeroSlides.Count)</span></span>
+                    <div class="hero__bar" style="flex:1;max-width:11rem"><i id="heroBar"></i></div>
+                    <div class="hero__thumbs" id="heroThumbs">
+                        @for (var i = 0; i < Model.HeroSlides.Count; i++)
+                        {
+                            var slide = Model.HeroSlides[i];
+                            var pic = new PictureVm { Image = slide.Image, Rendition = "sq", Alt = "" };
+                            <button class="hero__thumb@(i == 0 ? " active" : "")" data-i="@i" data-label="@Site.Pick(slide.Label, slide.LabelAr)" aria-label="@Site.Pick(slide.Label, slide.LabelAr)"><partial name="_Picture" model="pic" /></button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+}
+
+@* ===================== TRUSTED MARQUEE ===================== *@
+@if (Model.TrustedBrands.Any())
+{
+    <section class="trusted py-4">
+        <div class="container">
+            <p class="eyebrow text-center mb-3 reveal">@Site.Pick(secTrusted?.Eyebrow, secTrusted?.EyebrowAr)</p>
+        </div>
+        <div class="marquee reveal" data-d="1">
+            <div class="marquee__track">
+                @for (var pass = 0; pass < 2; pass++)
+                {
+                    foreach (var b in Model.TrustedBrands)
+                    {
+                        <span class="d-inline-flex align-items-baseline gap-2" style="font-family:var(--font-display);font-size:1.5rem;color:var(--text-soft)">
+                            @Site.Pick(b.Name, b.NameAr)
+                            @if (!string.IsNullOrEmpty(b.Emphasis)) { <em style="font-family:var(--font-body);font-style:normal;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)">@Site.Pick(b.Emphasis, b.EmphasisAr)</em> }
+                        </span>
+                    }
+                }
+            </div>
+        </div>
+    </section>
+}
+
+@* ===================== ABOUT ===================== *@
+@if (about is not null)
+{
+    <section class="section about-feat" id="about">
+        <div class="about-feat__watermark" aria-hidden="true">BARDEES</div>
+        <div class="container">
+            <div class="title-c reveal">
+                @if (!string.IsNullOrEmpty(about.Eyebrow)) { <span class="tc-eyebrow">@Site.Pick(about.Eyebrow, about.EyebrowAr)</span> }
+                <h2 class="d-1 tc-h">@Html.Raw(Site.Pick(about.Title, about.TitleAr))</h2>
+            </div>
+            <div class="about-grid">
+                <figure class="about-portrait reveal m-0">
+                    @{ var aboutPic = new PictureVm { Image = about.Image, Rendition = "portrait", Alt = Site.Pick(about.Title, about.TitleAr) ?? "" }; }
+                    <partial name="_Picture" model="aboutPic" />
+                    @if (!string.IsNullOrEmpty(about.Location)) { <figcaption class="about-portrait__tag">@Site.Pick(about.Location, about.LocationAr)</figcaption> }
+                </figure>
+                <div class="about-copy reveal" data-d="1">
+                    @if (!string.IsNullOrEmpty(about.Description)) { <blockquote class="about-quote">@Html.Raw(Site.Pick(about.Description, about.DescriptionAr))</blockquote> }
+                    @if (!string.IsNullOrEmpty(about.LongDescription)) { <p class="about-body">@Html.Raw(Site.Pick(about.LongDescription, about.LongDescriptionAr))</p> }
+                    @if (Model.AboutFacts.Any())
+                    {
+                        <ul class="about-facts">
+                            @foreach (var f in Model.AboutFacts)
+                            {
+                                <li><span class="k">@Site.Pick(f.Label, f.LabelAr)</span><span class="v">@Site.Pick(f.Value, f.ValueAr)</span></li>
+                            }
+                        </ul>
+                    }
+                    @if (!string.IsNullOrEmpty(about.ButtonText)) { <a class="btn btn-gold" href="@(about.ButtonUrl ?? "/about")">@Site.Pick(about.ButtonText, about.ButtonTextAr) <i class="bi bi-arrow-up-right"></i></a> }
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+@* ===================== CLIENTS ===================== *@
+@if (Model.Clients.Any())
+{
+    <section class="section" id="clients">
+        <div class="container">
+            <partial name="_SectionHeading" model="secClients" />
+            <div class="clients-swiper reveal" data-d="1">
+                <div class="cs-viewport" id="clientsViewport">
+                    <div class="cs-track" id="clientsGrid">
+                        @foreach (var c in Model.Clients) { <partial name="_ClientCard" model="c" /> }
+                    </div>
+                </div>
+                <div class="cs-foot">
+                    <button class="cs-nav" id="clientsPrev" aria-label="Previous"><i class="bi bi-arrow-left"></i></button>
+                    <button class="cs-nav" id="clientsNext" aria-label="Next"><i class="bi bi-arrow-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+@* ===================== WHY / MARKET ===================== *@
+@if (Model.MarketPositions.Any())
+{
+    <section class="section bg-surface" id="why">
+        <div class="container">
+            <partial name="_SectionHeading" model="secWhy" />
+            <div class="row g-4">
+                @for (var i = 0; i < Model.MarketPositions.Count; i++)
+                {
+                    var m = Model.MarketPositions[i];
+                    <div class="col-md-6 col-lg-4">
+                        <article class="card-lux reveal" data-d="@(i % 3)">
+                            <div class="num mb-3">@((i + 1).ToString("00"))</div>
+                            <h3 class="h5 mb-2">@Site.Pick(m.Title, m.TitleAr)</h3>
+                            <p class="mb-0 small">@Site.Pick(m.Description, m.DescriptionAr)</p>
+                        </article>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+}
+
+@* ===================== DISCIPLINES ===================== *@
+@if (Model.Disciplines.Any())
+{
+    <section class="section" id="index">
+        <div class="container">
+            <partial name="_SectionHeading" model="secDisc" />
+            <div class="panels">
+                @foreach (var d in Model.Disciplines) { <partial name="_DisciplinePanel" model="d" /> }
+            </div>
+        </div>
+    </section>
+}
+
+@* ===================== SELECTED WORK ===================== *@
+@if (Model.FeaturedWork.Any())
+{
+    <section class="section bg-surface" id="work">
+        <div class="container">
+            <partial name="_SectionHeading" model="secWork" />
+            <div class="masonry">
+                @foreach (var p in Model.FeaturedWork) { <partial name="_WorkCard" model="p" /> }
+            </div>
+            <div class="text-center mt-5 reveal"><a class="btn btn-outline-gold" href="/work">@Site.T("Browse all", "تصفح الكل") <i class="bi bi-arrow-up-right"></i></a></div>
+        </div>
+    </section>
+}
+
+@* ===================== ABAYA COLLECTION TEASER ===================== *@
+@if (Model.Abayas.Any())
+{
+    var teaserThumbs = Model.Abayas.Take(3).ToList();
+    <section class="section" id="abaya">
+        <div class="container">
+            <div class="abaya-teaser reveal">
+                <div class="abaya-teaser__inner">
+                    <div class="abaya-teaser__copy">
+                        <span class="tc-eyebrow">@Site.Pick(secAbaya?.Eyebrow, secAbaya?.EyebrowAr) ?? Site.T("Bardees Abaya Collection", "مجموعة عبايات برديس")</span>
+                        <h2 class="d-1 tc-h mt-2">@Html.Raw(Site.Pick(secAbaya?.Title, secAbaya?.TitleAr) ?? Site.T("Designed &amp; tailored by <em>Bardees</em>.", "تصميم وتفصيل <em>برديس</em>."))</h2>
+                        @if (!string.IsNullOrEmpty(secAbaya?.Note)) { <p class="tc-note" style="margin-inline:0">@Html.Raw(Site.Pick(secAbaya.Note, secAbaya.NoteAr))</p> }
+                        else { <p class="tc-note" style="margin-inline:0">@Site.T("A personal line of abayas — ready-to-wear and made-to-measure. Ordered directly over WhatsApp.", "خط عبايات خاص — جاهزة وتفصيل حسب الطلب. تُطلب مباشرةً عبر واتساب.")</p> }
+                        <a class="btn btn-gold mt-2" href="/abayas">@Site.T("Explore Collection", "استكشفي المجموعة") <i class="bi bi-arrow-up-right"></i></a>
+                    </div>
+                    <div class="abaya-teaser__thumbs">
+                        @foreach (var a in teaserThumbs)
+                        {
+                            var img = string.IsNullOrEmpty(a.CoverImage) ? a.ThumbnailImage : a.CoverImage;
+                            var pic = new PictureVm { Image = img, Rendition = "sq", Alt = Site.Pick(a.Name, a.NameAr) ?? "" };
+                            <partial name="_Picture" model="pic" />
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+@* ===================== SHOWREEL ===================== *@
+@if (Model.Showreel.Any())
+{
+    var feat = Model.Showreel.Take(3).ToList();
+    <section class="section" id="showreel">
+        <div class="container">
+            <partial name="_SectionHeading" model="secShowreel" />
+            <div class="showreel-feat reveal">
+                @{ var srMain = feat.FirstOrDefault(); var srSide = feat.Skip(1).ToList(); }
+                @if (srMain is not null) { <partial name="_ShowreelItem" model="new ShowreelItemVm { Video = srMain, Main = true }" /> }
+                @if (srSide.Any())
+                {
+                    <div class="showreel-feat__side">
+                        @foreach (var v in srSide) { <partial name="_ShowreelItem" model="new ShowreelItemVm { Video = v, Main = false }" /> }
+                    </div>
+                }
+            </div>
+            <div class="text-center mt-5 reveal">
+                <a class="btn-more" href="/videos"><span class="btn-more__dot" aria-hidden="true"></span><span>@Site.T("Browse all films", "شاهد كل الأفلام")</span><i class="bi bi-arrow-right btn-more__arrow"></i></a>
+            </div>
+        </div>
+    </section>
+}
+
+@* ===================== PRESENCE ===================== *@
+<section class="presence-band">
+    @{ var presencePic = new PictureVm { Image = presenceBg, Rendition = "wide", Alt = "" }; }
+    <div class="presence-band__bg"><partial name="_Picture" model="presencePic" /></div>
+    <div class="container">
+        <partial name="_SectionHeading" model="secPresence" />
+        @if (Model.Stats.Any())
+        {
+            <div class="presence-stats row g-0 reveal">
+                @foreach (var st in Model.Stats)
+                {
+                    <div class="col-6 col-md-3"><div class="stat reveal"><div class="stat__v">@st.Value</div><div class="stat__l">@Site.Pick(st.Label, st.LabelAr)</div></div></div>
+                }
+            </div>
+        }
+        <div class="row g-4 mt-5">
+            <div class="col-md-4 reveal"><p class="eyebrow mb-3">@Site.T("Platforms", "المنصات")</p><div class="d-flex flex-wrap gap-2">
+                @foreach (var p in Model.Platforms) { <span class="pill-tag">@Site.Pick(p.Name, p.NameAr)</span> }
+            </div></div>
+            <div class="col-md-4 reveal" data-d="1"><p class="eyebrow mb-3">@Site.T("Content style", "أسلوب المحتوى")</p><div class="d-flex flex-wrap gap-2">
+                @foreach (var csItem in Model.ContentStyles) { <span class="pill-tag pill-soft">@Site.Pick(csItem.Name, csItem.NameAr)</span> }
+            </div></div>
+            <div class="col-md-4 reveal" data-d="2"><p class="eyebrow mb-3">@Site.T("Audience focus", "تركيز الجمهور")</p><p class="fs-5 mb-0">@Site.T("Saudi Arabia · GCC · Arabic-speaking audience", "السعودية · الخليج · جمهور ناطق بالعربية")</p></div>
+        </div>
+    </div>
+</section>
+
+@* ===================== SERVICES ===================== *@
+@if (Model.Services.Any())
+{
+    <section class="section" id="services">
+        <div class="container">
+            <partial name="_SectionHeading" model="secServices" />
+            <div class="row g-4">
+                @foreach (var svc in Model.Services.Take(6))
+                {
+                    <div class="col-sm-6 col-lg-4"><partial name="_ServiceCard" model="svc" /></div>
+                }
+            </div>
+            <div class="text-center mt-5 reveal">
+                <a class="btn-more" href="/services"><span class="btn-more__dot" aria-hidden="true"></span><span>@Site.T("View all services", "كل الخدمات")</span><i class="bi bi-arrow-right btn-more__arrow"></i></a>
+            </div>
+        </div>
+    </section>
+}
+
+@* ===================== PROCESS ===================== *@
+@if (Model.Steps.Any())
+{
+    <section class="section bg-surface" id="process">
+        <div class="container">
+            <partial name="_SectionHeading" model="secProcess" />
+            <div class="timeline reveal" data-d="1">
+                @foreach (var step in Model.Steps)
+                {
+                    <div class="tstep">
+                        <div class="tstep__node">@(string.IsNullOrEmpty(step.StepNumber) ? (step.DisplayOrder + 1).ToString("00") : step.StepNumber)</div>
+                        <h3 class="tstep__t">@Site.Pick(step.Title, step.TitleAr)</h3>
+                        <p class="tstep__d">@Site.Pick(step.Description, step.DescriptionAr)</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+}
+
+@* ===================== FAQ ===================== *@
+@if (Model.Faqs.Any())
+{
+    <section class="section" id="faq">
+        <div class="container">
+            <partial name="_SectionHeading" model="secFaq" />
+            <div class="reveal mx-auto" style="max-width:52rem" data-d="1">
+                @foreach (var f in Model.Faqs)
+                {
+                    <div class="faq-item">
+                        <button class="faq-q" aria-expanded="false"><span>@Site.Pick(f.Question, f.QuestionAr)</span><span class="ic"></span></button>
+                        <div class="faq-a"><div><p>@Site.Pick(f.Answer, f.AnswerAr)</p></div></div>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+}
+
+@* ===================== CTA ===================== *@
+<section class="cta-band">
+    <span class="cta-band__glow" aria-hidden="true"></span>
+    <div class="container">
+        <div class="cta-frame reveal">
+            @if (!string.IsNullOrEmpty(cta?.Eyebrow)) { <span class="hero__flank d-inline-block mb-3">@Site.Pick(cta.Eyebrow, cta.EyebrowAr)</span> }
+            <h2 class="cta-band__title">@Html.Raw(Site.Pick(cta?.Title, cta?.TitleAr) ?? Site.T("Let's make something <em>unforgettable</em>.", "لنصنع شيئاً <em>لا يُنسى</em>."))</h2>
+            @if (!string.IsNullOrEmpty(cta?.Note)) { <p class="cta-band__sub">@Site.Pick(cta.Note, cta.NoteAr)</p> }
+            <div class="d-flex flex-wrap gap-3 justify-content-center">
+                <a class="btn btn-gold btn-lg" href="/contact">@Site.T("Work with me", "لنعمل معاً") <i class="bi bi-arrow-up-right"></i></a>
+                <a class="btn-line" href="/contact">@Site.T("Book", "احجز") <i class="bi bi-arrow-up-right"></i></a>
+            </div>
+        </div>
+    </div>
+</section>

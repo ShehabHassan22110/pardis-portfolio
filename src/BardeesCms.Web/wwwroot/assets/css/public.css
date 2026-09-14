@@ -1,0 +1,245 @@
+/* ============================================================================
+   public.css — MVC-specific public layer over the shared theme.css
+   Page helpers, form styling, and motion/accessibility polish (Phase 8).
+   ============================================================================ */
+
+/* ---- Anchor scrolling with fixed-nav offset (reduced-motion aware) -------- */
+html { scroll-behavior: smooth; scroll-padding-top: 92px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+/* ---- Skip-to-content (accessibility) ------------------------------------- */
+.skip-link {
+  position: absolute; left: 12px; top: -60px; z-index: 100000;
+  background: var(--accent); color: #17120e; padding: .6rem 1rem; border-radius: 8px;
+  font-weight: 600; transition: top .2s var(--ease);
+}
+.skip-link:focus { top: 12px; color: #17120e; }
+
+/* ---- Inner-page spacing --------------------------------------------------- */
+.pt-page { padding-top: clamp(96px, 13vh, 150px); }
+.page-hero { padding: clamp(110px, 15vh, 170px) 0 clamp(30px, 5vh, 60px); }
+.page-hero .tc-eyebrow { display: block; }
+
+/* ---- Work filter ---------------------------------------------------------- */
+.work-filter { display: flex; flex-wrap: wrap; gap: .5rem; justify-content: center; margin: 0 0 2.4rem; }
+.work-filter a { padding: .45rem 1.05rem; border: 1px solid var(--line); border-radius: 999px; color: var(--text-soft); font-size: .82rem; letter-spacing: .04em; transition: all .3s var(--ease); }
+.work-filter a:hover { border-color: var(--accent); color: var(--accent-2); }
+.work-filter a.active { background: var(--accent); color: #17120e; border-color: var(--accent); }
+
+/* ---- Project detail ------------------------------------------------------- */
+.project-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; margin-top: 2rem; }
+.project-gallery figure { margin: 0; border-radius: 14px; overflow: hidden; }
+.project-gallery img { width: 100%; height: 100%; object-fit: cover; display: block; aspect-ratio: 4 / 5; }
+.project-lead { max-width: 60ch; }
+
+/* ---- Videos grid ---------------------------------------------------------- */
+.video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 22px; }
+
+/* ---- Contact -------------------------------------------------------------- */
+.contact-grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: 40px; align-items: start; }
+@media (max-width: 900px) { .contact-grid { grid-template-columns: 1fr; } }
+.form-field { margin-bottom: 1.1rem; }
+.form-field label { display: block; font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: .4rem; }
+.form-field input, .form-field textarea, .form-field select { width: 100%; background: var(--card); border: 1px solid var(--border); color: var(--text); border-radius: 10px; padding: .75rem .9rem; font-family: var(--font-body); transition: border-color .3s var(--ease); }
+.form-field input:focus, .form-field textarea:focus, .form-field select:focus { outline: none; border-color: var(--accent); }
+.hp-field { position: absolute; left: -9999px; opacity: 0; }
+.form-success { text-align: center; padding: 40px; border: 1px solid var(--line); border-radius: 16px; background: var(--card); }
+/* Two-up form fields without Bootstrap row negative-margins (safe inside CSS grid). */
+.form-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 0 16px; }
+@media (max-width: 640px) { .form-2col { grid-template-columns: 1fr; } }
+
+/* ---- Small-screen heading safety (prevent clipping of big display titles) -- */
+@media (max-width: 560px) {
+  .d-1 { font-size: clamp(1.5rem, 8vw, 2.1rem); }
+  .title-c h2, .title-c .tc-h, .cta-band__title { white-space: normal; overflow-wrap: anywhere; max-width: 100%; }
+}
+
+/* ---- Long unbreakable values (emails, URLs) must never force overflow ------ */
+.about-facts .v { overflow-wrap: anywhere; }
+.about-facts .v a { overflow-wrap: anywhere; }
+@media (max-width: 640px) { .about-facts { grid-template-columns: 1fr; } }
+
+/* ---- Image CLS safeguards ------------------------------------------------- */
+.mtile picture, .panel picture, .about-portrait picture { display: block; width: 100%; height: 100%; }
+
+/* ---- Branded fallback behind video posters -------------------------------- */
+/* When a poster is missing/pending (e.g. an unpublished video id), the card
+   still reads as intentional: warm gradient + faint monogram under the play UI. */
+.vid-card__thumb, .sr-item {
+  background: radial-gradient(130% 130% at 28% 18%, #2c231b 0%, #17120e 62%);
+}
+.vid-card__thumb::before, .sr-item::before {
+  content: "B"; position: absolute; inset: 0; display: grid; place-items: center;
+  font-family: var(--font-serif); font-weight: 500; color: rgba(224, 180, 137, 0.10);
+  z-index: 0; pointer-events: none;
+}
+.vid-card__thumb::before { font-size: 3.4rem; }
+.sr-item::before { font-size: 5rem; }
+.sr-item--main::before { font-size: 8rem; }
+
+/* ============================================================================
+   Footer enhancement — richer contact column, accent line, balanced layout
+   ============================================================================ */
+.footer__accent {
+  position: absolute; top: 0; inset-inline: 0; height: 2px; z-index: 2;
+  background: linear-gradient(90deg, transparent, var(--accent-deep), var(--accent), var(--accent-2), var(--accent), var(--accent-deep), transparent);
+  opacity: .85;
+}
+/* Align the three columns to a shared top baseline for a tidier grid. */
+.footer__top { align-items: start; }
+.footer__brand-col { max-width: 36ch; }
+.footer__tag { margin-block: 1.1rem 1.6rem; }
+
+/* three balanced columns: explore + get-in-touch */
+.footer__links { grid-template-columns: 1fr 1.15fr; gap: clamp(1.5rem, 4vw, 3rem); }
+@media (max-width: 560px) { .footer__links { grid-template-columns: 1fr; } }
+
+/* Section headings get a short accent rule so each column reads as a unit. */
+.footer__links h5 { position: relative; padding-bottom: .6rem; margin-bottom: 1.15rem; }
+.footer__links h5::after {
+  content: ""; position: absolute; inset-inline-start: 0; bottom: 0;
+  width: 26px; height: 2px; border-radius: 2px;
+  background: linear-gradient(90deg, var(--accent), transparent);
+}
+
+.footer__contact { display: flex; flex-direction: column; align-items: flex-start; gap: .1rem; }
+.footer__contact-item {
+  display: inline-flex; align-items: center; gap: .65rem; padding: .45rem 0;
+  color: var(--text-soft); font-size: .96rem; text-decoration: none;
+  transition: color .35s var(--ease), transform .35s var(--ease);
+}
+/* Icons sit in a soft gold token so the contact list feels intentional. */
+.footer__contact-item i {
+  color: var(--accent); font-size: 1rem; line-height: 1; width: 30px; height: 30px;
+  display: inline-grid; place-items: center; border-radius: 50%;
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  border: 1px solid var(--line);
+  transition: transform .35s var(--ease), background .35s var(--ease), color .35s var(--ease);
+}
+a.footer__contact-item:hover { color: var(--accent-2); transform: translateX(3px); }
+a.footer__contact-item:hover i { background: var(--accent); color: #1a1511; transform: scale(1.05); }
+html[dir="rtl"] a.footer__contact-item:hover { transform: translateX(-3px); }
+.footer__contact-item--static { cursor: default; }
+.footer__cta { margin-top: 1.5rem; align-self: flex-start; }
+
+/* Social chips — warmer resting state so they never look empty/flat */
+.footer__socials { margin-top: 1.6rem; }
+.footer__socials a { background: color-mix(in srgb, var(--accent) 9%, transparent); border-color: var(--line); }
+
+/* ============================================================================
+   Buttons — luminous metallic gold + motion (idle shimmer, hover lift, sheen)
+   ============================================================================ */
+/* Theme-aware "liquid gold" face: alternating light/dark bands read as metal. */
+:root {
+  --gold-face: linear-gradient(110deg, #f7e2ba 0%, #e6bd8c 20%, #f3d29e 38%, #cf9563 58%, #e6bd8c 74%, #b0763f 100%);
+  --gold-glow: rgba(224, 180, 137, .55);
+  --gold-ink: #2a1a0d;
+}
+html[data-theme="light"] {
+  --gold-face: linear-gradient(110deg, #f2d6a0 0%, #dca971 20%, #efc98f 38%, #c8894f 58%, #dca971 74%, #a2612f 100%);
+  --gold-glow: rgba(176, 118, 66, .5);
+  --gold-ink: #241608;
+}
+
+/* smooth, springy motion for every button type */
+.btn, .btn-line, .btn-more, .chip-btn {
+  transition: transform .4s var(--ease), box-shadow .45s var(--ease),
+              background-position .6s var(--ease), border-color .4s var(--ease), color .4s var(--ease);
+}
+
+/* ---- Primary metallic gold ---- */
+.btn-gold {
+  background: var(--gold-face);
+  background-size: 220% 100%;
+  background-position: 8% 50%;
+  color: var(--gold-ink) !important;
+  font-weight: 600;
+  border: 1px solid rgba(255, 244, 224, .4);
+  box-shadow: 0 12px 28px -14px var(--gold-glow),
+              inset 0 1px 0 rgba(255, 255, 255, .5),
+              inset 0 -3px 8px -3px rgba(110, 60, 25, .45);
+  animation: goldDrift 8s ease-in-out infinite;
+}
+@keyframes goldDrift { 0%, 100% { background-position: 8% 50%; } 50% { background-position: 72% 50%; } }
+.btn-gold:hover {
+  background-position: 100% 50%;
+  transform: translateY(-3px) scale(1.025);
+  filter: brightness(1.05) saturate(1.06);
+  box-shadow: 0 22px 46px -14px var(--gold-glow),
+              0 0 0 1px rgba(255, 240, 215, .55),
+              inset 0 1px 0 rgba(255, 255, 255, .65);
+  animation-play-state: paused;
+}
+.btn-gold:active {
+  transform: translateY(-1px) scale(.99);
+  box-shadow: 0 8px 18px -12px var(--gold-glow), inset 0 2px 7px rgba(110, 60, 25, .5);
+}
+/* brighter, wider sheen sweep on hover */
+.btn-gold::after { background: linear-gradient(120deg, transparent, rgba(255, 255, 255, .72), transparent) !important; width: 48% !important; }
+
+/* ---- Outline gold: fills with liquid gold + lifts ---- */
+.btn-outline-gold { border-color: var(--accent) !important; color: var(--accent-2) !important; background: color-mix(in srgb, var(--accent) 6%, transparent); }
+.btn-outline-gold:hover {
+  border-color: transparent !important; color: var(--gold-ink) !important;
+  background: var(--gold-face); background-size: 180% 100%;
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 18px 40px -16px var(--gold-glow);
+}
+
+/* ---- Line button: keep the wipe-up, make it gold, add lift + glow ---- */
+.btn-line { border-color: var(--accent) !important; color: var(--accent-2); background: color-mix(in srgb, var(--accent) 8%, transparent); }
+.btn-line::before { background: var(--gold-face) !important; }
+.btn-line:hover { color: var(--gold-ink) !important; transform: translateY(-3px); box-shadow: 0 16px 36px -16px var(--gold-glow); }
+
+/* ---- "browse all" more-link: gold wipe ---- */
+.btn-more::before { background: var(--gold-face) !important; }
+
+/* ---- Nav chip toggles: gold fill on hover ---- */
+.nav-utils .chip-btn { border-color: var(--line); color: var(--accent-2); }
+.nav-utils .chip-btn:hover {
+  background: var(--gold-face); background-size: 180% 100%; border-color: transparent;
+  color: var(--gold-ink); transform: translateY(-2px);
+  box-shadow: 0 10px 24px -14px var(--gold-glow);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-gold { animation: none; }
+  .btn-gold:hover, .btn-outline-gold:hover, .btn-line:hover, .nav-utils .chip-btn:hover { transform: none; }
+}
+
+/* ============================================================================
+   Abaya collection — /abayas gallery + home teaser
+   ============================================================================ */
+.abaya-group { margin-top: 3.2rem; }
+.abaya-group__head { display: flex; align-items: baseline; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.4rem; padding-bottom: .9rem; border-bottom: 1px solid var(--line); }
+.abaya-group__title { font-family: var(--font-serif); font-size: clamp(1.3rem, 3.4vw, 1.9rem); margin: 0; color: var(--text); }
+.abaya-group__note { margin: 0; color: var(--muted); font-size: .92rem; }
+
+.abaya-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.4rem; }
+@media (max-width: 1100px) { .abaya-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 760px)  { .abaya-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 460px)  { .abaya-grid { grid-template-columns: 1fr; } }
+
+.abaya-card { display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: 16px; overflow: hidden; background: var(--card); transition: transform .5s var(--ease), box-shadow .5s var(--ease), border-color .5s var(--ease); }
+.abaya-card:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: 0 22px 40px -26px var(--gold-glow, rgba(201,138,94,.5)); }
+.abaya-card__img { aspect-ratio: 4 / 5; overflow: hidden; }
+.abaya-card__img picture, .abaya-card__img img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .8s var(--ease); }
+.abaya-card:hover .abaya-card__img img { transform: scale(1.045); }
+.abaya-card__body { display: flex; flex-direction: column; align-items: flex-start; gap: .5rem; padding: 1rem 1.05rem 1.15rem; }
+.abaya-card__name { font-family: var(--font-serif); font-size: 1.08rem; color: var(--text); }
+.abaya-card__fabric { font-size: .74rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.abaya-card__cta { margin-top: .35rem; }
+
+.abaya-how { margin-top: 3.6rem; padding: 2rem 1.8rem; border: 1px solid var(--line); border-radius: 18px; background: var(--bg-2); }
+.abaya-how__title { font-family: var(--font-serif); font-size: 1.4rem; margin: 0 0 1rem; color: var(--text); }
+.abaya-how__steps { margin: 0 0 1.4rem; padding-inline-start: 1.2rem; color: var(--text-soft); display: grid; gap: .55rem; }
+.abaya-how__steps li { padding-inline-start: .25rem; }
+
+/* Home teaser band */
+.abaya-teaser { position: relative; }
+.abaya-teaser__inner { display: grid; grid-template-columns: 1.1fr .9fr; gap: 2.4rem; align-items: center; border: 1px solid var(--line); border-radius: 20px; overflow: hidden; background: var(--bg-2); }
+@media (max-width: 820px) { .abaya-teaser__inner { grid-template-columns: 1fr; } }
+.abaya-teaser__copy { padding: clamp(1.6rem, 4vw, 2.8rem); }
+.abaya-teaser__thumbs { display: grid; grid-template-columns: repeat(3, 1fr); gap: .5rem; height: 100%; min-height: 260px; }
+.abaya-teaser__thumbs picture, .abaya-teaser__thumbs img { display: block; width: 100%; height: 100%; object-fit: cover; }
+@media (max-width: 820px) { .abaya-teaser__thumbs { min-height: 190px; } }

@@ -1,0 +1,13 @@
+@model BardeesCms.Web.Areas.Admin.Models.PageHeaderModel
+<div class="page-head">
+    <div class="page-head__text">
+        <h1>@Model.Title</h1>
+        @if (!string.IsNullOrEmpty(Model.Subtitle)) { <p>@Model.Subtitle</p> }
+    </div>
+    @if (!string.IsNullOrEmpty(Model.ActionText) && !string.IsNullOrEmpty(Model.ActionUrl))
+    {
+        <div class="page-head__actions">
+            <a class="btn-gold" href="@Model.ActionUrl"><i class="bi @Model.ActionIcon"></i> @Model.ActionText</a>
+        </div>
+    }
+</div>

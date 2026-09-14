@@ -1,0 +1,63 @@
+@model PageSectionFormVm
+@{
+    var isNew = Model.Id == 0;
+    ViewData["Title"] = isNew ? "New section" : "Edit section";
+    var header = new PageHeaderModel { Title = (string)ViewData["Title"]!, Subtitle = isNew ? "Add a new page-section heading block." : Model.Key };
+}
+
+<partial name="_PageHeader" model="header" />
+
+<form asp-action="@(isNew ? "Create" : "Edit")" method="post" class="form-cms">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+    <div asp-validation-summary="ModelOnly" class="admin-alert admin-alert--danger" style="display:@(ViewData.ModelState.IsValid ? "none" : "flex")"></div>
+
+    <div class="editor-layout">
+        <div class="card-cms"><div class="card-cms__body">
+            <div class="form-row">
+                <label asp-for="Key"></label>
+                @if (isNew)
+                {
+                    <input asp-for="Key" class="form-control" placeholder="e.g. why, clients, showreel" />
+                    <span class="hint">Stable identifier used by the public views. Lowercase letters, numbers and hyphens. Cannot be changed later.</span>
+                    <span asp-validation-for="Key" class="text-danger"></span>
+                }
+                else
+                {
+                    <input type="hidden" asp-for="Key" />
+                    <input class="form-control" value="@Model.Key" readonly disabled />
+                    <span class="hint">The section key is fixed once created.</span>
+                }
+            </div>
+            <div class="field-pair">
+                <div class="form-row"><label asp-for="Eyebrow" class="lang-tag">Eyebrow · EN</label><input asp-for="Eyebrow" class="form-control" /></div>
+                <div class="form-row"><label asp-for="EyebrowAr" class="lang-tag">Eyebrow · AR</label><input asp-for="EyebrowAr" class="form-control" dir="rtl" /></div>
+            </div>
+            <div class="field-pair">
+                <div class="form-row"><label asp-for="Title" class="lang-tag">Title · EN</label><textarea asp-for="Title" class="form-control" style="min-height:80px"></textarea><span class="hint">Small HTML like <code>&lt;em&gt;</code> is allowed.</span></div>
+                <div class="form-row"><label asp-for="TitleAr" class="lang-tag">Title · AR</label><textarea asp-for="TitleAr" class="form-control" dir="rtl" style="min-height:80px"></textarea></div>
+            </div>
+            <div class="field-pair">
+                <div class="form-row"><label asp-for="Note" class="lang-tag">Note · EN</label><textarea asp-for="Note" class="form-control" style="min-height:80px"></textarea></div>
+                <div class="form-row"><label asp-for="NoteAr" class="lang-tag">Note · AR</label><textarea asp-for="NoteAr" class="form-control" dir="rtl" style="min-height:80px"></textarea></div>
+            </div>
+        </div></div>
+
+        <div class="card-cms"><div class="card-cms__body">
+            <h3 class="section-title">Options</h3>
+            <div class="form-row"><label asp-for="Page"></label><input asp-for="Page" class="form-control" placeholder="home" /></div>
+            <div class="form-row"><label asp-for="DisplayOrder"></label><input asp-for="DisplayOrder" type="number" class="form-control" /></div>
+            <div class="form-row" style="display:flex;gap:20px;align-items:center;margin-top:18px">
+                <label class="switch"><input asp-for="IsActive" /><span class="switch__slider"></span></label> <span>Active</span>
+            </div>
+            <div style="display:flex;gap:10px;margin-top:22px">
+                <button type="submit" class="btn-gold"><i class="bi bi-check-lg"></i> Save</button>
+                <a class="btn-ghost" asp-action="Index">Cancel</a>
+            </div>
+        </div></div>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

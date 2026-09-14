@@ -1,0 +1,21 @@
+@model Discipline
+@{
+    var title = Site.Pick(Model.Name, Model.NameAr);
+    var soon = Model.Status == DisciplineStatus.Soon;
+    var subs = Model.SubItems.OrderBy(s => s.DisplayOrder).Take(3).ToList();
+    var pic = new PictureVm { Image = Model.CoverImage, Rendition = "portrait", Alt = title ?? "" };
+}
+<a href="/work?discipline=@Model.Slug" class="panel reveal">
+    <partial name="_Picture" model="pic" />
+    <span class="panel__scrim"></span>
+    @if (!string.IsNullOrEmpty(Model.Number)) { <span class="panel__n">@Model.Number</span> }
+    @if (soon) { <span class="panel__soon">@Site.T("Portfolio in progress", "قيد الإنشاء")</span> }
+    <span class="panel__v">@title</span>
+    <span class="panel__full">
+        <span class="panel__t">@title</span>
+        <span class="panel__ar">@(Site.IsArabic ? Model.Name : Model.NameAr)</span>
+        <span class="panel__tags">
+            @foreach (var s in subs) { <span>@Site.Pick(s.Name, s.NameAr)</span> }
+        </span>
+    </span>
+</a>

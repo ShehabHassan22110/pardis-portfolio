@@ -1,0 +1,43 @@
+@model FaqFormVm
+@{
+    var isNew = Model.Id == 0;
+    ViewData["Title"] = isNew ? "New FAQ" : "Edit FAQ";
+    var header = new PageHeaderModel { Title = (string)ViewData["Title"]!, Subtitle = isNew ? "Add a new frequently-asked question." : Model.Question };
+}
+
+<partial name="_PageHeader" model="header" />
+
+<form asp-action="@(isNew ? "Create" : "Edit")" method="post" class="form-cms">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+    <div asp-validation-summary="ModelOnly" class="admin-alert admin-alert--danger" style="display:@(ViewData.ModelState.IsValid ? "none" : "flex")"></div>
+
+    <div class="editor-layout">
+        <div class="card-cms"><div class="card-cms__body">
+            <div class="field-pair">
+                <div class="form-row"><label asp-for="Question" class="lang-tag">EN</label><input asp-for="Question" class="form-control" /><span asp-validation-for="Question" class="text-danger"></span></div>
+                <div class="form-row"><label asp-for="QuestionAr" class="lang-tag">AR</label><input asp-for="QuestionAr" class="form-control" dir="rtl" /></div>
+            </div>
+            <div class="field-pair">
+                <div class="form-row"><label asp-for="Answer" class="lang-tag">Answer · EN</label><textarea asp-for="Answer" class="form-control"></textarea><span asp-validation-for="Answer" class="text-danger"></span></div>
+                <div class="form-row"><label asp-for="AnswerAr" class="lang-tag">Answer · AR</label><textarea asp-for="AnswerAr" class="form-control" dir="rtl"></textarea></div>
+            </div>
+        </div></div>
+
+        <div class="card-cms"><div class="card-cms__body">
+            <h3 class="section-title">Options</h3>
+            <div class="form-row"><label asp-for="DisplayOrder"></label><input asp-for="DisplayOrder" type="number" class="form-control" /></div>
+            <div class="form-row" style="display:flex;gap:20px;align-items:center;margin-top:18px">
+                <label class="switch"><input asp-for="IsActive" /><span class="switch__slider"></span></label> <span>Active</span>
+            </div>
+            <div style="display:flex;gap:10px;margin-top:22px">
+                <button type="submit" class="btn-gold"><i class="bi bi-check-lg"></i> Save</button>
+                <a class="btn-ghost" asp-action="Index">Cancel</a>
+            </div>
+        </div></div>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

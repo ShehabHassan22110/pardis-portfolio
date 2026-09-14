@@ -1,0 +1,104 @@
+@model DashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+    var hour = DateTime.Now.Hour;
+    var greeting = hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening";
+}
+
+<div class="page-head">
+    <div class="page-head__text">
+        <p style="letter-spacing:.28em;text-transform:uppercase;font-size:.66rem;color:var(--a-muted);margin:0 0 4px">@greeting</p>
+        <h1>Welcome back</h1>
+        <p>Here's what's happening across the BARDEES site.</p>
+    </div>
+    <div class="page-head__actions">
+        <a class="btn-ghost" asp-controller="PortfolioProjects" asp-action="Create"><i class="bi bi-plus-lg"></i> New project</a>
+        <a class="btn-ghost" asp-controller="Services" asp-action="Create"><i class="bi bi-plus-lg"></i> New service</a>
+        <a class="btn-gold" asp-controller="MediaLibrary" asp-action="Index"><i class="bi bi-upload"></i> Upload media</a>
+    </div>
+</div>
+
+<div class="stat-grid">
+    <div class="stat"><i class="bi bi-images stat__icon"></i><div class="stat__value">@Model.TotalProjects</div><div class="stat__label">Projects</div><div class="stat__sub">@Model.PublishedProjects published · @Model.DraftProjects draft</div></div>
+    <div class="stat"><i class="bi bi-patch-check stat__icon"></i><div class="stat__value">@Model.TotalBrands</div><div class="stat__label">Clients &amp; Brands</div></div>
+    <div class="stat"><i class="bi bi-briefcase stat__icon"></i><div class="stat__value">@Model.TotalServices</div><div class="stat__label">Services</div></div>
+    <div class="stat"><i class="bi bi-play-btn stat__icon"></i><div class="stat__value">@Model.TotalVideos</div><div class="stat__label">Videos</div></div>
+    <div class="stat"><i class="bi bi-inbox stat__icon"></i><div class="stat__value">@Model.TotalMessages</div><div class="stat__label">Messages</div><div class="stat__sub">@Model.UnreadMessages unread</div></div>
+</div>
+
+<div class="grid-2">
+    <div class="card-cms">
+        <div class="card-cms__head"><i class="bi bi-images" style="color:var(--a-gold-2)"></i><h2>Recent projects</h2>
+            <a class="btn-ghost btn-sm" style="margin-inline-start:auto" asp-controller="PortfolioProjects" asp-action="Index">All</a></div>
+        <div class="card-cms__body" style="padding:0">
+            @if (Model.RecentProjects.Any())
+            {
+                <table class="table-cms">
+                    <tbody>
+                    @foreach (var p in Model.RecentProjects)
+                    {
+                        <tr>
+                            <td data-label="Project">
+                                <a class="cell-title" asp-controller="PortfolioProjects" asp-action="Edit" asp-route-id="@p.Id">@p.Title</a>
+                                <div style="font-size:.78rem;color:var(--a-muted)">@(p.Discipline?.Name ?? "—")</div>
+                            </td>
+                            <td data-label="Status" style="text-align:right">
+                                @if (p.IsPublished) { <span class="badge-cms badge-on">Published</span> } else { <span class="badge-cms badge-draft">Draft</span> }
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            }
+            else { <div class="empty-state"><i class="bi bi-images"></i><h3>No projects yet</h3></div> }
+        </div>
+    </div>
+
+    <div class="card-cms">
+        <div class="card-cms__head"><i class="bi bi-inbox" style="color:var(--a-gold-2)"></i><h2>Recent messages</h2>
+            <a class="btn-ghost btn-sm" style="margin-inline-start:auto" asp-controller="ContactMessages" asp-action="Index">Inbox</a></div>
+        <div class="card-cms__body" style="padding:0">
+            @if (Model.RecentMessages.Any())
+            {
+                <table class="table-cms">
+                    <tbody>
+                    @foreach (var m in Model.RecentMessages)
+                    {
+                        <tr>
+                            <td data-label="From">
+                                <a class="cell-title" asp-controller="ContactMessages" asp-action="Details" asp-route-id="@m.Id">@m.Name</a>
+                                <div style="font-size:.78rem;color:var(--a-muted)">@(m.Subject ?? m.Email)</div>
+                            </td>
+                            <td data-label="When" style="text-align:right;font-size:.8rem;color:var(--a-muted)">@m.CreatedAt.ToString("MMM d")</td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            }
+            else { <div class="empty-state"><i class="bi bi-inbox"></i><h3>No messages yet</h3></div> }
+        </div>
+    </div>
+</div>
+
+<div class="card-cms" style="margin-top:22px">
+    <div class="card-cms__head"><i class="bi bi-clock-history" style="color:var(--a-gold-2)"></i><h2>Recent activity</h2></div>
+    <div class="card-cms__body" style="padding:0">
+        @if (Model.RecentActivity.Any())
+        {
+            <table class="table-cms">
+                <tbody>
+                @foreach (var a in Model.RecentActivity)
+                {
+                    <tr>
+                        <td data-label="Action"><span class="cell-title">@a.Action</span> @a.EntityName</td>
+                        <td data-label="Detail" style="color:var(--a-muted)">@a.Description</td>
+                        <td data-label="By" style="color:var(--a-muted)">@a.UserName</td>
+                        <td data-label="When" style="text-align:right;font-size:.8rem;color:var(--a-muted)">@a.CreatedAt.ToString("MMM d, HH:mm")</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        }
+        else { <div class="empty-state"><i class="bi bi-clock-history"></i><h3>No activity recorded yet</h3><p>Actions you take in the CMS will appear here.</p></div> }
+    </div>
+</div>

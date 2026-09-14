@@ -1,0 +1,57 @@
+@model List<SeoPage>
+@{
+    ViewData["Title"] = "SEO";
+    var result = (PagedResult<SeoPage>)ViewBag.Result;
+    var header = new PageHeaderModel { Title = "SEO Pages", Subtitle = "Per-route meta titles, descriptions and social cards.", ActionText = "New SEO page", ActionUrl = Url.Action("Create") };
+    var pager = new PagerModel { Page = result.Page, TotalPages = result.TotalPages, TotalItems = result.TotalItems, FirstItem = result.FirstItem, LastItem = result.LastItem, RouteValues = new Dictionary<string, string?> { ["search"] = result.Search, ["sort"] = result.Sort, ["filter"] = result.Filter } };
+}
+@Html.AntiForgeryToken()
+<partial name="_PageHeader" model="header" />
+
+<form class="toolbar" method="get">
+    <div class="search"><i class="bi bi-search"></i><input class="form-control" type="search" name="search" value="@result.Search" placeholder="Search pages…" /></div>
+    <select class="form-select" style="max-width:180px" name="filter" onchange="this.form.submit()">
+        <option value="">All</option>
+        <option value="active" selected="@(result.Filter == "active")">Active</option>
+        <option value="inactive" selected="@(result.Filter == "inactive")">Inactive</option>
+    </select>
+    <select class="form-select" style="max-width:180px" name="sort" onchange="this.form.submit()">
+        <option value="">Route A–Z</option>
+        <option value="name" selected="@(result.Sort == "name")">Name A–Z</option>
+        <option value="recent" selected="@(result.Sort == "recent")">Newest</option>
+    </select>
+    <button class="btn-ghost" type="submit"><i class="bi bi-funnel"></i> Filter</button>
+</form>
+
+<div class="card-cms"><div class="card-cms__body" style="padding:0">
+    @if (Model.Any())
+    {
+        <table class="table-cms">
+            <thead><tr>
+                <th>Page</th>
+                <th>Route</th>
+                <th class="d-none d-md-table-cell">Meta title</th>
+                <th style="width:80px">Active</th>
+                <th style="width:120px;text-align:right">Actions</th>
+            </tr></thead>
+            <tbody>
+            @foreach (var p in Model)
+            {
+                <tr data-id="@p.Id">
+                    <td data-label="Page"><a class="cell-title" asp-action="Edit" asp-route-id="@p.Id">@p.PageName</a></td>
+                    <td data-label="Route"><code>@p.Route</code></td>
+                    <td data-label="Meta title" class="d-none d-md-table-cell" style="max-width:42ch;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">@p.MetaTitle</td>
+                    <td data-label="Active"><label class="switch"><input type="checkbox" data-toggle-url="@Url.Action("Toggle", new { id = p.Id })" @(p.IsActive ? "checked" : "") /><span class="switch__slider"></span></label></td>
+                    <td data-label="Actions"><div class="row-actions">
+                        <a class="btn-icon" asp-action="Edit" asp-route-id="@p.Id" title="Edit"><i class="bi bi-pencil"></i></a>
+                        <button type="button" class="btn-icon" data-delete-url="@Url.Action("Delete", new { id = p.Id })" data-delete-name="@p.PageName" title="Delete"><i class="bi bi-trash"></i></button>
+                    </div></td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+    else { <div class="empty-state"><i class="bi bi-graph-up-arrow"></i><h3>No SEO pages yet</h3><a class="btn-gold" style="margin-top:12px" asp-action="Create"><i class="bi bi-plus-lg"></i> New SEO page</a></div> }
+</div></div>
+
+<partial name="_Pager" model="pager" />

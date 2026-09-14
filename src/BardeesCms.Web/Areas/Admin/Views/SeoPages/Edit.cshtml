@@ -1,0 +1,73 @@
+@model SeoPageFormVm
+@{
+    var isNew = Model.Id == 0;
+    ViewData["Title"] = isNew ? "New SEO page" : "Edit SEO page";
+    var header = new PageHeaderModel { Title = (string)ViewData["Title"]!, Subtitle = isNew ? "Add SEO metadata for a route." : Model.PageName };
+    var robotsOptions = new[] { "index,follow", "noindex,follow", "index,nofollow", "noindex,nofollow" };
+}
+<partial name="_PageHeader" model="header" />
+
+<form asp-action="@(isNew ? "Create" : "Edit")" method="post" class="form-cms">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+    <div asp-validation-summary="ModelOnly" class="admin-alert admin-alert--danger" style="display:@(ViewData.ModelState.IsValid ? "none" : "flex")"></div>
+
+    <div class="editor-layout">
+        <div class="card-cms"><div class="card-cms__body">
+            <div class="form-row"><label asp-for="PageName"></label><input asp-for="PageName" class="form-control" placeholder="Home" /><span asp-validation-for="PageName" class="text-danger"></span></div>
+            <div class="form-row">
+                <label asp-for="Route"></label>
+                <input asp-for="Route" class="form-control" placeholder="/about" />
+                <span class="hint">The path this metadata applies to, e.g. <strong>/</strong>, <strong>/about</strong>, <strong>/work</strong>. Must be unique.</span>
+                <span asp-validation-for="Route" class="text-danger"></span>
+            </div>
+
+            <div class="field-pair">
+                <div class="form-row"><label asp-for="MetaTitle" class="lang-tag">Meta title · EN</label><input asp-for="MetaTitle" class="form-control" /></div>
+                <div class="form-row"><label asp-for="MetaTitleAr" class="lang-tag">Meta title · AR</label><input asp-for="MetaTitleAr" class="form-control" dir="rtl" /></div>
+            </div>
+            <div class="field-pair">
+                <div class="form-row"><label asp-for="MetaDescription" class="lang-tag">Meta description · EN</label><textarea asp-for="MetaDescription" class="form-control" style="min-height:80px"></textarea></div>
+                <div class="form-row"><label asp-for="MetaDescriptionAr" class="lang-tag">Meta description · AR</label><textarea asp-for="MetaDescriptionAr" class="form-control" dir="rtl" style="min-height:80px"></textarea></div>
+            </div>
+            <div class="form-row"><label asp-for="Keywords"></label><input asp-for="Keywords" class="form-control" placeholder="comma, separated, keywords" /></div>
+
+            <hr style="border-color:var(--a-line)" />
+            <h3 class="section-title">Open Graph / social</h3>
+            <div class="field-pair">
+                <div class="form-row"><label asp-for="OgTitle" class="lang-tag">OG title · EN</label><input asp-for="OgTitle" class="form-control" /></div>
+                <div class="form-row"><label asp-for="OgTitleAr" class="lang-tag">OG title · AR</label><input asp-for="OgTitleAr" class="form-control" dir="rtl" /></div>
+            </div>
+            <div class="field-pair">
+                <div class="form-row"><label asp-for="OgDescription" class="lang-tag">OG desc · EN</label><textarea asp-for="OgDescription" class="form-control" style="min-height:70px"></textarea></div>
+                <div class="form-row"><label asp-for="OgDescriptionAr" class="lang-tag">OG desc · AR</label><textarea asp-for="OgDescriptionAr" class="form-control" dir="rtl" style="min-height:70px"></textarea></div>
+            </div>
+            <div class="form-row"><label asp-for="OgImage"></label><input asp-for="OgImage" class="form-control" placeholder="/uploads/... or https://…" /></div>
+        </div></div>
+
+        <div class="card-cms"><div class="card-cms__body">
+            <h3 class="section-title">Options</h3>
+            <div class="form-row"><label asp-for="CanonicalUrl"></label><input asp-for="CanonicalUrl" class="form-control" placeholder="https://…" /><span asp-validation-for="CanonicalUrl" class="text-danger"></span></div>
+            <div class="form-row">
+                <label asp-for="Robots"></label>
+                <select asp-for="Robots" class="form-select">
+                    @foreach (var r in robotsOptions)
+                    {
+                        <option value="@r" selected="@(Model.Robots == r)">@r</option>
+                    }
+                </select>
+            </div>
+            <div class="form-row" style="display:flex;gap:20px;align-items:center;margin-top:14px">
+                <label class="switch"><input asp-for="IsActive" /><span class="switch__slider"></span></label> <span>Active</span>
+            </div>
+            <div style="display:flex;gap:10px;margin-top:22px">
+                <button type="submit" class="btn-gold"><i class="bi bi-check-lg"></i> Save</button>
+                <a class="btn-ghost" asp-action="Index">Cancel</a>
+            </div>
+        </div></div>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

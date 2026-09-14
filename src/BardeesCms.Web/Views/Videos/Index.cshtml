@@ -1,0 +1,42 @@
+@model VideosViewModel
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = Site.T("Videos", "الفيديوهات");
+}
+
+<section class="section page-hero">
+    <div class="container">
+        <div class="title-c reveal">
+            <span class="tc-eyebrow">@Site.T("Watch", "شاهد")</span>
+            <h2 class="d-1 tc-h">@Html.Raw(Site.T("The <em>film</em> library.", "مكتبة <em>الأفلام</em>."))</h2>
+            <p class="tc-note">@Site.T("Commercial campaigns, modelling, acting and behind-the-scenes — filter by category, tap any film to play.", "حملات إعلانية ومودلينج وتمثيل وكواليس — صفِّ حسب الفئة واضغط أي فيلم لتشغيله.")</p>
+            @if (!string.IsNullOrEmpty(Model.YouTubeUrl) && Model.YouTubeUrl != "#")
+            {
+                <a class="btn-line mt-2" href="@Model.YouTubeUrl" target="_blank" rel="noopener" style="color:#FF0000;border-color:#FF0000">@Site.T("Watch on YouTube", "شاهد على يوتيوب") <i class="bi bi-youtube"></i></a>
+            }
+        </div>
+
+        @if (Model.Categories.Any())
+        {
+            <nav class="work-filter reveal" data-filterbar data-target="#videosGrid" data-item=".vid-card" aria-label="Filter videos">
+                <a href="#" data-filter="all" class="active">@Site.T("All", "الكل") <span class="vtab__n">@Model.Videos.Count</span></a>
+                @foreach (var c in Model.Categories)
+                {
+                    var count = Model.Videos.Count(v => v.VideoCategoryId == c.Id);
+                    <a href="#" data-filter="@c.Id">@Site.Pick(c.Name, c.NameAr) <span class="vtab__n">@count</span></a>
+                }
+            </nav>
+        }
+
+        <div class="video-grid" id="videosGrid">
+            @foreach (var v in Model.Videos)
+            {
+                <partial name="_VideoCard" model="v" />
+            }
+        </div>
+        @if (!Model.Videos.Any())
+        {
+            <div class="text-center py-5"><p class="tc-note">@Site.T("Films are being added soon.", "تتم إضافة الأفلام قريباً.")</p></div>
+        }
+    </div>
+</section>
