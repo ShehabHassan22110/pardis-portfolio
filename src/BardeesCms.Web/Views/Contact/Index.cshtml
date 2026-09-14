@@ -107,7 +107,7 @@
                     ['@Site.T("Email", "البريد")', val('Form.Email')],
                     ['@Site.T("Type", "النوع")', val('Form.Subject')]
                 ];
-                var lines = [form.dataset.waIntro, ''];
+                var lines = ['@Site.T("📩 New message from your website", "📩 رسالة جديدة من موقعك الإلكتروني")', '', form.dataset.waIntro, ''];
                 fields.forEach(function (f) { if (f[1]) lines.push(f[0] + ': ' + f[1]); });
                 var msg = val('Form.Message');
                 if (msg) { lines.push('', '@Site.T("Message", "الرسالة")' + ':', msg); }
