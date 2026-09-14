@@ -4,6 +4,7 @@ Thumbs.db
 desktop.ini
 .vscode/
 .idea/
+.vs/
 
 # temp preview copies used during development
 __*.html
@@ -12,5 +13,21 @@ __*.html
 # dependencies (none yet, but future-proof)
 node_modules/
 
-# raw client source media (optimized copies live in assets/)
+# raw client source media (optimized copies live in wwwroot/assets/img)
 CLient Data/
+new client data/
+
+# legacy static-site image build output at repo root — canonical copies live in
+# src/BardeesCms.Web/wwwroot/assets/img (the pipeline still writes here as a staging dir)
+/assets/
+
+# .NET build output
+[Bb]in/
+[Oo]bj/
+*.user
+
+# ASP.NET local secrets are stored outside the repo (user-secrets); never commit
+appsettings.*.local.json
+
+# User-generated uploads (runtime media, not source)
+src/BardeesCms.Web/wwwroot/uploads/

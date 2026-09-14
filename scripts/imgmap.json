@@ -17,7 +17,18 @@
     { "src": "IMG_2483.JPG.jpeg", "name": "ambassador-instore", "kind": "photo", "focus": "attention" },
     { "src": "WhatsApp Image 2026-09-08 at 12.25.17 PM.jpeg", "name": "beauty-01", "kind": "photo", "focus": "attention" },
     { "src": "WhatsApp Image 2026-09-08 at 12.25.17 PM (1).jpeg", "name": "beauty-02", "kind": "photo", "focus": "attention" },
-    { "src": "WhatsApp Image 2026-09-08 at 12.25.17 PM (2).jpeg", "name": "beauty-03", "kind": "photo", "focus": "attention" }
+    { "src": "WhatsApp Image 2026-09-08 at 12.25.17 PM (2).jpeg", "name": "beauty-03", "kind": "photo", "focus": "attention" },
+
+    { "src": "abaya-src-1.jpg",  "name": "abaya-01", "kind": "photo", "focus": "attention" },
+    { "src": "abaya-src-2.jpg",  "name": "abaya-02", "kind": "photo", "focus": "attention" },
+    { "src": "abaya-src-3.jpg",  "name": "abaya-03", "kind": "photo", "focus": "attention" },
+    { "src": "abaya-src-4.jpg",  "name": "abaya-04", "kind": "photo", "focus": "attention" },
+    { "src": "abaya-src-5.jpg",  "name": "abaya-05", "kind": "photo", "focus": "attention" },
+    { "src": "abaya-src-6.jpg",  "name": "abaya-06", "kind": "photo", "focus": "attention" },
+    { "src": "abaya-src-7.jpg",  "name": "abaya-07", "kind": "photo", "focus": "attention" },
+    { "src": "abaya-src-8.jpeg", "name": "abaya-08", "kind": "photo", "focus": "attention" },
+    { "src": "abaya-src-9.jpeg", "name": "abaya-09", "kind": "photo", "focus": "attention" },
+    { "src": "abaya-src-10.jpeg","name": "abaya-10", "kind": "photo", "focus": "attention" }
   ],
   "_logoComment": "Logos are extracted to clean single-colour SILHOUETTES on transparent PNG (used as CSS masks, painted theme-aware + gold on hover). invert:true for dark-mark-on-light source; tc/slope tune the alpha threshold; crop [l,t,w,h] as fractions isolates the mark from busy backgrounds.",
   "logos": [
