@@ -106,7 +106,7 @@ img { max-width: 100%; height: auto; }
 .container, .container-xxl { max-width: var(--wrap); }
 
 /* section rhythm + reusable bits */
-.section { padding: clamp(56px, 8vw, 120px) 0; }
+.section { padding: clamp(32px, 4.5vw, 64px) 0; }
 .bg-surface { background: var(--bg-2) !important; }
 .text-muted-2 { color: var(--muted) !important; }
 .text-accent { color: var(--accent) !important; }
