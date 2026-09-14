@@ -37,7 +37,7 @@
             {
                 var poster = !string.IsNullOrEmpty(v.Thumbnail) ? v.Thumbnail
                     : (v.Provider == VideoProvider.YouTube && !string.IsNullOrEmpty(v.ProviderVideoId)
-                        ? $"https://img.ytimg.com/vi/{v.ProviderVideoId}/hqdefault.jpg" : null);
+                        ? $"/yt/thumb/{v.ProviderVideoId}" : null);
                 <tr data-id="@v.Id">
                     @if (canReorder) { <td data-label=""><i class="bi bi-grip-vertical drag-handle"></i></td> }
                     <td data-label="Preview">

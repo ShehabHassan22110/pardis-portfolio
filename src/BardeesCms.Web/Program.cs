@@ -20,6 +20,13 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
+// HTTP client for the first-party YouTube thumbnail proxy (MediaController).
+builder.Services.AddHttpClient("yt", c =>
+{
+    c.Timeout = TimeSpan.FromSeconds(8);
+    c.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (compatible; BardeesCMS/1.0)");
+});
+
 builder.Services
     .AddIdentity<ApplicationUser, IdentityRole>(options =>
     {

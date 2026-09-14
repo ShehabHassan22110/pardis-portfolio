@@ -4,12 +4,11 @@
     var client = Site.Pick(Model.Client, Model.ClientAr);
     var cat = Model.VideoCategory is null ? "" : Site.Pick(Model.VideoCategory.Name, Model.VideoCategory.NameAr);
     var isYt = Model.Provider == VideoProvider.YouTube && !string.IsNullOrEmpty(Model.ProviderVideoId);
+    // Serve YT posters via our own /yt/thumb proxy so ad-blockers can't hide them and the
+    // best rendition is chosen server-side. A custom uploaded Thumbnail always wins.
     var poster = !string.IsNullOrEmpty(Model.Thumbnail) ? ImageResolver.Src(Model.Thumbnail)
-        : isYt ? $"https://i.ytimg.com/vi/{Model.ProviderVideoId}/maxresdefault.jpg" : "";
-    // Poster fallback: maxres → hqdefault → hide (so invalid/pending IDs never show a broken image).
-    var onerr = isYt && string.IsNullOrEmpty(Model.Thumbnail)
-        ? $"this.onerror=function(){{this.style.display='none'}};this.src='https://i.ytimg.com/vi/{Model.ProviderVideoId}/hqdefault.jpg'"
-        : "this.style.display='none'";
+        : isYt ? $"/yt/thumb/{Model.ProviderVideoId}" : "";
+    var onerr = "this.style.display='none'";
     var portraitCls = Model.IsPortrait ? " vid-card--portrait" : "";
     // Playback trigger: YouTube id, or an uploaded MP4 path.
     var trigger = isYt ? $"data-youtube=\"{Model.ProviderVideoId}\"" :

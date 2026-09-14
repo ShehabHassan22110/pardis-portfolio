@@ -62,14 +62,28 @@ public class HeroController : AdminControllerBase
         }
         else e.BackgroundImage = vm.BackgroundImage;
 
-        // Replace slides with the non-empty submitted rows.
+        // Replace slides with the submitted rows. A row counts if it has an image path OR
+        // an uploaded file; uploaded files are stored and win over the text path.
         e.Slides.Clear();
         var order = 0;
-        foreach (var s in (vm.Slides ?? new()).Where(x => !string.IsNullOrWhiteSpace(x.Image)))
+        foreach (var s in vm.Slides ?? new())
         {
+            var img = s.Image?.Trim();
+            if (s.ImageFile is { Length: > 0 })
+            {
+                if (!_files.IsAllowedImage(s.ImageFile))
+                {
+                    ModelState.AddModelError(string.Empty, "One of the slide images is not a valid image file.");
+                    vm.Slides ??= new();
+                    return View(vm);
+                }
+                var stored = await _files.SaveAsync(s.ImageFile, "hero");
+                img = stored.WebPath;
+            }
+            if (string.IsNullOrWhiteSpace(img)) continue;
             e.Slides.Add(new HeroSlide
             {
-                Image = s.Image!.Trim(),
+                Image = img,
                 Label = s.Label,
                 LabelAr = s.LabelAr,
                 DisplayOrder = s.DisplayOrder != 0 ? s.DisplayOrder : order++,

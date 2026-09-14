@@ -3,13 +3,11 @@
     var v = Model.Video;
     var yt = v.Provider == VideoProvider.YouTube && !string.IsNullOrEmpty(v.ProviderVideoId);
     var poster = !string.IsNullOrEmpty(v.Thumbnail) ? ImageResolver.Src(v.Thumbnail)
-        : yt ? $"https://i.ytimg.com/vi/{v.ProviderVideoId}/maxresdefault.jpg" : "";
+        : yt ? $"/yt/thumb/{v.ProviderVideoId}" : "";
     var title = Site.Pick(v.Title, v.TitleAr);
     var kicker = v.VideoCategory is null ? Site.T("Film", "فيلم") : Site.Pick(v.VideoCategory.Name, v.VideoCategory.NameAr);
     var trigger = yt ? $"data-youtube=\"{v.ProviderVideoId}\"" : (!string.IsNullOrEmpty(v.VideoUrl) ? $"data-video=\"{v.VideoUrl}\"" : "");
-    var onerr = yt && string.IsNullOrEmpty(v.Thumbnail)
-        ? $"this.onerror=function(){{this.style.display='none'}};this.src='https://i.ytimg.com/vi/{v.ProviderVideoId}/hqdefault.jpg'"
-        : "this.style.display='none'";
+    var onerr = "this.style.display='none'";
 }
 <article class="sr-item@(Model.Main ? " sr-item--main" : "")@(v.IsPortrait ? " sr-item--portrait" : "") reveal" @Html.Raw(trigger) @(v.IsPortrait ? "data-portrait=1" : "") role="button" tabindex="0" aria-label="Play @title">
     @if (v.IsPortrait && !string.IsNullOrEmpty(poster)) { <img class="sr-item__bg" src="@poster" alt="" aria-hidden="true" loading="lazy" decoding="async" onerror="@onerr" /> }

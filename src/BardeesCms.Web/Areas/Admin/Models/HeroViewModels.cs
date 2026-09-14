@@ -73,6 +73,9 @@ public class HeroSlideVm
     public int Id { get; set; }
     [Display(Name = "Image")]
     public string? Image { get; set; }
+    /// <summary>Optional uploaded image for this slide; replaces <see cref="Image"/> when present.</summary>
+    [Display(Name = "Upload")]
+    public IFormFile? ImageFile { get; set; }
     [Display(Name = "Label")]
     public string? Label { get; set; }
     [Display(Name = "Label (Arabic)")]

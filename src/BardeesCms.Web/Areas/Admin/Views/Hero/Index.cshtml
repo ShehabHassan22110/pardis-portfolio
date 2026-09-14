@@ -74,19 +74,25 @@
 
     <div class="card-cms"><div class="card-cms__body">
         <h3 class="section-title">Slides</h3>
-        <p class="hint">Rows left with an empty image are ignored on save.</p>
+        <p class="hint">These are the rotating hero backgrounds. Upload an image (or paste a path / base name). Rows with no image are ignored on save.</p>
         <table class="table-cms">
             <thead>
-                <tr><th>Image (path / base name)</th><th>Label EN</th><th>Label AR</th><th style="width:90px">Order</th><th style="width:70px">Active</th></tr>
+                <tr><th style="width:74px">Preview</th><th>Image — upload or path</th><th>Label EN</th><th>Label AR</th><th style="width:80px">Order</th><th style="width:64px">Active</th></tr>
             </thead>
             <tbody>
                 @for (var i = 0; i < rowCount; i++)
                 {
                     var s = i < slides.Count ? slides[i] : new HeroSlideVm { IsActive = true };
+                    var prev = BardeesCms.Web.Services.ImageResolver.Src(s.Image, "sq");
                     <tr>
                         <td>
+                            <img id="heroPrev@i" class="thumb" style="width:56px;aspect-ratio:1;object-fit:cover;@(string.IsNullOrEmpty(prev) ? "display:none" : "")" src="@prev" alt="" />
+                        </td>
+                        <td>
                             <input type="hidden" name="Slides[@i].Id" value="@s.Id" />
-                            <input name="Slides[@i].Image" value="@s.Image" class="form-control" placeholder="/uploads/hero/look-01.jpg" />
+                            <label class="btn-ghost btn-sm" for="Slides_@(i)__ImageFile"><i class="bi bi-upload"></i> Upload</label>
+                            <input class="d-none" id="Slides_@(i)__ImageFile" type="file" name="Slides[@i].ImageFile" accept="image/*" data-preview="#heroPrev@i" />
+                            <input name="Slides[@i].Image" value="@s.Image" class="form-control mt-1" placeholder="/uploads/hero/look-01.jpg or couture-01" />
                         </td>
                         <td><input name="Slides[@i].Label" value="@s.Label" class="form-control" /></td>
                         <td><input name="Slides[@i].LabelAr" value="@s.LabelAr" class="form-control" dir="rtl" /></td>
