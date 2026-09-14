@@ -57,11 +57,7 @@
                             </select>
                         </div>
                         <div class="form-field"><label asp-for="Form.Message">@Site.T("Message", "الرسالة")</label><textarea asp-for="Form.Message" rows="5"></textarea><span asp-validation-for="Form.Message" class="text-danger"></span></div>
-                        <div class="d-flex flex-wrap gap-2 align-items-center">
-                            <button type="submit" class="btn btn-gold btn-lg">@Site.T("Send message", "إرسال") <i class="bi bi-arrow-up-right"></i></button>
-                            @if (Real(wa)) { <button type="button" class="btn-line btn-lg" id="waSend" style="color:#25D366;border-color:#25D366">@Site.T("Send on WhatsApp", "أرسل عبر واتساب") <i class="bi bi-whatsapp"></i></button> }
-                            @if (Real(email)) { <button type="button" class="btn-line btn-lg" id="mailSend">@Site.T("Send by email", "أرسل بالبريد") <i class="bi bi-envelope"></i></button> }
-                        </div>
+                        <button type="submit" class="btn btn-gold btn-lg">@Site.T("Send", "إرسال") <i class="bi bi-whatsapp"></i></button>
                         <p class="small mt-2" style="color:var(--muted)">@Site.T("“Send” opens WhatsApp with your details and saves them to Bardees' inbox.", "«إرسال» يفتح واتساب ببياناتك ويحفظها في بريد برديس.")</p>
                     </form>
                 }
@@ -113,24 +109,6 @@
                 if (msg) { lines.push('', '@Site.T("Message", "الرسالة")' + ':', msg); }
                 return lines.join('\n');
             }
-            var waBtn = document.getElementById('waSend');
-            if (waBtn) {
-                waBtn.addEventListener('click', function () {
-                    var num = (form.dataset.wa || '').replace(/[^0-9]/g, '');
-                    if (!num) return;
-                    window.open('https://wa.me/' + num + '?text=' + encodeURIComponent(buildMessage()), '_blank', 'noopener');
-                });
-            }
-            var mailBtn = document.getElementById('mailSend');
-            if (mailBtn) {
-                mailBtn.addEventListener('click', function () {
-                    var to = form.dataset.email || '';
-                    if (!to) return;
-                    var subject = val('Form.Subject') || '@Site.T("Collaboration enquiry", "طلب تعاون")';
-                    window.location.href = 'mailto:' + to + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(buildMessage());
-                });
-            }
-
             // Main "Send": open WhatsApp pre-filled with the form data, then save to the dashboard.
             form.addEventListener('submit', function (e) {
                 var num = (form.dataset.wa || '').replace(/[^0-9]/g, '');
