@@ -289,10 +289,10 @@ html[data-theme="light"] {
 .brand-logo--light { display: none; }
 [data-theme="light"] .brand-logo--dark { display: none; }
 [data-theme="light"] .brand-logo--light { display: block; }
-.brand-logo--nav { height: 42px; }
-.brand-logo--footer { height: 46px; }
-.brand-logo--loader { height: 104px; margin-inline: auto; }
-@media (max-width: 560px) { .brand-logo--nav { height: 34px; } }
+.brand-logo--nav { height: 60px; }
+.brand-logo--footer { height: 58px; }
+.brand-logo--loader { height: 140px; margin-inline: auto; }
+@media (max-width: 560px) { .brand-logo--nav { height: 46px; } }
 
 /* Home teaser band */
 .abaya-teaser { position: relative; }

@@ -38,17 +38,6 @@
             <div class="form-row"><label asp-for="DescriptionAr" class="lang-tag">Description · AR</label><textarea asp-for="DescriptionAr" class="form-control" dir="rtl" style="min-height:80px"></textarea></div>
         </div>
         <hr style="border-color:var(--a-line)" />
-        <div class="img-upload" style="margin-bottom:8px">
-            <img id="logoPreview" class="img-upload__preview" style="object-fit:contain;padding:8px" src="@(string.IsNullOrEmpty(Model.Logo) ? "" : Model.Logo)" alt="" />
-            <div>
-                <label class="btn-ghost" for="LogoFile"><i class="bi bi-upload"></i> Choose logo</label>
-                <input class="d-none" type="file" asp-for="LogoFile" accept="image/*" data-preview="#logoPreview" />
-                <div class="hint">Legacy single logo (optional). PNG/SVG works best. Max 8 MB.</div>
-                <span asp-validation-for="LogoFile" class="text-danger"></span>
-            </div>
-        </div>
-
-        <hr style="border-color:var(--a-line)" />
         <h3 class="section-title">Theme logos</h3>
         <p class="hint">Upload two versions of the logo. The right one shows automatically per theme, and replaces the logo in the header, footer, loader, favicon and dashboard on save.</p>
         <input type="hidden" asp-for="LogoLight" />

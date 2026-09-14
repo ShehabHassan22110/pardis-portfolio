@@ -272,4 +272,4 @@ textarea.form-control { min-height: 110px; resize: vertical; line-height: 1.6; }
 }
 
 /* Uploaded brand logo in the admin sidebar (admin is always dark → dark logo). */
-.brand-logo--admin { display:block; height:36px; width:auto; max-width:160px; object-fit:contain; }
+.brand-logo--admin { display:block; height:52px; width:auto; max-width:200px; object-fit:contain; }
