@@ -20,6 +20,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
+// SMTP email (contact form → inbox). Configure the "Email" section in appsettings/env.
+builder.Services.AddSingleton(builder.Configuration.GetSection("Email").Get<EmailSettings>() ?? new EmailSettings());
+builder.Services.AddScoped<IEmailSender, SmtpEmailSender>();
+
 // HTTP client for the first-party YouTube thumbnail proxy (MediaController).
 builder.Services.AddHttpClient("yt", c =>
 {

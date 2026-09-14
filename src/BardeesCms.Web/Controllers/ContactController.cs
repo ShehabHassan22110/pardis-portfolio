@@ -11,8 +11,12 @@ public class ContactController : Controller
 {
     private readonly IPublicContentService _content;
     private readonly ApplicationDbContext _db;
-    public ContactController(IPublicContentService content, ApplicationDbContext db)
-    { _content = content; _db = db; }
+    private readonly IEmailSender _email;
+    private readonly EmailSettings _emailSettings;
+    private readonly ILogger<ContactController> _log;
+    public ContactController(IPublicContentService content, ApplicationDbContext db,
+        IEmailSender email, EmailSettings emailSettings, ILogger<ContactController> log)
+    { _content = content; _db = db; _email = email; _emailSettings = emailSettings; _log = log; }
 
     [HttpGet("/contact")]
     public async Task<IActionResult> Index(string? type)
@@ -52,6 +56,31 @@ public class ContactController : Controller
             IpAddress = HttpContext.Connection.RemoteIpAddress?.ToString()
         });
         await _db.SaveChangesAsync();
+
+        // Email the enquiry to Bardees. Recipient: Email:ToEmail config, else the dashboard
+        // contact email. Never fail the submit if email can't be sent (it's already in the DB).
+        var recipient = !string.IsNullOrWhiteSpace(_emailSettings.ToEmail)
+            ? _emailSettings.ToEmail
+            : (vm.Settings?.Email ?? "").Trim();
+        if (!string.IsNullOrWhiteSpace(recipient) && recipient != "#")
+        {
+            var body =
+                $"New enquiry from the website\n\n" +
+                $"Name: {form.Name}\n" +
+                (string.IsNullOrWhiteSpace(form.Company) ? "" : $"Company: {form.Company}\n") +
+                $"Email: {form.Email}\n" +
+                (string.IsNullOrWhiteSpace(form.Phone) ? "" : $"Phone: {form.Phone}\n") +
+                (string.IsNullOrWhiteSpace(form.Subject) ? "" : $"Type: {form.Subject}\n") +
+                $"\nMessage:\n{form.Message}\n";
+            try
+            {
+                await _email.SendAsync($"Website enquiry — {form.Name}", body, recipient, replyTo: form.Email);
+            }
+            catch (Exception ex)
+            {
+                _log.LogError(ex, "Contact email failed to send (message still saved to the dashboard).");
+            }
+        }
 
         vm.Sent = true;
         vm.Form = new ContactFormInput();
