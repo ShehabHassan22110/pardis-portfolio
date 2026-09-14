@@ -53,6 +53,7 @@
                                     var name = Site.Pick(d.Name, d.NameAr);
                                     <option value="@d.Name" selected="@(Model.Form.Subject == d.Name)">@name</option>
                                 }
+                                <option value="@Site.T("Other", "أخرى")" selected="@(Model.Form.Subject == Site.T("Other", "أخرى"))">@Site.T("Other", "أخرى")</option>
                             </select>
                         </div>
                         <div class="form-field"><label asp-for="Form.Message">@Site.T("Message", "الرسالة")</label><textarea asp-for="Form.Message" rows="5"></textarea><span asp-validation-for="Form.Message" class="text-danger"></span></div>
