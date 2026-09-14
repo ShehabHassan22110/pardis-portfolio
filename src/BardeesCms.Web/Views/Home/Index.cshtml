@@ -70,25 +70,22 @@
     </header>
 }
 
-@* ===================== TRUSTED MARQUEE ===================== *@
-@if (Model.TrustedBrands.Any())
+@* ===================== CLIENTS (moved directly under hero) ===================== *@
+@if (Model.Clients.Any())
 {
-    <section class="trusted py-4">
+    <section class="section" id="clients">
         <div class="container">
-            <p class="eyebrow text-center mb-3 reveal">@Site.Pick(secTrusted?.Eyebrow, secTrusted?.EyebrowAr)</p>
-        </div>
-        <div class="marquee reveal" data-d="1">
-            <div class="marquee__track">
-                @for (var pass = 0; pass < 2; pass++)
-                {
-                    foreach (var b in Model.TrustedBrands)
-                    {
-                        <span class="d-inline-flex align-items-baseline gap-2" style="font-family:var(--font-display);font-size:1.5rem;color:var(--text-soft)">
-                            @Site.Pick(b.Name, b.NameAr)
-                            @if (!string.IsNullOrEmpty(b.Emphasis)) { <em style="font-family:var(--font-body);font-style:normal;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)">@Site.Pick(b.Emphasis, b.EmphasisAr)</em> }
-                        </span>
-                    }
-                }
+            <partial name="_SectionHeading" model="secClients" />
+            <div class="clients-swiper reveal" data-d="1">
+                <div class="cs-viewport" id="clientsViewport">
+                    <div class="cs-track" id="clientsGrid">
+                        @foreach (var c in Model.Clients) { <partial name="_ClientCard" model="c" /> }
+                    </div>
+                </div>
+                <div class="cs-foot">
+                    <button class="cs-nav" id="clientsPrev" aria-label="Previous"><i class="bi bi-arrow-left"></i></button>
+                    <button class="cs-nav" id="clientsNext" aria-label="Next"><i class="bi bi-arrow-right"></i></button>
+                </div>
             </div>
         </div>
     </section>
@@ -123,27 +120,6 @@
                         </ul>
                     }
                     @if (!string.IsNullOrEmpty(about.ButtonText)) { <a class="btn btn-gold" href="@(about.ButtonUrl ?? "/about")">@Site.Pick(about.ButtonText, about.ButtonTextAr) <i class="bi bi-arrow-up-right"></i></a> }
-                </div>
-            </div>
-        </div>
-    </section>
-}
-
-@* ===================== CLIENTS ===================== *@
-@if (Model.Clients.Any())
-{
-    <section class="section" id="clients">
-        <div class="container">
-            <partial name="_SectionHeading" model="secClients" />
-            <div class="clients-swiper reveal" data-d="1">
-                <div class="cs-viewport" id="clientsViewport">
-                    <div class="cs-track" id="clientsGrid">
-                        @foreach (var c in Model.Clients) { <partial name="_ClientCard" model="c" /> }
-                    </div>
-                </div>
-                <div class="cs-foot">
-                    <button class="cs-nav" id="clientsPrev" aria-label="Previous"><i class="bi bi-arrow-left"></i></button>
-                    <button class="cs-nav" id="clientsNext" aria-label="Next"><i class="bi bi-arrow-right"></i></button>
                 </div>
             </div>
         </div>
