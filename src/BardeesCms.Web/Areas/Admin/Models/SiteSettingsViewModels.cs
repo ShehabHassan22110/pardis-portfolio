@@ -38,10 +38,20 @@ public class SiteSettingsFormVm
     [Display(Name = "Description (Arabic)")]
     public string? DescriptionAr { get; set; }
 
-    /// <summary>Existing stored logo path.</summary>
+    /// <summary>Existing stored logo path (legacy single logo).</summary>
     public string? Logo { get; set; }
     [Display(Name = "Logo")]
     public IFormFile? LogoFile { get; set; }
+
+    /// <summary>Existing stored light-mode logo path.</summary>
+    public string? LogoLight { get; set; }
+    [Display(Name = "Logo — light mode")]
+    public IFormFile? LogoLightFile { get; set; }
+
+    /// <summary>Existing stored dark-mode logo path.</summary>
+    public string? LogoDark { get; set; }
+    [Display(Name = "Logo — dark mode")]
+    public IFormFile? LogoDarkFile { get; set; }
 
     [Display(Name = "Favicon")]
     public string? Favicon { get; set; }

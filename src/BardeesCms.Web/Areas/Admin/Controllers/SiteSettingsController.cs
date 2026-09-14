@@ -56,6 +56,33 @@ public class SiteSettingsController : AdminControllerBase
         }
         else e.Logo = vm.Logo;
 
+        // Theme logos (light + dark). Uploaded file wins; otherwise keep existing.
+        if (vm.LogoLightFile is { Length: > 0 })
+        {
+            if (!_files.IsAllowedImage(vm.LogoLightFile))
+            {
+                ModelState.AddModelError(nameof(vm.LogoLightFile), "Please upload a valid image.");
+                return View(vm);
+            }
+            var stored = await _files.SaveAsync(vm.LogoLightFile, "site");
+            await _files.DeleteAsync(e.LogoLight);
+            e.LogoLight = stored.WebPath;
+        }
+        else e.LogoLight = vm.LogoLight;
+
+        if (vm.LogoDarkFile is { Length: > 0 })
+        {
+            if (!_files.IsAllowedImage(vm.LogoDarkFile))
+            {
+                ModelState.AddModelError(nameof(vm.LogoDarkFile), "Please upload a valid image.");
+                return View(vm);
+            }
+            var stored = await _files.SaveAsync(vm.LogoDarkFile, "site");
+            await _files.DeleteAsync(e.LogoDark);
+            e.LogoDark = stored.WebPath;
+        }
+        else e.LogoDark = vm.LogoDark;
+
         // Contact
         e.Email = vm.Email; e.Phone = vm.Phone; e.WhatsApp = vm.WhatsApp;
         e.Location = vm.Location; e.LocationAr = vm.LocationAr;
@@ -97,7 +124,7 @@ public class SiteSettingsController : AdminControllerBase
         Role = e?.Role, RoleAr = e?.RoleAr,
         Tagline = e?.Tagline, TaglineAr = e?.TaglineAr,
         Description = e?.Description, DescriptionAr = e?.DescriptionAr,
-        Logo = e?.Logo, Favicon = e?.Favicon,
+        Logo = e?.Logo, LogoLight = e?.LogoLight, LogoDark = e?.LogoDark, Favicon = e?.Favicon,
         Email = e?.Email, Phone = e?.Phone, WhatsApp = e?.WhatsApp,
         Location = e?.Location, LocationAr = e?.LocationAr,
         CopyrightText = e?.CopyrightText, CopyrightTextAr = e?.CopyrightTextAr,

@@ -18,6 +18,10 @@ public class SiteSettings : AuditableEntity
     public string? DescriptionAr { get; set; }
 
     public string? Logo { get; set; }
+    /// <summary>Logo shown in light mode (usually a dark-coloured mark).</summary>
+    public string? LogoLight { get; set; }
+    /// <summary>Logo shown in dark mode (usually a light/gold-coloured mark).</summary>
+    public string? LogoDark { get; set; }
     public string? Favicon { get; set; }
 
     // Contact

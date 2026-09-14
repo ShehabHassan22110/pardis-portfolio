@@ -31,7 +31,7 @@
     <meta name="theme-color" content="#1a1511" />
     @if (!string.IsNullOrEmpty(seo?.Keywords)) { <meta name="keywords" content="@seo.Keywords" /> }
     <link rel="canonical" href="@(seo?.CanonicalUrl ?? $"{Context.Request.Scheme}://{Context.Request.Host}{Context.Request.Path}")" />
-    <link rel="icon" type="image/svg+xml" href="@(string.IsNullOrEmpty(s.Favicon) ? "/assets/brand/favicon.svg" : ImageResolver.Src(s.Favicon))" />
+    <link rel="icon" href="@(!string.IsNullOrEmpty(s.Favicon) ? ImageResolver.Src(s.Favicon) : !string.IsNullOrEmpty(s.LogoDark) ? ImageResolver.Src(s.LogoDark) : !string.IsNullOrEmpty(s.LogoLight) ? ImageResolver.Src(s.LogoLight) : "/assets/brand/favicon.svg")" />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="@s.BrandName" />
@@ -47,7 +47,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400;1,9..144,500&family=Reem+Kufi:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400;1,9..144,500&family=Reem+Kufi:wght@400;500;600;700&family=Aref+Ruqaa:wght@400;700&family=Outfit:wght@300;400;500;600;700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
     <link id="bs-css" href="@bootstrapCss" rel="stylesheet" />
     <link href="/assets/css/style.css" rel="stylesheet" asp-append-version="true" />
@@ -66,11 +66,20 @@
 <body>
     <div id="loader" class="loader" aria-hidden="true">
         <div class="loader__logo">
-            <svg class="brandmark" viewBox="0 0 220 200" role="img" aria-label="@Site.Pick(s.BrandName, s.BrandNameAr)">
-                <defs><linearGradient id="lgLoad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e0b489" /><stop offset=".5" stop-color="#c98a5e" /><stop offset="1" stop-color="#a8663f" /></linearGradient></defs>
-                <circle class="bm-ring" cx="110" cy="82" r="66" fill="none" stroke="url(#lgLoad)" stroke-width="1.4" />
-                <text class="bm-b" x="110" y="114" text-anchor="middle" font-family="Fraunces, 'Bodoni Moda', serif" font-size="92" font-weight="500" fill="url(#lgLoad)">@((Site.Pick(s.BrandNameShort, s.BrandNameShortAr) ?? "B").Substring(0,1))</text>
-            </svg>
+            @{ var loaderHasLogo = !string.IsNullOrEmpty(s.LogoLight) || !string.IsNullOrEmpty(s.LogoDark); }
+            @if (loaderHasLogo)
+            {
+                <img class="brand-logo brand-logo--dark brand-logo--loader" src="@ImageResolver.Src(string.IsNullOrEmpty(s.LogoDark) ? s.LogoLight : s.LogoDark)" alt="@Site.Pick(s.BrandName, s.BrandNameAr)" />
+                <img class="brand-logo brand-logo--light brand-logo--loader" src="@ImageResolver.Src(string.IsNullOrEmpty(s.LogoLight) ? s.LogoDark : s.LogoLight)" alt="@Site.Pick(s.BrandName, s.BrandNameAr)" />
+            }
+            else
+            {
+                <svg class="brandmark" viewBox="0 0 220 200" role="img" aria-label="@Site.Pick(s.BrandName, s.BrandNameAr)">
+                    <defs><linearGradient id="lgLoad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e0b489" /><stop offset=".5" stop-color="#c98a5e" /><stop offset="1" stop-color="#a8663f" /></linearGradient></defs>
+                    <circle class="bm-ring" cx="110" cy="82" r="66" fill="none" stroke="url(#lgLoad)" stroke-width="1.4" />
+                    <text class="bm-b" x="110" y="114" text-anchor="middle" font-family="Fraunces, 'Bodoni Moda', serif" font-size="92" font-weight="500" fill="url(#lgLoad)">@((Site.Pick(s.BrandNameShort, s.BrandNameShortAr) ?? "B").Substring(0,1))</text>
+                </svg>
+            }
             <div class="loader__word">@(Site.Pick(s.BrandName, s.BrandNameAr)?.Split(' ').FirstOrDefault())</div>
             <div class="loader__line"></div>
             <div class="loader__sub">@(Site.Pick(s.Role, s.RoleAr)?.ToUpperInvariant())</div>

@@ -1,12 +1,23 @@
+@inject BardeesCms.Web.Services.IPublicContentService Content
 @{
     var currentController = (ViewContext.RouteData.Values["controller"] as string ?? "").ToLowerInvariant();
     Func<string[], string> active = controllers =>
         controllers.Any(c => c.ToLowerInvariant() == currentController) ? "active" : "";
+    var settings = (await Content.GetLayoutAsync()).Settings;
+    // Admin is always dark-themed → prefer the dark logo.
+    var adminLogo = BardeesCms.Web.Services.ImageResolver.Src(string.IsNullOrEmpty(settings.LogoDark) ? settings.LogoLight : settings.LogoDark);
 }
 <aside class="admin-sidebar" id="adminSidebar">
     <a class="admin-brand" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">
-        <span class="admin-brand__mono">B</span>
-        <span class="admin-brand__text">Bardees<span>.</span><small>CMS</small></span>
+        @if (!string.IsNullOrEmpty(adminLogo))
+        {
+            <img class="brand-logo--admin" src="@adminLogo" alt="Bardees" />
+        }
+        else
+        {
+            <span class="admin-brand__mono">B</span>
+            <span class="admin-brand__text">Bardees<span>.</span><small>CMS</small></span>
+        }
     </a>
 
     <nav class="admin-nav">

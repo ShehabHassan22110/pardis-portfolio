@@ -4,6 +4,9 @@
     var path = Context.Request.Path.Value ?? "/";
     var brandShort = Site.Pick(s.BrandNameShort, s.BrandNameShortAr) ?? "Bardees";
     var returnUrl = path + Context.Request.QueryString;
+    var hasLogo = !string.IsNullOrEmpty(s.LogoLight) || !string.IsNullOrEmpty(s.LogoDark);
+    var logoLightSrc = ImageResolver.Src(string.IsNullOrEmpty(s.LogoLight) ? s.LogoDark : s.LogoLight);
+    var logoDarkSrc = ImageResolver.Src(string.IsNullOrEmpty(s.LogoDark) ? s.LogoLight : s.LogoDark);
     Func<string, bool> isActive = url =>
     {
         var clean = url.Split('#')[0].TrimEnd('/');
@@ -13,8 +16,17 @@
 }
 <nav class="navbar navbar-expand-lg" id="nav">
     <div class="container">
-        <a class="navbar-brand" href="/"><span class="brand-mono">@(brandShort.Substring(0,1))</span><span>@brandShort<span class="dot">.</span></span>
-            @if (!string.IsNullOrEmpty(s.BrandNameShortAr)) { <small class="text-muted-2" style="font-size:.85rem">@s.BrandNameShortAr</small> }
+        <a class="navbar-brand" href="/">
+            @if (hasLogo)
+            {
+                <img class="brand-logo brand-logo--dark brand-logo--nav" src="@logoDarkSrc" alt="@brandShort" />
+                <img class="brand-logo brand-logo--light brand-logo--nav" src="@logoLightSrc" alt="@brandShort" />
+            }
+            else
+            {
+                <span class="brand-mono">@(brandShort.Substring(0,1))</span><span>@brandShort<span class="dot">.</span></span>
+                @if (!string.IsNullOrEmpty(s.BrandNameShortAr)) { <small class="text-muted-2" style="font-size:.85rem">@s.BrandNameShortAr</small> }
+            }
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Menu"><i class="bi bi-list fs-3"></i></button>
         <div class="collapse navbar-collapse" id="navMenu">

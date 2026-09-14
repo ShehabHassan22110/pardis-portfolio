@@ -3,6 +3,9 @@
     var s = Model.Settings;
     var brandShort = Site.Pick(s.BrandNameShort, s.BrandNameShortAr) ?? "Bardees";
     var brandFull = Site.Pick(s.BrandName, s.BrandNameAr) ?? s.BrandName;
+    var hasLogo = !string.IsNullOrEmpty(s.LogoLight) || !string.IsNullOrEmpty(s.LogoDark);
+    var logoLightSrc = ImageResolver.Src(string.IsNullOrEmpty(s.LogoLight) ? s.LogoDark : s.LogoLight);
+    var logoDarkSrc = ImageResolver.Src(string.IsNullOrEmpty(s.LogoDark) ? s.LogoLight : s.LogoDark);
     var wa = string.IsNullOrEmpty(s.WhatsApp) ? null : $"https://wa.me/{s.WhatsApp}";
     var email = string.IsNullOrEmpty(s.Email) ? null : s.Email;
     // Every social field on SiteSettings renders here automatically when set in the
@@ -29,8 +32,18 @@
     <div class="container">
         <div class="footer__top">
             <div class="footer__brand-col">
-                <a class="footer__mark" href="/"><span class="footer__mono">@brandShort.Substring(0,1)</span>@brandShort<span>.</span></a>
-                @if (!string.IsNullOrEmpty(s.BrandNameAr)) { <span class="footer__ar">@s.BrandNameAr</span> }
+                @if (hasLogo)
+                {
+                    <a class="footer__mark" href="/">
+                        <img class="brand-logo brand-logo--dark brand-logo--footer" src="@logoDarkSrc" alt="@brandShort" />
+                        <img class="brand-logo brand-logo--light brand-logo--footer" src="@logoLightSrc" alt="@brandShort" />
+                    </a>
+                }
+                else
+                {
+                    <a class="footer__mark" href="/"><span class="footer__mono">@brandShort.Substring(0,1)</span>@brandShort<span>.</span></a>
+                    @if (!string.IsNullOrEmpty(s.BrandNameAr)) { <span class="footer__ar">@s.BrandNameAr</span> }
+                }
                 <p class="footer__tag">@Site.Pick(s.Tagline, s.TaglineAr)</p>
                 <div class="footer__socials">
                     @foreach (var soc in socials.Where(x => !string.IsNullOrEmpty(x.url) && x.url != "#"))

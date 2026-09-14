@@ -235,6 +235,65 @@ html[data-theme="light"] {
 .abaya-how__steps { margin: 0 0 1.4rem; padding-inline-start: 1.2rem; color: var(--text-soft); display: grid; gap: .55rem; }
 .abaya-how__steps li { padding-inline-start: .25rem; }
 
+/* ============================================================================
+   ABOUT — modern refresh (badge, elegant quote, refined facts, dual CTA)
+   Overrides the base .about-* rules in theme.css (this file loads after it).
+   ============================================================================ */
+.about-feat { padding-block: clamp(3.5rem, 8vw, 6.5rem); }
+.about-grid { gap: clamp(2rem, 5vw, 5rem); align-items: center; }
+
+/* Portrait: layered gold frame, deep radius, soft cinematic shadow */
+.about-portrait { border-radius: 22px; box-shadow: 0 40px 80px -40px rgba(0,0,0,.6); }
+.about-portrait::after { inset: .9rem; border-radius: 15px; border-color: rgba(224,180,137,.55); }
+.about-portrait::before { content:""; position:absolute; inset:0; z-index:1; pointer-events:none;
+  background: linear-gradient(to top, rgba(18,13,9,.5) 0%, transparent 34%); }
+
+/* Mini title — availability badge with a pulsing dot */
+.about-badge { display:inline-flex; align-items:center; gap:.55rem; margin-bottom:1.4rem;
+  padding:.5rem 1rem; border:1px solid var(--line); border-radius:50px;
+  background:var(--bg-2); color:var(--text-soft);
+  font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; font-weight:500; }
+.about-badge__dot { width:8px; height:8px; border-radius:50%; background:var(--accent-2);
+  box-shadow:0 0 0 0 rgba(224,180,137,.6); animation:aboutPulse 2.4s var(--ease) infinite; }
+@keyframes aboutPulse { 0%{box-shadow:0 0 0 0 rgba(224,180,137,.5);} 70%{box-shadow:0 0 0 8px rgba(224,180,137,0);} 100%{box-shadow:0 0 0 0 rgba(224,180,137,0);} }
+
+/* Quote — larger, cleaner; big decorative gold quotation mark */
+.about-quote { font-family: var(--font-serif); font-style: normal; font-weight: 500;
+  font-size: clamp(1.55rem, 2.7vw, 2.35rem); line-height: 1.32; color: var(--text);
+  position: relative; padding-inline-start: 0; margin: .3rem 0 1.6rem; }
+.about-quote::before { content:"\201C"; position:absolute; inset-inline-start:-.15em; top:-.55em;
+  width:auto; height:auto; background:none; font-family: var(--font-serif);
+  font-size:4.5rem; line-height:1; color:var(--accent-2); opacity:.35; }
+.about-quote .serif-em, .about-quote em { color: var(--accent); font-style: normal; }
+/* Elegant Arabic calligraphy for the Arabic quote */
+[dir="rtl"] .about-quote { font-family: 'Aref Ruqaa', var(--font-serif); line-height: 1.55; }
+[dir="rtl"] .about-quote::before { inset-inline-start:auto; inset-inline-end:-.1em; }
+
+.about-body { color: var(--text-soft); font-size: 1.02rem; line-height: 1.85; max-width: 60ch; margin-bottom: 2rem; }
+
+/* Facts — modern bordered cards */
+.about-facts { gap: .75rem 1rem; margin-bottom: 2.2rem; }
+.about-facts li { border: 1px solid var(--line); border-top: 1px solid var(--line); border-radius: 12px;
+  padding: .85rem 1rem; background: var(--card); transition: border-color .4s var(--ease), transform .4s var(--ease); }
+.about-facts li:hover { border-color: var(--accent); transform: translateY(-2px); }
+.about-facts .v { font-size: 1.05rem; }
+
+/* Dual CTA row */
+.about-cta { display:flex; flex-wrap:wrap; gap:.75rem; align-items:center; }
+
+/* ============================================================================
+   Theme-aware brand logos — replace the monogram when uploaded in Site Settings.
+   Both are rendered; CSS shows the right one for the current [data-theme].
+   ============================================================================ */
+.brand-logo { display: block; width: auto; object-fit: contain; }
+.brand-logo--light { display: none; }
+[data-theme="light"] .brand-logo--dark { display: none; }
+[data-theme="light"] .brand-logo--light { display: block; }
+.brand-logo--nav { height: 42px; }
+.brand-logo--footer { height: 46px; }
+.brand-logo--loader { height: 104px; margin-inline: auto; }
+@media (max-width: 560px) { .brand-logo--nav { height: 34px; } }
+
 /* Home teaser band */
 .abaya-teaser { position: relative; }
 .abaya-teaser__inner { display: grid; grid-template-columns: 1.1fr .9fr; gap: 2.4rem; align-items: center; border: 1px solid var(--line); border-radius: 20px; overflow: hidden; background: var(--bg-2); }

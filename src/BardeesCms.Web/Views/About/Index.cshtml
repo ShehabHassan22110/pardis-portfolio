@@ -23,6 +23,7 @@
                     @if (!string.IsNullOrEmpty(about.Location)) { <figcaption class="about-portrait__tag">@Site.Pick(about.Location, about.LocationAr)</figcaption> }
                 </figure>
                 <div class="about-copy reveal" data-d="1">
+                    <span class="about-badge"><span class="about-badge__dot" aria-hidden="true"></span>@Site.T("Available for bookings — Saudi Arabia & GCC", "متاحة للحجز — السعودية والخليج")</span>
                     @if (!string.IsNullOrEmpty(about.Description)) { <blockquote class="about-quote">@Html.Raw(Site.Pick(about.Description, about.DescriptionAr))</blockquote> }
                     @if (!string.IsNullOrEmpty(about.LongDescription)) { <p class="about-body">@Html.Raw(Site.Pick(about.LongDescription, about.LongDescriptionAr))</p> }
                     @if (Model.AboutFacts.Any())
@@ -34,7 +35,10 @@
                             }
                         </ul>
                     }
-                    <a class="btn btn-gold" href="/contact">@Site.T("Work with me", "لنعمل معاً") <i class="bi bi-arrow-up-right"></i></a>
+                    <div class="about-cta">
+                        <a class="btn btn-gold" href="/contact">@Site.T("Work with me", "لنعمل معاً") <i class="bi bi-arrow-up-right"></i></a>
+                        <a class="btn-line" href="/videos">@Site.T("Watch showreel", "شاهد الشوريل") <i class="bi bi-play-circle"></i></a>
+                    </div>
                 </div>
             </div>
         }

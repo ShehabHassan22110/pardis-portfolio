@@ -270,3 +270,6 @@ textarea.form-control { min-height: 110px; resize: vertical; line-height: 1.6; }
   .table-cms tbody tr { display: block; border: 1px solid var(--a-line); border-radius: 12px; margin-bottom: 12px; padding: 6px; }
   .row-actions { justify-content: flex-end; }
 }
+
+/* Uploaded brand logo in the admin sidebar (admin is always dark → dark logo). */
+.brand-logo--admin { display:block; height:36px; width:auto; max-width:160px; object-fit:contain; }
