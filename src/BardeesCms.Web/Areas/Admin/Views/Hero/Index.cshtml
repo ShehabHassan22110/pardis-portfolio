@@ -55,7 +55,7 @@
     <div class="card-cms"><div class="card-cms__body">
         <h3 class="section-title">Background &amp; badge</h3>
         <div class="img-upload" style="margin-bottom:8px">
-            <img id="bgPreview" class="img-upload__preview" src="@(string.IsNullOrEmpty(Model.BackgroundImage) ? "" : Model.BackgroundImage)" alt="" />
+            <img id="bgPreview" class="img-upload__preview" src="@ImageResolver.Src(Model.BackgroundImage, "wide")" alt="" />
             <div>
                 <label class="btn-ghost" for="BackgroundImageFile"><i class="bi bi-upload"></i> Choose background</label>
                 <input class="d-none" type="file" asp-for="BackgroundImageFile" accept="image/*" data-preview="#bgPreview" />

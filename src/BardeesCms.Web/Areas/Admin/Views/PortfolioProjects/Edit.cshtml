@@ -83,7 +83,7 @@
             <hr style="border-color:var(--a-line)" />
             <h3 class="section-title">Cover image</h3>
             <div class="img-upload" style="margin-bottom:8px">
-                <img id="coverPreview" class="img-upload__preview" src="@(string.IsNullOrEmpty(Model.CoverImage) ? "" : Model.CoverImage)" alt="" />
+                <img id="coverPreview" class="img-upload__preview" src="@ImageResolver.Src(Model.CoverImage, "portrait")" alt="" />
                 <div>
                     <label class="btn-ghost" for="CoverImageFile"><i class="bi bi-upload"></i> Choose cover</label>
                     <input class="d-none" type="file" asp-for="CoverImageFile" accept="image/*" data-preview="#coverPreview" />
@@ -94,7 +94,7 @@
 
             <h3 class="section-title">Thumbnail</h3>
             <div class="img-upload" style="margin-bottom:8px">
-                <img id="thumbPreview" class="img-upload__preview" src="@(string.IsNullOrEmpty(Model.ThumbnailImage) ? "" : Model.ThumbnailImage)" alt="" />
+                <img id="thumbPreview" class="img-upload__preview" src="@ImageResolver.Src(Model.ThumbnailImage, "sq")" alt="" />
                 <div>
                     <label class="btn-ghost" for="ThumbnailImageFile"><i class="bi bi-upload"></i> Choose thumbnail</label>
                     <input class="d-none" type="file" asp-for="ThumbnailImageFile" accept="image/*" data-preview="#thumbPreview" />

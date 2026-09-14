@@ -37,7 +37,7 @@
                 <tr data-id="@b.Id">
                     @if (canReorder) { <td data-label=""><i class="bi bi-grip-vertical drag-handle"></i></td> }
                     <td data-label="Logo">
-                        @if (!string.IsNullOrEmpty(b.Logo)) { <img class="thumb thumb--logo" src="@b.Logo" alt="@b.Name" /> }
+                        @if (!string.IsNullOrEmpty(b.Logo)) { <img class="thumb thumb--logo" src="@(ImageResolver.IsDirectPath(b.Logo) ? ImageResolver.Src(b.Logo) : $"/assets/img/{b.Logo}.png")" alt="@b.Name" /> }
                         else { <span class="thumb" style="display:grid;place-items:center"><i class="bi bi-patch-check" style="color:var(--a-muted)"></i></span> }
                     </td>
                     <td data-label="Client"><a class="cell-title" asp-action="Edit" asp-route-id="@b.Id">@b.Name</a><div class="cell-ar">@b.NameAr</div></td>

@@ -44,7 +44,7 @@
                 <tr data-id="@d.Id">
                     @if (canReorder) { <td data-label=""><i class="bi bi-grip-vertical drag-handle"></i></td> }
                     <td data-label="Cover">
-                        @if (!string.IsNullOrEmpty(d.CoverImage)) { <img class="thumb" src="@d.CoverImage" alt="@d.Name" /> }
+                        @if (!string.IsNullOrEmpty(d.CoverImage)) { <img class="thumb" src="@ImageResolver.Src(d.CoverImage, "sq")" alt="@d.Name" /> }
                         else { <span class="thumb" style="display:grid;place-items:center"><i class="bi bi-collection" style="color:var(--a-muted)"></i></span> }
                     </td>
                     <td data-label="Discipline">

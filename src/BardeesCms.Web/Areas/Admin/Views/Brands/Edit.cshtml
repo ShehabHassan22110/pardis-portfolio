@@ -36,7 +36,7 @@
         <div class="card-cms"><div class="card-cms__body">
             <h3 class="section-title">Logo</h3>
             <div class="img-upload" style="margin-bottom:8px">
-                <img id="logoPreview" class="img-upload__preview" style="object-fit:contain;padding:8px" src="@(string.IsNullOrEmpty(Model.Logo) ? "" : Model.Logo)" alt="" />
+                <img id="logoPreview" class="img-upload__preview" style="object-fit:contain;padding:8px" src="@(string.IsNullOrEmpty(Model.Logo) ? "" : (ImageResolver.IsDirectPath(Model.Logo) ? ImageResolver.Src(Model.Logo) : $"/assets/img/{Model.Logo}.png"))" alt="" />
                 <div>
                     <label class="btn-ghost" for="LogoFile"><i class="bi bi-upload"></i> Choose logo</label>
                     <input class="d-none" type="file" asp-for="LogoFile" accept="image/*" data-preview="#logoPreview" />

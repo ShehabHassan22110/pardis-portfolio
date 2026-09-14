@@ -36,7 +36,7 @@
     <div class="card-cms"><div class="card-cms__body">
         <h3 class="section-title">Image, location &amp; quote</h3>
         <div class="img-upload" style="margin-bottom:8px">
-            <img id="aboutPreview" class="img-upload__preview" src="@(string.IsNullOrEmpty(Model.Image) ? "" : Model.Image)" alt="" />
+            <img id="aboutPreview" class="img-upload__preview" src="@ImageResolver.Src(Model.Image, "portrait")" alt="" />
             <div>
                 <label class="btn-ghost" for="ImageFile"><i class="bi bi-upload"></i> Choose image</label>
                 <input class="d-none" type="file" asp-for="ImageFile" accept="image/*" data-preview="#aboutPreview" />

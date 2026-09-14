@@ -48,7 +48,7 @@
         <div class="card-cms"><div class="card-cms__body">
             <h3 class="section-title">Cover image</h3>
             <div class="img-upload" style="margin-bottom:8px">
-                <img id="coverPreview" class="img-upload__preview" src="@(string.IsNullOrEmpty(Model.CoverImage) ? "" : Model.CoverImage)" alt="" />
+                <img id="coverPreview" class="img-upload__preview" src="@ImageResolver.Src(Model.CoverImage, "sq")" alt="" />
                 <div>
                     <label class="btn-ghost" for="CoverImageFile"><i class="bi bi-upload"></i> Choose image</label>
                     <input class="d-none" type="file" asp-for="CoverImageFile" accept="image/*" data-preview="#coverPreview" />
