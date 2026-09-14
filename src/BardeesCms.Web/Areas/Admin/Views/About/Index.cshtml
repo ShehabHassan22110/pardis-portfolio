@@ -7,7 +7,7 @@
 }
 <partial name="_PageHeader" model="header" />
 
-<form asp-action="Index" method="post" enctype="multipart/form-data" class="form-cms">
+<form asp-area="Admin" asp-controller="About" asp-action="Index" method="post" enctype="multipart/form-data" class="form-cms">
     @Html.AntiForgeryToken()
     <input type="hidden" asp-for="Id" />
     <input type="hidden" asp-for="Image" />

@@ -5,7 +5,7 @@
 }
 <partial name="_PageHeader" model="header" />
 
-<form asp-action="Index" method="post" class="form-cms">
+<form asp-area="Admin" asp-controller="Contact" asp-action="Index" method="post" class="form-cms">
     @Html.AntiForgeryToken()
     <input type="hidden" asp-for="Id" />
     <div asp-validation-summary="ModelOnly" class="admin-alert admin-alert--danger" style="display:@(ViewData.ModelState.IsValid ? "none" : "flex")"></div>
