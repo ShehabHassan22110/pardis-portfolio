@@ -5,11 +5,16 @@
     var brandFull = Site.Pick(s.BrandName, s.BrandNameAr) ?? s.BrandName;
     var wa = string.IsNullOrEmpty(s.WhatsApp) ? null : $"https://wa.me/{s.WhatsApp}";
     var email = string.IsNullOrEmpty(s.Email) ? null : s.Email;
+    // Every social field on SiteSettings renders here automatically when set in the
+    // dashboard (empty or "#" placeholders are skipped) — add Facebook/LinkedIn/etc. later
+    // and they appear with no code change.
     (string? url, string icon, string label)[] socials =
     {
         (s.InstagramUrl, "instagram", "Instagram"),
         (s.TikTokUrl, "tiktok", "TikTok"),
         (s.SnapchatUrl, "snapchat", "Snapchat"),
+        (s.FacebookUrl, "facebook", "Facebook"),
+        (s.LinkedInUrl, "linkedin", "LinkedIn"),
         (s.YouTubeUrl, "youtube", "YouTube"),
         (wa, "whatsapp", "WhatsApp"),
         (email is null ? null : $"mailto:{email}", "envelope-fill", "Email"),

@@ -56,20 +56,21 @@ public static class ContentSeed
             DescriptionAr = "برديس رفعت — عارضة أزياء وممثلة ووجه إعلاني. حملات تجارية وأزياء وجمال ولايف ستايل وتمثيل للعلامات في السعودية والخليج.",
             Favicon = "assets/brand/favicon.svg",
             Email = "hello@bardeesrefaat.com",       // placeholder — client to provide
-            Phone = "+966 5X XXX XXXX",               // placeholder
-            WhatsApp = "9665XXXXXXXX",                // placeholder (digits only, incl. country code)
+            Phone = "+966 56 576 8902",
+            WhatsApp = "966565768902",                // digits only, incl. country code (for wa.me)
             Location = "Saudi Arabia",
             LocationAr = "السعودية",
             CopyrightText = "BARDEES REFAAT",
             CopyrightTextAr = "برديس رفعت",
             DefaultMetaTitle = "BARDEES REFAAT — Model · Actress · Brand Ambassador",
             DefaultMetaDescription = "Model, actress and brand ambassador based in Saudi Arabia, available across the GCC. Commercial campaigns, fashion, beauty, lifestyle, events, content and acting.",
-            InstagramUrl = "#",                        // placeholder — client to provide
-            TikTokUrl = "#",                           // placeholder
-            SnapchatUrl = "#",                         // placeholder
+            InstagramUrl = "#",                        // placeholder — add in dashboard when ready
+            TikTokUrl = "#",                           // placeholder — add in dashboard when ready
+            SnapchatUrl = "#",                         // placeholder — add in dashboard when ready
+            FacebookUrl = "#",                         // placeholder — add in dashboard when ready
             YouTubeUrl = "https://www.youtube.com/@BardeesRefaat",
             BookingEmail = "hello@bardeesrefaat.com",
-            BookingWhatsApp = "9665XXXXXXXX",
+            BookingWhatsApp = "966565768902",
             CreatedAt = now
         });
     }
@@ -430,11 +431,12 @@ public static class ContentSeed
             Description = "Book with Bardees. Send your brief here and I'll reply on WhatsApp or by email — the fastest way to reach me is the WhatsApp button.",
             DescriptionAr = "احجز مع برديس. أرسل ملخّصك من هنا وسأرد عبر واتساب أو البريد — وأسرع طريقة للوصول إليّ هي زر واتساب.",
             Email = "hello@bardeesrefaat.com",         // placeholder — client to provide
-            WhatsApp = "9665XXXXXXXX",                  // placeholder (digits only, incl. country code)
+            Phone = "+966 56 576 8902",
+            WhatsApp = "966565768902",                  // digits only, incl. country code (for wa.me)
             Location = "Saudi Arabia · GCC",
             LocationAr = "السعودية · الخليج",
-            Instagram = "#",                            // placeholder — client to provide
-            TikTok = "#",                               // placeholder — client to provide
+            Instagram = "#",                            // placeholder — add in dashboard when ready
+            TikTok = "#",                               // placeholder — add in dashboard when ready
             BookingText = "Book with Bardees",
             BookingTextAr = "احجز مع برديس",
             BookingButtonText = "Book",
