@@ -36,7 +36,7 @@ public class ContactController : AdminControllerBase
         e.Description = vm.Description; e.DescriptionAr = vm.DescriptionAr;
         e.Email = vm.Email; e.Phone = vm.Phone; e.WhatsApp = vm.WhatsApp;
         e.Location = vm.Location; e.LocationAr = vm.LocationAr;
-        e.Instagram = vm.Instagram;
+        e.Instagram = vm.Instagram; e.TikTok = vm.TikTok;
         e.BookingText = vm.BookingText; e.BookingTextAr = vm.BookingTextAr;
         e.BookingButtonText = vm.BookingButtonText; e.BookingButtonTextAr = vm.BookingButtonTextAr;
         e.BookingUrl = vm.BookingUrl;
@@ -56,7 +56,7 @@ public class ContactController : AdminControllerBase
         Description = e?.Description, DescriptionAr = e?.DescriptionAr,
         Email = e?.Email, Phone = e?.Phone, WhatsApp = e?.WhatsApp,
         Location = e?.Location, LocationAr = e?.LocationAr,
-        Instagram = e?.Instagram,
+        Instagram = e?.Instagram, TikTok = e?.TikTok,
         BookingText = e?.BookingText, BookingTextAr = e?.BookingTextAr,
         BookingButtonText = e?.BookingButtonText, BookingButtonTextAr = e?.BookingButtonTextAr,
         BookingUrl = e?.BookingUrl,

@@ -108,11 +108,50 @@
     target.addEventListener("input", () => { target.dataset.touched = "1"; });
   });
 
-  // ---- Image preview on file pick ------------------------------------------
+  // ---- Image preview + loader on file pick (shared across the dashboard) ----
+  // Every uploader wired with data-preview="#id" gets the same behaviour:
+  // pick a file → spinner shows → decoded image replaces the preview before save.
+  function ensurePreviewWrap(img) {
+    let wrap = img.parentElement;
+    if (!wrap || !wrap.classList.contains("img-preview-wrap")) {
+      wrap = document.createElement("span");
+      wrap.className = "img-preview-wrap";
+      img.parentNode.insertBefore(wrap, img);
+      wrap.appendChild(img);
+      const spin = document.createElement("span");
+      spin.className = "img-preview-spin";
+      spin.setAttribute("aria-hidden", "true");
+      wrap.appendChild(spin);
+    }
+    return wrap;
+  }
   $$('input[type="file"][data-preview]').forEach(input => {
+    const img = $(input.dataset.preview);
+    if (!img) return;
+    const wrap = ensurePreviewWrap(img);
     input.addEventListener("change", () => {
-      const img = $(input.dataset.preview);
-      if (img && input.files && input.files[0]) img.src = URL.createObjectURL(input.files[0]);
+      const file = input.files && input.files[0];
+      if (!file || !/^image\//.test(file.type)) return;
+      wrap.classList.add("is-loading");
+      wrap.classList.remove("is-ready");
+      const url = URL.createObjectURL(file);
+      const started = performance.now();
+      const probe = new Image();
+      const finish = (ok) => {
+        wrap.classList.remove("is-loading");
+        if (!ok) { URL.revokeObjectURL(url); return; }
+        if (img.dataset.objurl) URL.revokeObjectURL(img.dataset.objurl);
+        img.src = url; img.dataset.objurl = url;
+        img.style.display = "";            // reveal previews that start hidden/empty
+        wrap.classList.add("is-ready");
+      };
+      probe.onload = () => {
+        // guarantee the loader is perceivable even for tiny images
+        const wait = Math.max(0, 400 - (performance.now() - started));
+        setTimeout(() => finish(true), wait);
+      };
+      probe.onerror = () => finish(false);
+      probe.src = url;
     });
   });
 

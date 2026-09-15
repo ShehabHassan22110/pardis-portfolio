@@ -15,7 +15,9 @@ public class ServicesController : AdminControllerBase
 {
     private readonly ApplicationDbContext _db;
     private readonly IActivityLogger _log;
-    public ServicesController(ApplicationDbContext db, IActivityLogger log) { _db = db; _log = log; }
+    private readonly IFileStorageService _files;
+    public ServicesController(ApplicationDbContext db, IActivityLogger log, IFileStorageService files)
+    { _db = db; _log = log; _files = files; }
 
     public async Task<IActionResult> Index(ListQuery q)
     {
@@ -60,7 +62,8 @@ public class ServicesController : AdminControllerBase
         if (!ModelState.IsValid) return View("Edit", vm);
         var slug = await UniqueSlug(vm.Slug, vm.Title, null);
         var entity = new Service { CreatedAt = DateTime.UtcNow };
-        Map(vm, entity, slug);
+        await MapAsync(vm, entity, slug);
+        if (!ModelState.IsValid) return View("Edit", vm);
         _db.Services.Add(entity);
         await _db.SaveChangesAsync();
         await _log.LogAsync("Created", nameof(Service), entity.Id.ToString(), entity.Title);
@@ -88,7 +91,8 @@ public class ServicesController : AdminControllerBase
         var e = await _db.Services.FindAsync(vm.Id);
         if (e is null) return NotFound();
         e.Slug = await UniqueSlug(vm.Slug, vm.Title, e.Id);
-        Map(vm, e, e.Slug);
+        await MapAsync(vm, e, e.Slug);
+        if (!ModelState.IsValid) return View(vm);
         e.UpdatedAt = DateTime.UtcNow;
         await _db.SaveChangesAsync();
         await _log.LogAsync("Updated", nameof(Service), e.Id.ToString(), e.Title);
@@ -101,6 +105,7 @@ public class ServicesController : AdminControllerBase
     {
         var e = await _db.Services.FindAsync(id);
         if (e is null) return NotFound();
+        await _files.DeleteAsync(e.Image);
         _db.Services.Remove(e);
         await _db.SaveChangesAsync();
         await _log.LogAsync("Deleted", nameof(Service), id.ToString(), e.Title);
@@ -129,13 +134,29 @@ public class ServicesController : AdminControllerBase
         return Ok();
     }
 
-    private static void Map(ServiceFormVm vm, Service e, string slug)
+    private async Task MapAsync(ServiceFormVm vm, Service e, string slug)
     {
         e.Number = vm.Number; e.Title = vm.Title; e.TitleAr = vm.TitleAr; e.Slug = slug;
         e.ShortDescription = vm.ShortDescription; e.ShortDescriptionAr = vm.ShortDescriptionAr;
         e.Description = vm.Description; e.DescriptionAr = vm.DescriptionAr;
-        e.Icon = vm.Icon; e.Image = vm.Image;
+        e.Icon = vm.Icon;
         e.DisplayOrder = vm.DisplayOrder; e.IsFeatured = vm.IsFeatured; e.IsActive = vm.IsActive;
+
+        if (vm.ImageFile is { Length: > 0 })
+        {
+            if (!_files.IsAllowedImage(vm.ImageFile))
+            {
+                ModelState.AddModelError(nameof(vm.ImageFile), "Please upload a valid image.");
+                return;
+            }
+            var stored = await _files.SaveAsync(vm.ImageFile, "services");
+            await _files.DeleteAsync(e.Image);
+            e.Image = stored.WebPath;
+        }
+        else
+        {
+            e.Image = vm.Image; // keep existing path (posted via hidden field)
+        }
     }
 
     private async Task<string> UniqueSlug(string? provided, string title, int? excludeId)

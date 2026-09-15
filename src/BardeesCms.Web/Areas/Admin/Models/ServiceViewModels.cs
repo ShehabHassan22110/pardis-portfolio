@@ -34,7 +34,11 @@ public class ServiceFormVm
     [Display(Name = "Icon (bootstrap-icons class)"), StringLength(60)]
     public string? Icon { get; set; }
 
+    /// <summary>Existing stored image path (preserved when no new file is uploaded).</summary>
     public string? Image { get; set; }
+    /// <summary>Newly uploaded image, if any.</summary>
+    [Display(Name = "Image")]
+    public IFormFile? ImageFile { get; set; }
 
     [Display(Name = "Display order")]
     public int DisplayOrder { get; set; }

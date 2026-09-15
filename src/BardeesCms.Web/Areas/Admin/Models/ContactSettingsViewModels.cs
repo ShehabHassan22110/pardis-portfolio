@@ -29,6 +29,8 @@ public class ContactSettingsFormVm
     public string? LocationAr { get; set; }
     [Display(Name = "Instagram")]
     public string? Instagram { get; set; }
+    [Display(Name = "TikTok")]
+    public string? TikTok { get; set; }
 
     [Display(Name = "Booking text")]
     public string? BookingText { get; set; }
