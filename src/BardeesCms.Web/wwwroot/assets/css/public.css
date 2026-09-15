@@ -20,7 +20,7 @@ html { scroll-behavior: smooth; scroll-padding-top: 92px; }
 /* Floor must clear the fixed navbar/logo (~60px logo + padding) on short viewports,
    where 15vh would otherwise collapse to the old 110px min and slide the heading
    under the logo. */
-.page-hero { padding: clamp(160px, 18vh, 220px) 0 clamp(30px, 5vh, 60px); }
+.page-hero { padding: clamp(185px, 20vh, 240px) 0 clamp(30px, 5vh, 60px); }
 .page-hero .tc-eyebrow { display: block; }
 
 /* ---- Work filter ---------------------------------------------------------- */

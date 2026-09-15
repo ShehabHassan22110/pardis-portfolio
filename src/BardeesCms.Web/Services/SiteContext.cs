@@ -23,10 +23,12 @@ public class SiteContext
     public SiteContext(IHttpContextAccessor accessor)
     {
         var ctx = accessor.HttpContext;
+        // Defaults when no cookie is set: Arabic + light. An explicit visitor choice
+        // (english / dark) is honoured via the cookie the toggles write.
         var lang = ctx?.Request.Cookies[LangCookie];
-        Lang = lang == "ar" ? "ar" : "en";
+        Lang = lang == "en" ? "en" : "ar";
         var theme = ctx?.Request.Cookies[ThemeCookie];
-        Theme = theme == "light" ? "light" : "dark";
+        Theme = theme == "dark" ? "dark" : "light";
     }
 
     /// <summary>Returns the Arabic value when in Arabic and it is present, else the English.</summary>
