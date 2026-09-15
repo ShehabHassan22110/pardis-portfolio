@@ -28,13 +28,14 @@
     <div class="container">
         @if (heading is not null)
         {
-            <partial name="_SectionHeading" model="heading" />
+            var h1ViewData = new Microsoft.AspNetCore.Mvc.ViewFeatures.ViewDataDictionary(ViewData) { { "AsH1", true } };
+            <partial name="_SectionHeading" model="heading" view-data="h1ViewData" />
         }
         else
         {
             <div class="title-c reveal">
                 <span class="tc-eyebrow">@Site.T("Bardees Abaya Collection", "مجموعة عبايات برديس")</span>
-                <h2 class="d-1 tc-h">@Html.Raw(Site.T("Designed &amp; tailored by <em>Bardees</em>.", "تصميم وتفصيل <em>برديس</em>."))</h2>
+                <h1 class="d-1 tc-h">@Html.Raw(Site.T("Designed &amp; tailored by <em>Bardees</em>.", "تصميم وتفصيل <em>برديس</em>."))</h1>
                 <p class="tc-note">@Site.T("A personal line of abayas — from ready-to-wear pieces to made-to-measure tailoring. Order directly over WhatsApp.", "خط عبايات خاص — من القطع الجاهزة إلى التفصيل حسب الطلب. اطلبي مباشرةً عبر واتساب.")</p>
             </div>
         }

@@ -15,7 +15,7 @@
     <div class="container">
         <div class="title-c reveal" style="margin-inline:0;text-align:start">
             <span class="tc-eyebrow">@Site.T("Let's work together", "لنعمل معاً")</span>
-            <h2 class="d-1 tc-h">@Html.Raw(Site.Pick(cs?.Title, cs?.TitleAr) ?? Site.T("Let's make something <em>unforgettable</em>.", "لنصنع شيئاً <em>لا يُنسى</em>."))</h2>
+            <h1 class="d-1 tc-h">@Html.Sanitized(Site.Pick(cs?.Title, cs?.TitleAr) ?? Site.T("Let's make something <em>unforgettable</em>.", "لنصنع شيئاً <em>لا يُنسى</em>."))</h1>
             @if (!string.IsNullOrEmpty(cs?.Description)) { <p class="tc-note" style="margin-inline:0;max-width:60ch">@Site.Pick(cs.Description, cs.DescriptionAr)</p> }
         </div>
 

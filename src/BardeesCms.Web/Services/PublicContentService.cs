@@ -36,7 +36,9 @@ public class PublicContentService : IPublicContentService
 
     public void Invalidate()
     {
-        foreach (var k in new[] { "layout", "home", "services", "videos", "abayas", "contact" })
+        // NB: "contact" is intentionally NOT cached — GetContactAsync returns a VM whose Form is
+        // mutated per request by ContactController, so a shared cached instance would leak form state.
+        foreach (var k in new[] { "layout", "home", "services", "videos", "abayas" })
             _cache.Remove(k);
     }
 
@@ -72,17 +74,14 @@ public class PublicContentService : IPublicContentService
             MarketPositions = await _db.MarketPositions.AsNoTracking().Where(m => m.IsActive).OrderBy(m => m.DisplayOrder).ToListAsync(),
             Disciplines = await _db.Disciplines.AsNoTracking().Include(d => d.SubItems).Where(d => d.IsActive).OrderBy(d => d.DisplayOrder).ToListAsync(),
             FeaturedWork = await _db.PortfolioProjects.AsNoTracking().Include(p => p.Discipline)
-                .Where(p => p.IsPublished).OrderByDescending(p => p.IsFeatured).ThenBy(p => p.DisplayOrder).Take(8).ToListAsync(),
+                .Where(p => p.IsPublished).OrderByDescending(p => p.IsFeatured).ThenBy(p => p.DisplayOrder).ThenBy(p => p.Id).Take(8).ToListAsync(),
             Showreel = await _db.Videos.AsNoTracking().Include(v => v.VideoCategory)
-                .Where(v => v.IsPublished).OrderByDescending(v => v.IsFeatured).ThenBy(v => v.DisplayOrder).Take(3).ToListAsync(),
-            Stats = await _db.PresenceStats.AsNoTracking().Where(s => s.IsActive).OrderBy(s => s.DisplayOrder).ToListAsync(),
-            Platforms = await _db.Platforms.AsNoTracking().Where(p => p.IsActive).OrderBy(p => p.DisplayOrder).ToListAsync(),
-            ContentStyles = await _db.ContentStyles.AsNoTracking().Where(c => c.IsActive).OrderBy(c => c.DisplayOrder).ToListAsync(),
+                .Where(v => v.IsPublished).OrderByDescending(v => v.IsFeatured).ThenBy(v => v.DisplayOrder).ThenBy(v => v.Id).Take(3).ToListAsync(),
             Services = await _db.Services.AsNoTracking().Where(s => s.IsActive).OrderBy(s => s.DisplayOrder).ToListAsync(),
             Steps = await _db.CollaborationSteps.AsNoTracking().Where(s => s.IsActive).OrderBy(s => s.DisplayOrder).ToListAsync(),
             Faqs = await _db.Faqs.AsNoTracking().Where(f => f.IsActive).OrderBy(f => f.DisplayOrder).ToListAsync(),
             Abayas = await _db.Abayas.AsNoTracking().Where(a => a.IsActive)
-                .OrderByDescending(a => a.IsFeatured).ThenBy(a => a.DisplayOrder).Take(4).ToListAsync(),
+                .OrderByDescending(a => a.IsFeatured).ThenBy(a => a.DisplayOrder).ThenBy(a => a.Id).Take(4).ToListAsync(),
             Sections = sections.ToDictionary(s => s.Key, s => s)
         };
     });
@@ -111,7 +110,7 @@ public class PublicContentService : IPublicContentService
         if (project is null) return null;
         var related = await _db.PortfolioProjects.AsNoTracking()
             .Where(p => p.IsPublished && p.Id != project.Id && p.DisciplineId == project.DisciplineId)
-            .OrderBy(p => p.DisplayOrder).Take(4).ToListAsync();
+            .OrderBy(p => p.DisplayOrder).ThenBy(p => p.Id).Take(4).ToListAsync();
         return new ProjectDetailViewModel { Project = project, Related = related };
     }
 
@@ -156,7 +155,6 @@ public class PublicContentService : IPublicContentService
     public async Task<ContactViewModel> GetContactAsync() => new ContactViewModel
     {
         Settings = await _db.ContactSettings.AsNoTracking().FirstOrDefaultAsync(),
-        Platforms = await _db.Platforms.AsNoTracking().Where(p => p.IsActive).OrderBy(p => p.DisplayOrder).ToListAsync(),
         Disciplines = await _db.Disciplines.AsNoTracking().Where(d => d.IsActive).OrderBy(d => d.DisplayOrder).ToListAsync()
     };
 

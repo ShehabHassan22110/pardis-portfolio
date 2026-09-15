@@ -14,7 +14,7 @@
         {
             <div class="title-c reveal">
                 @if (!string.IsNullOrEmpty(about.Eyebrow)) { <span class="tc-eyebrow">@Site.Pick(about.Eyebrow, about.EyebrowAr)</span> }
-                <h2 class="d-1 tc-h">@Html.Raw(Site.Pick(about.Title, about.TitleAr))</h2>
+                <h1 class="d-1 tc-h">@Html.Sanitized(Site.Pick(about.Title, about.TitleAr))</h1>
             </div>
             <div class="about-grid">
                 <figure class="about-portrait reveal m-0">
@@ -24,8 +24,8 @@
                 </figure>
                 <div class="about-copy reveal" data-d="1">
                     <span class="about-badge"><span class="about-badge__dot" aria-hidden="true"></span>@Site.T("Available for bookings — Saudi Arabia & GCC", "متاحة للحجز — السعودية والخليج")</span>
-                    @if (!string.IsNullOrEmpty(about.Description)) { <blockquote class="about-quote">@Html.Raw(Site.Pick(about.Description, about.DescriptionAr))</blockquote> }
-                    @if (!string.IsNullOrEmpty(about.LongDescription)) { <p class="about-body">@Html.Raw(Site.Pick(about.LongDescription, about.LongDescriptionAr))</p> }
+                    @if (!string.IsNullOrEmpty(about.Description)) { <blockquote class="about-quote">@Html.Sanitized(Site.Pick(about.Description, about.DescriptionAr))</blockquote> }
+                    @if (!string.IsNullOrEmpty(about.LongDescription)) { <p class="about-body">@Html.Sanitized(Site.Pick(about.LongDescription, about.LongDescriptionAr))</p> }
                     @if (Model.AboutFacts.Any())
                     {
                         <ul class="about-facts">
@@ -91,7 +91,7 @@
     <span class="cta-band__glow" aria-hidden="true"></span>
     <div class="container">
         <div class="cta-frame reveal">
-            <h2 class="cta-band__title">@Html.Raw(Site.Pick(cta?.Title, cta?.TitleAr) ?? Site.T("Let's work <em>together</em>.", "لنعمل <em>معاً</em>."))</h2>
+            <h2 class="cta-band__title">@Html.Sanitized(Site.Pick(cta?.Title, cta?.TitleAr) ?? Site.T("Let's work <em>together</em>.", "لنعمل <em>معاً</em>."))</h2>
             <div class="d-flex flex-wrap gap-3 justify-content-center">
                 <a class="btn btn-gold btn-lg" href="/contact">@Site.T("Work with me", "لنعمل معاً") <i class="bi bi-arrow-up-right"></i></a>
             </div>

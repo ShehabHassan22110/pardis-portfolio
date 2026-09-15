@@ -4,6 +4,7 @@ using BardeesCms.Web.Models.Enums;
 using BardeesCms.Web.Models.ViewModels;
 using BardeesCms.Web.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace BardeesCms.Web.Controllers;
 
@@ -27,7 +28,7 @@ public class ContactController : Controller
         return View(vm);
     }
 
-    [HttpPost("/contact"), ValidateAntiForgeryToken]
+    [HttpPost("/contact"), ValidateAntiForgeryToken, EnableRateLimiting("ContactForm")]
     public async Task<IActionResult> Index(ContactFormInput form)
     {
         // Honeypot: bots fill the hidden "Website" field — silently accept, don't store.

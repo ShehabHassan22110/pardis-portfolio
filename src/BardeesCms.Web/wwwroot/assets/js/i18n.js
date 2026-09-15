@@ -58,13 +58,6 @@ const STRINGS = {
     "about.body": "I present brands with a natural, professional style — with command of the Saudi dialect to reach the Saudi audience more closely and effectively. I work across advertising photography and film, social-media content, events and exhibitions, and representing brands in the Saudi market.",
     "about.more": "Read the full profile",
 
-    "presence.eyebrow": "Digital presence",
-    "presence.title": "Audience &amp; <em>platforms</em>.",
-    "presence.platforms": "Platforms",
-    "presence.style": "Content style",
-    "presence.audience": "Audience focus",
-    "presence.audienceV": "Saudi Arabia · GCC · Arabic-speaking audience",
-
     "services.eyebrow": "What I offer",
     "services.title": "Services, <em>tailored</em><br>to the brief.",
     "services.more": "View all services",
@@ -190,13 +183,6 @@ const STRINGS = {
     "about.lead": "مودل ووجه إعلاني متخصصة في المحتوى للعلامات التي تستهدف <em>السوق السعودي والخليجي.</em>",
     "about.body": "أقدّم العلامة التجارية بأسلوب طبيعي واحترافي، مع إتقان اللهجة السعودية للوصول إلى الجمهور السعودي بطريقة أقرب وأكثر تأثيراً. أعمل عبر التصوير والفيديو الإعلاني، ومحتوى السوشيال ميديا، والفعاليات والمعارض، وتمثيل العلامات في السوق السعودي.",
     "about.more": "اقرأ الملف الكامل",
-
-    "presence.eyebrow": "الحضور الرقمي",
-    "presence.title": "الجمهور <em>والمنصات</em>.",
-    "presence.platforms": "المنصات",
-    "presence.style": "أسلوب المحتوى",
-    "presence.audience": "الجمهور المستهدف",
-    "presence.audienceV": "السعودية · الخليج · الجمهور الناطق بالعربية",
 
     "services.eyebrow": "ما أقدّمه",
     "services.title": "خدمات <em>مصمّمة</em><br>حسب الطلب.",

@@ -23,9 +23,6 @@ public class HomeViewModel
     public List<Discipline> Disciplines { get; set; } = new();
     public List<PortfolioProject> FeaturedWork { get; set; } = new();
     public List<Video> Showreel { get; set; } = new();
-    public List<PresenceStat> Stats { get; set; } = new();
-    public List<Platform> Platforms { get; set; } = new();
-    public List<ContentStyle> ContentStyles { get; set; } = new();
     public List<Service> Services { get; set; } = new();
     public List<CollaborationStep> Steps { get; set; } = new();
     public List<Faq> Faqs { get; set; } = new();
@@ -81,7 +78,6 @@ public class AbayasViewModel
 public class ContactViewModel
 {
     public ContactSettings? Settings { get; set; }
-    public List<Platform> Platforms { get; set; } = new();
     public List<Discipline> Disciplines { get; set; } = new();
     public ContactFormInput Form { get; set; } = new();
     public bool Sent { get; set; }

@@ -1,4 +1,5 @@
 @model ProjectDetailViewModel
+@inject BardeesCms.Web.Services.ResponsiveImages Responsive
 @{
     Layout = "_Layout";
     var p = Model.Project;
@@ -22,23 +23,23 @@
 <section class="section page-hero">
     <div class="container">
         <a class="line-link reveal" href="/work">@Site.T("← Back to work", "→ العودة للأعمال")</a>
-        <div class="title-c reveal mt-3" style="margin-inline:0;text-align:start">
-            @if (!string.IsNullOrEmpty(p.Tag)) { <span class="tc-eyebrow">@Site.Pick(p.Tag, p.TagAr)</span> }
-            <h2 class="d-1 tc-h">@title</h2>
-            @if (!string.IsNullOrEmpty(p.ClientName)) { <p class="tc-note" style="margin-inline:0">@Site.Pick(p.ClientName, p.ClientNameAr)</p> }
-        </div>
 
-        <figure class="reveal" style="border-radius:18px;overflow:hidden;margin:1.5rem 0">
-            @{ var coverPic = new PictureVm { Image = cover, Rendition = "wide", Alt = title ?? "", Eager = true }; }
-            <partial name="_Picture" model="coverPic" />
-        </figure>
+        <div class="project-hero reveal mt-3">
+            <figure class="project-hero__media">
+                @{ var coverPic = new PictureVm { Image = cover, Rendition = "wide", Alt = title ?? "", Eager = true }; }
+                <partial name="_Picture" model="coverPic" />
+            </figure>
 
-        <div class="row g-4 reveal">
-            <div class="col-lg-8">
-                @if (!string.IsNullOrEmpty(p.Description)) { <p class="project-lead fs-5">@Html.Raw(Site.Pick(p.Description, p.DescriptionAr))</p> }
+            <div class="project-hero__body">
+                <div class="title-c" style="margin-inline:0;text-align:start">
+                    @if (!string.IsNullOrEmpty(p.Tag)) { <span class="tc-eyebrow">@Site.Pick(p.Tag, p.TagAr)</span> }
+                    <h1 class="d-1 tc-h">@title</h1>
+                    @if (!string.IsNullOrEmpty(p.ClientName)) { <p class="tc-note" style="margin-inline:0">@Site.Pick(p.ClientName, p.ClientNameAr)</p> }
+                </div>
+
+                @if (!string.IsNullOrEmpty(p.Description)) { <p class="project-lead fs-5">@Html.Sanitized(Site.Pick(p.Description, p.DescriptionAr))</p> }
                 else if (!string.IsNullOrEmpty(p.ShortDescription)) { <p class="project-lead fs-5">@Site.Pick(p.ShortDescription, p.ShortDescriptionAr)</p> }
-            </div>
-            <div class="col-lg-4">
+
                 <ul class="about-facts">
                     @if (p.Discipline is not null) { <li><span class="k">@Site.T("Discipline", "التخصص")</span><span class="v">@Site.Pick(p.Discipline.Name, p.Discipline.NameAr)</span></li> }
                     @if (!string.IsNullOrEmpty(p.Year)) { <li><span class="k">@Site.T("Year", "السنة")</span><span class="v">@p.Year</span></li> }
@@ -53,9 +54,16 @@
             <div class="project-gallery">
                 @foreach (var m in images)
                 {
+                    var gsrc = ImageResolver.Src(m.FilePath);
+                    var gwebp = Responsive.WebpSrcSet(m.FilePath);
+                    var galt = Site.Pick(m.AltText, m.AltTextAr);
                     <figure class="reveal">
-                        <img src="@ImageResolver.Src(m.FilePath)" alt="@Site.Pick(m.AltText, m.AltTextAr)" loading="lazy" decoding="async"
-                             data-lightbox data-full="@ImageResolver.Src(m.FilePath)" data-caption="@Site.Pick(m.Caption, m.CaptionAr)" role="button" tabindex="0" />
+                        <picture>
+                            @if (!string.IsNullOrEmpty(gwebp)) { <source type="image/webp" srcset="@gwebp" sizes="(max-width: 700px) 100vw, 700px" /> }
+                            <img src="@gsrc" alt="@galt" loading="lazy" decoding="async"
+                                 data-lightbox data-full="@gsrc" data-caption="@Site.Pick(m.Caption, m.CaptionAr)"
+                                 role="button" tabindex="0" aria-label="@(string.IsNullOrEmpty(galt) ? "Open image" : galt)" />
+                        </picture>
                     </figure>
                 }
             </div>

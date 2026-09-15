@@ -1,16 +1,15 @@
 @model HomeViewModel
 @{
     Layout = "_Layout";
+    ViewData["DarkHero"] = true; // nav sits over the dark hero → light nav text until scrolled
     var h = Model.Hero;
     var about = Model.About;
-    var presenceBg = Model.HeroSlides.FirstOrDefault()?.Image ?? "fashion-blazer-stand";
     var secTrusted = Model.Section("trusted");
     var secClients = Model.Section("clients");
     var secWhy = Model.Section("why");
     var secDisc = Model.Section("disciplines");
     var secWork = Model.Section("work");
     var secShowreel = Model.Section("showreel");
-    var secPresence = Model.Section("presence");
     var secServices = Model.Section("services");
     var secProcess = Model.Section("process");
     var secFaq = Model.Section("faq");
@@ -44,7 +43,7 @@
                     }
                     @if (!string.IsNullOrEmpty(h.Description))
                     {
-                        <p class="hero__lead mb-3 reveal" data-d="2" style="max-width:46ch;color:rgba(240,233,220,.9)">@Html.Raw(Site.Pick(h.Description, h.DescriptionAr))</p>
+                        <p class="hero__lead mb-3 reveal" data-d="2" style="max-width:46ch;color:rgba(240,233,220,.9)">@Html.Sanitized(Site.Pick(h.Description, h.DescriptionAr))</p>
                     }
                     @if (!string.IsNullOrEmpty(h.Sectors)) { <p class="hero__sectors reveal mb-4" data-d="2">@Site.Pick(h.Sectors, h.SectorsAr)</p> }
                     <div class="d-flex flex-wrap gap-2 reveal" data-d="2">
@@ -99,7 +98,7 @@
         <div class="container">
             <div class="title-c reveal">
                 @if (!string.IsNullOrEmpty(about.Eyebrow)) { <span class="tc-eyebrow">@Site.Pick(about.Eyebrow, about.EyebrowAr)</span> }
-                <h2 class="d-1 tc-h">@Html.Raw(Site.Pick(about.Title, about.TitleAr))</h2>
+                <h2 class="d-1 tc-h">@Html.Sanitized(Site.Pick(about.Title, about.TitleAr))</h2>
             </div>
             <div class="about-grid">
                 <figure class="about-portrait reveal m-0">
@@ -109,8 +108,8 @@
                 </figure>
                 <div class="about-copy reveal" data-d="1">
                     <span class="about-badge"><span class="about-badge__dot" aria-hidden="true"></span>@Site.T("Available for bookings — Saudi Arabia & GCC", "متاحة للحجز — السعودية والخليج")</span>
-                    @if (!string.IsNullOrEmpty(about.Description)) { <blockquote class="about-quote">@Html.Raw(Site.Pick(about.Description, about.DescriptionAr))</blockquote> }
-                    @if (!string.IsNullOrEmpty(about.LongDescription)) { <p class="about-body">@Html.Raw(Site.Pick(about.LongDescription, about.LongDescriptionAr))</p> }
+                    @if (!string.IsNullOrEmpty(about.Description)) { <blockquote class="about-quote">@Html.Sanitized(Site.Pick(about.Description, about.DescriptionAr))</blockquote> }
+                    @if (!string.IsNullOrEmpty(about.LongDescription)) { <p class="about-body">@Html.Sanitized(Site.Pick(about.LongDescription, about.LongDescriptionAr))</p> }
                     @if (Model.AboutFacts.Any())
                     {
                         <ul class="about-facts">
@@ -190,8 +189,8 @@
                 <div class="abaya-teaser__inner">
                     <div class="abaya-teaser__copy">
                         <span class="tc-eyebrow">@Site.Pick(secAbaya?.Eyebrow, secAbaya?.EyebrowAr) ?? Site.T("Bardees Abaya Collection", "مجموعة عبايات برديس")</span>
-                        <h2 class="d-1 tc-h mt-2">@Html.Raw(Site.Pick(secAbaya?.Title, secAbaya?.TitleAr) ?? Site.T("Designed &amp; tailored by <em>Bardees</em>.", "تصميم وتفصيل <em>برديس</em>."))</h2>
-                        @if (!string.IsNullOrEmpty(secAbaya?.Note)) { <p class="tc-note" style="margin-inline:0">@Html.Raw(Site.Pick(secAbaya.Note, secAbaya.NoteAr))</p> }
+                        <h2 class="d-1 tc-h mt-2">@Html.Sanitized(Site.Pick(secAbaya?.Title, secAbaya?.TitleAr) ?? Site.T("Designed &amp; tailored by <em>Bardees</em>.", "تصميم وتفصيل <em>برديس</em>."))</h2>
+                        @if (!string.IsNullOrEmpty(secAbaya?.Note)) { <p class="tc-note" style="margin-inline:0">@Html.Sanitized(Site.Pick(secAbaya.Note, secAbaya.NoteAr))</p> }
                         else { <p class="tc-note" style="margin-inline:0">@Site.T("A personal line of abayas — ready-to-wear and made-to-measure. Ordered directly over WhatsApp.", "خط عبايات خاص — جاهزة وتفصيل حسب الطلب. تُطلب مباشرةً عبر واتساب.")</p> }
                         <a class="btn btn-gold mt-2" href="/abayas">@Site.T("Explore Collection", "استكشفي المجموعة") <i class="bi bi-arrow-up-right"></i></a>
                     </div>
@@ -232,33 +231,6 @@
         </div>
     </section>
 }
-
-@* ===================== PRESENCE ===================== *@
-<section class="presence-band">
-    @{ var presencePic = new PictureVm { Image = presenceBg, Rendition = "wide", Alt = "" }; }
-    <div class="presence-band__bg"><partial name="_Picture" model="presencePic" /></div>
-    <div class="container">
-        <partial name="_SectionHeading" model="secPresence" />
-        @if (Model.Stats.Any())
-        {
-            <div class="presence-stats row g-0 reveal">
-                @foreach (var st in Model.Stats)
-                {
-                    <div class="col-6 col-md-3"><div class="stat reveal"><div class="stat__v">@st.Value</div><div class="stat__l">@Site.Pick(st.Label, st.LabelAr)</div></div></div>
-                }
-            </div>
-        }
-        <div class="row g-4 mt-5">
-            <div class="col-md-4 reveal"><p class="eyebrow mb-3">@Site.T("Platforms", "المنصات")</p><div class="d-flex flex-wrap gap-2">
-                @foreach (var p in Model.Platforms) { <span class="pill-tag">@Site.Pick(p.Name, p.NameAr)</span> }
-            </div></div>
-            <div class="col-md-4 reveal" data-d="1"><p class="eyebrow mb-3">@Site.T("Content style", "أسلوب المحتوى")</p><div class="d-flex flex-wrap gap-2">
-                @foreach (var csItem in Model.ContentStyles) { <span class="pill-tag pill-soft">@Site.Pick(csItem.Name, csItem.NameAr)</span> }
-            </div></div>
-            <div class="col-md-4 reveal" data-d="2"><p class="eyebrow mb-3">@Site.T("Audience focus", "تركيز الجمهور")</p><p class="fs-5 mb-0">@Site.T("Saudi Arabia · GCC · Arabic-speaking audience", "السعودية · الخليج · جمهور ناطق بالعربية")</p></div>
-        </div>
-    </div>
-</section>
 
 @* ===================== SERVICES ===================== *@
 @if (Model.Services.Any())
@@ -324,7 +296,7 @@
     <div class="container">
         <div class="cta-frame reveal">
             @if (!string.IsNullOrEmpty(cta?.Eyebrow)) { <span class="hero__flank d-inline-block mb-3">@Site.Pick(cta.Eyebrow, cta.EyebrowAr)</span> }
-            <h2 class="cta-band__title">@Html.Raw(Site.Pick(cta?.Title, cta?.TitleAr) ?? Site.T("Let's make something <em>unforgettable</em>.", "لنصنع شيئاً <em>لا يُنسى</em>."))</h2>
+            <h2 class="cta-band__title">@Html.Sanitized(Site.Pick(cta?.Title, cta?.TitleAr) ?? Site.T("Let's make something <em>unforgettable</em>.", "لنصنع شيئاً <em>لا يُنسى</em>."))</h2>
             @if (!string.IsNullOrEmpty(cta?.Note)) { <p class="cta-band__sub">@Site.Pick(cta.Note, cta.NoteAr)</p> }
             <div class="d-flex flex-wrap gap-3 justify-content-center">
                 <a class="btn btn-gold btn-lg" href="/contact">@Site.T("Work with me", "لنعمل معاً") <i class="bi bi-arrow-up-right"></i></a>

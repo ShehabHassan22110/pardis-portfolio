@@ -1,5 +1,5 @@
 /* =============================================================================
-   site.js — BARDEES REFAAT public site (MVC build)
+   site.js — BARDEES ISSA public site (MVC build)
    Content is server-rendered in the current language; this file only wires
    interactions on that DOM: loader, sticky nav, theme toggle, hero carousel,
    clients marquee, reveal-on-scroll, lightbox, FAQ, video/work filters,

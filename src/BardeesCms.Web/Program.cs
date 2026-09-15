@@ -3,15 +3,20 @@ using BardeesCms.Web.Data;
 using BardeesCms.Web.Models.Entities;
 using BardeesCms.Web.Services;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Net.Http.Headers;
 using System.IO.Compression;
+using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
-    ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+if (string.IsNullOrWhiteSpace(connectionString))
+    throw new InvalidOperationException(
+        "Connection string 'DefaultConnection' is not configured. Set it via user-secrets (dev) " +
+        "or the ConnectionStrings__DefaultConnection environment variable / appsettings.Production.json (prod).");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString, sql =>
@@ -35,8 +40,9 @@ builder.Services
     .AddIdentity<ApplicationUser, IdentityRole>(options =>
     {
         options.SignIn.RequireConfirmedAccount = false;
-        options.Password.RequiredLength = 8;
-        options.Password.RequireNonAlphanumeric = false;
+        // Admin CMS: require reasonably strong passwords (upper/lower/digit are on by default).
+        options.Password.RequiredLength = 10;
+        options.Password.RequireNonAlphanumeric = true;
         options.User.RequireUniqueEmail = true;
         options.Lockout.MaxFailedAccessAttempts = 5;
     })
@@ -65,6 +71,7 @@ builder.Services.AddSingleton<IHtmlSanitizerService, HtmlSanitizerService>();
 builder.Services.AddMemoryCache();
 builder.Services.AddScoped<SiteContext>();
 builder.Services.AddScoped<IPublicContentService, PublicContentService>();
+builder.Services.AddSingleton<ResponsiveImages>();
 
 // Response compression (Brotli + Gzip), including over HTTPS.
 builder.Services.AddResponseCompression(options =>
@@ -77,6 +84,21 @@ builder.Services.AddResponseCompression(options =>
 });
 builder.Services.Configure<BrotliCompressionProviderOptions>(o => o.Level = CompressionLevel.Optimal);
 builder.Services.Configure<GzipCompressionProviderOptions>(o => o.Level = CompressionLevel.Optimal);
+
+// Per-IP rate limiting for the public, unauthenticated contact form (anti-spam / anti-flood).
+builder.Services.AddRateLimiter(options =>
+{
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+    options.AddPolicy("ContactForm", httpContext =>
+        RateLimitPartition.GetFixedWindowLimiter(
+            partitionKey: httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+            factory: _ => new FixedWindowRateLimiterOptions
+            {
+                PermitLimit = 5,
+                Window = TimeSpan.FromMinutes(10),
+                QueueLimit = 0
+            }));
+});
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
@@ -109,7 +131,14 @@ app.UseStaticFiles(new StaticFileOptions
         var path = ctx.Context.Request.Path.Value ?? "";
         var headers = ctx.Context.Response.GetTypedHeaders();
         if (path.StartsWith("/uploads/", StringComparison.OrdinalIgnoreCase))
+        {
             headers.CacheControl = new CacheControlHeaderValue { Public = true, MaxAge = TimeSpan.FromDays(365), NoTransform = true };
+            // Defense-in-depth: if any script-bearing file (e.g. a legacy SVG) is navigated to
+            // directly, this locked-down CSP + nosniff prevents it from executing script.
+            var raw = ctx.Context.Response.Headers;
+            raw["Content-Security-Policy"] = "default-src 'none'; style-src 'unsafe-inline'; sandbox";
+            raw["X-Content-Type-Options"] = "nosniff";
+        }
         else if (path.StartsWith("/assets/", StringComparison.OrdinalIgnoreCase)
               || path.StartsWith("/lib/", StringComparison.OrdinalIgnoreCase)
               || path.StartsWith("/admin/", StringComparison.OrdinalIgnoreCase))
@@ -121,6 +150,7 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseRateLimiter();
 
 app.MapStaticAssets();
 

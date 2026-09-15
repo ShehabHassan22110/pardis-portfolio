@@ -61,9 +61,12 @@
         <script async src="https://www.googletagmanager.com/gtag/js?id=@s.GoogleAnalyticsId"></script>
         <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','@s.GoogleAnalyticsId');</script>
     }
+    @* CustomCss is intentionally rendered raw. It is editable only by SuperAdmin (AdvancedSettings
+       policy) — a deliberate full-trust admin capability, not user input. Do not expose this field to
+       lower roles. *@
     @if (!string.IsNullOrEmpty(s.CustomCss)) { <style>@Html.Raw(s.CustomCss)</style> }
 </head>
-<body>
+<body class="@(ViewData["DarkHero"] as bool? == true ? "has-dark-hero" : null)">
     <div id="loader" class="loader" aria-hidden="true">
         <div class="loader__logo">
             @{ var loaderHasLogo = !string.IsNullOrEmpty(s.LogoLight) || !string.IsNullOrEmpty(s.LogoDark); }
@@ -95,11 +98,21 @@
 
     <partial name="_Footer" model="layout" />
 
-    <a href="#" class="btn btn-gold btn-lg-square rounded-circle back-to-top" aria-label="Back to top"><i class="bi bi-arrow-up"></i></a>
+    <button type="button" class="btn btn-gold btn-lg-square rounded-circle back-to-top" aria-label="Back to top"><i class="bi bi-arrow-up"></i></button>
+
+    @if (!string.IsNullOrEmpty(s.WhatsApp))
+    {
+        <a class="wa-float" href="https://wa.me/@s.WhatsApp" target="_blank" rel="noopener"
+           aria-label="@Site.T("Chat on WhatsApp", "تواصل عبر واتساب")" title="@Site.T("Chat on WhatsApp", "تواصل عبر واتساب")">
+            <i class="bi bi-whatsapp"></i>
+        </a>
+    }
 
     <script src="/assets/js/bootstrap.bundle.min.js"></script>
     <script src="/assets/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+    @* CustomJs is intentionally rendered raw — SuperAdmin-only (AdvancedSettings policy), a deliberate
+       full-trust admin capability. Do not expose this field to lower roles. *@
     @if (!string.IsNullOrEmpty(s.CustomJs)) { <script>@Html.Raw(s.CustomJs)</script> }
 </body>
 </html>

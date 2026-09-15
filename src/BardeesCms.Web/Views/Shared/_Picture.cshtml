@@ -1,13 +1,23 @@
 @model PictureVm
+@inject BardeesCms.Web.Services.ResponsiveImages Responsive
 @{
     var webp = ImageResolver.WebpSrc(Model.Image, Model.Rendition);
     var src = ImageResolver.Src(Model.Image, Model.Rendition);
+    // Uploaded images: real width-based WebP srcset (only renditions that exist on disk).
+    var responsiveWebp = Responsive.WebpSrcSet(Model.Image);
     var loading = Model.Eager ? "eager" : "lazy";
 }
 @if (!string.IsNullOrEmpty(src))
 {
     <picture class="@Model.CssClass">
-        @if (!string.IsNullOrEmpty(webp)) { <source type="image/webp" srcset="@webp" /> }
+        @if (!string.IsNullOrEmpty(responsiveWebp))
+        {
+            <source type="image/webp" srcset="@responsiveWebp" sizes="@Model.Sizes" />
+        }
+        else if (!string.IsNullOrEmpty(webp))
+        {
+            <source type="image/webp" srcset="@webp" />
+        }
         <img src="@src" alt="@Model.Alt" class="@Model.ImgClass" loading="@loading" decoding="async" />
     </picture>
 }

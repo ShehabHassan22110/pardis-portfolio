@@ -1,17 +1,23 @@
 @model PageSection
 @*
     Editorial section heading (eyebrow + title + note). Title/Note may contain small
-    inline HTML (<em>) authored in the CMS, so they are rendered raw. Content is
-    admin-authored (trusted) — do not feed untrusted input here.
+    inline HTML (<em>) authored in the CMS, so they are rendered as HTML — but run through
+    the editorial allow-list sanitizer (Html.Sanitized) to strip any script/unsafe markup.
 *@
 @if (Model is not null)
 {
     var eyebrow = Site.Pick(Model.Eyebrow, Model.EyebrowAr);
     var title = Site.Pick(Model.Title, Model.TitleAr);
     var note = Site.Pick(Model.Note, Model.NoteAr);
+    // When this heading is the page's lead (not a sub-section), pass AsH1 so it renders <h1>.
+    var asH1 = ViewData["AsH1"] as bool? ?? false;
     <div class="title-c reveal">
         @if (!string.IsNullOrEmpty(eyebrow)) { <span class="tc-eyebrow">@eyebrow</span> }
-        @if (!string.IsNullOrEmpty(title)) { <h2 class="d-1 tc-h">@Html.Raw(title)</h2> }
-        @if (!string.IsNullOrEmpty(note)) { <p class="tc-note">@Html.Raw(note)</p> }
+        @if (!string.IsNullOrEmpty(title))
+        {
+            if (asH1) { <h1 class="d-1 tc-h">@Html.Sanitized(title)</h1> }
+            else { <h2 class="d-1 tc-h">@Html.Sanitized(title)</h2> }
+        }
+        @if (!string.IsNullOrEmpty(note)) { <p class="tc-note">@Html.Sanitized(note)</p> }
     </div>
 }

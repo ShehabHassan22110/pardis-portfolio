@@ -27,10 +27,27 @@ html { scroll-behavior: smooth; scroll-padding-top: 92px; }
 .work-filter a.active { background: var(--accent); color: #17120e; border-color: var(--accent); }
 
 /* ---- Project detail ------------------------------------------------------- */
-.project-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; margin-top: 2rem; }
+/* Hero: cover image beside the meta/text (not stacked). Image is size-capped so
+   a tall portrait never blows out the page. */
+.project-hero { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: clamp(24px, 4vw, 56px); align-items: start; margin-top: 1.5rem; }
+.project-hero__media { margin: 0; border-radius: 18px; overflow: hidden; background: var(--card); position: relative; }
+.project-hero__media picture { display: block; width: 100%; height: 100%; }
+.project-hero__media img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center top; aspect-ratio: 4 / 5; max-height: 78vh; transition: transform .8s var(--ease); }
+.project-hero__media:hover img { transform: scale(1.03); }
+.project-hero__body { position: sticky; top: 100px; align-self: start; }
+.project-hero__body .title-c { margin-bottom: 1.1rem; }
+.project-hero__body .about-facts { margin-top: 1.6rem; margin-bottom: 1.4rem; }
+@media (max-width: 900px) {
+  .project-hero { grid-template-columns: 1fr; gap: 22px; }
+  .project-hero__media img { aspect-ratio: 3 / 4; max-height: 62vh; }
+  .project-hero__body { position: static; }
+}
+
+.project-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; margin-top: 2.6rem; }
 .project-gallery figure { margin: 0; border-radius: 14px; overflow: hidden; }
-.project-gallery img { width: 100%; height: 100%; object-fit: cover; display: block; aspect-ratio: 4 / 5; }
-.project-lead { max-width: 60ch; }
+.project-gallery img { width: 100%; height: 100%; object-fit: cover; display: block; aspect-ratio: 4 / 5; cursor: zoom-in; transition: transform .6s var(--ease), filter .6s var(--ease); }
+.project-gallery figure:hover img { transform: scale(1.05); filter: brightness(1.05); }
+.project-lead { max-width: 60ch; color: var(--text-soft); line-height: 1.75; }
 
 /* ---- Videos grid ---------------------------------------------------------- */
 .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 22px; }

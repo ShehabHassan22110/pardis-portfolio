@@ -120,7 +120,7 @@ public class CollaborationStepsController : AdminControllerBase
     {
         var items = await _db.CollaborationSteps.Where(s => ids.Contains(s.Id)).ToListAsync();
         for (var i = 0; i < ids.Length; i++)
-            (items.FirstOrDefault(x => x.Id == ids[i]) ?? new()).DisplayOrder = i;
+            if (items.FirstOrDefault(x => x.Id == ids[i]) is { } hit) hit.DisplayOrder = i;
         await _db.SaveChangesAsync();
         return Ok();
     }

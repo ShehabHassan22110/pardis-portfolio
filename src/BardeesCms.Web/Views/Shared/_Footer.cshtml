@@ -83,7 +83,7 @@
 
         <div class="footer__bottom">
             <span>&copy; @DateTime.Now.Year @Site.Pick(s.CopyrightText, s.CopyrightTextAr) &mdash; @Site.T("All rights reserved.", "جميع الحقوق محفوظة.")</span>
-            <span>@Site.Pick(s.BrandNameAr, s.BrandNameAr) @(string.IsNullOrEmpty(s.Location) ? "" : "· " + Site.Pick(s.Location, s.LocationAr))</span>
+            <span>@Site.Pick(s.BrandName, s.BrandNameAr) @(string.IsNullOrEmpty(s.Location) ? "" : "· " + Site.Pick(s.Location, s.LocationAr))</span>
         </div>
     </div>
     <div class="footer__wordmark" aria-hidden="true">@(brandFull?.Split(' ').FirstOrDefault())</div>

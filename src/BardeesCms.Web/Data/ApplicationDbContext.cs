@@ -29,9 +29,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Abaya> Abayas => Set<Abaya>();
     public DbSet<Video> Videos => Set<Video>();
     public DbSet<VideoCategory> VideoCategories => Set<VideoCategory>();
-    public DbSet<Platform> Platforms => Set<Platform>();
-    public DbSet<PresenceStat> PresenceStats => Set<PresenceStat>();
-    public DbSet<ContentStyle> ContentStyles => Set<ContentStyle>();
     public DbSet<Service> Services => Set<Service>();
     public DbSet<CollaborationStep> CollaborationSteps => Set<CollaborationStep>();
     public DbSet<Faq> Faqs => Set<Faq>();

@@ -1,5 +1,5 @@
 /* =============================================================================
-   app.js — BARDEES REFAAT  (Bootstrap build, vanilla JS)
+   app.js — BARDEES ISSA  (Bootstrap build, vanilla JS)
    Renders every dynamic section from data.js (localised by I18N.lang),
    re-renders on language change, and wires all interactions:
    theme + language toggles, sticky nav, hero swiper, reveal-on-scroll,
@@ -399,7 +399,7 @@
     const set = (s, v) => { const e = $(s); if (e) e.textContent = v; };
     set("#catN", `${c.n} / ${String(total).padStart(2, "0")}`);
     set("#catTitle", L(c, "title")); set("#catAr", c.ar); set("#catTagline", L(c, "tagline")); set("#catDesc", L(c, "desc"));
-    document.title = `${L(c, "title")} — BARDEES REFAAT`;
+    document.title = `${L(c, "title")} — BARDEES ISSA`;
     const cover = $("#catCover");
     if (cover) cover.innerHTML = pic(c.cover, "portrait", { alt: L(c, "title"), loading: "eager" });
     if ($("#catSub")) $("#catSub").innerHTML = ((isAr() ? c.arSub : c.sub) || []).map((s) => `<li class="facts-sub py-2" style="border-bottom:1px solid var(--border);color:var(--text-soft)">${esc(s)}</li>`).join("");
@@ -486,7 +486,7 @@
   }
   function initShare() {
     const c = $("#copyLink"); if (c) c.addEventListener("click", async () => { try { await navigator.clipboard.writeText(location.href); const o = c.textContent; c.textContent = isAr() ? "✓ تم النسخ" : "✓ Copied"; setTimeout(() => (c.textContent = o), 1500); } catch (e) {} });
-    const s = $("#shareLink"); if (s && navigator.share) s.addEventListener("click", () => navigator.share({ title: "BARDEES REFAAT", url: location.href }).catch(() => {}));
+    const s = $("#shareLink"); if (s && navigator.share) s.addEventListener("click", () => navigator.share({ title: "BARDEES ISSA", url: location.href }).catch(() => {}));
   }
 
   /* ------------------------------------------------------- MOTION ---------- */

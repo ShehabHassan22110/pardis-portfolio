@@ -27,7 +27,6 @@ public static class ContentSeed
         await SeedAbayas(db, now);
         await SeedCollaborationSteps(db, now);
         await SeedFaqs(db, now);
-        await SeedPresence(db);
         await SeedVideos(db, now);
         await SeedContactSettings(db, now);
         await SeedNavigation(db);
@@ -42,34 +41,34 @@ public static class ContentSeed
         if (await db.SiteSettings.AnyAsync()) return;
         db.SiteSettings.Add(new SiteSettings
         {
-            SiteName = "BARDEES REFAAT",
-            SiteNameAr = "برديس رفعت",
-            BrandName = "BARDEES REFAAT",
-            BrandNameAr = "برديس رفعت",
+            SiteName = "BARDEES ISSA",
+            SiteNameAr = "برديس عيسى",
+            BrandName = "BARDEES ISSA",
+            BrandNameAr = "برديس عيسى",
             BrandNameShort = "Bardees",
             BrandNameShortAr = "برديس",
             Role = "Model · Actress · Brand Ambassador",
             RoleAr = "عارضة أزياء · ممثلة · وجه إعلاني",
             Tagline = "Based in Saudi Arabia — Available across the GCC.",
             TaglineAr = "مقيمة في السعودية — متاحة عبر الخليج.",
-            Description = "BARDEES REFAAT — model, actress and brand ambassador. Commercial campaigns, fashion, beauty, lifestyle and acting for brands across Saudi Arabia and the GCC.",
-            DescriptionAr = "برديس رفعت — عارضة أزياء وممثلة ووجه إعلاني. حملات تجارية وأزياء وجمال ولايف ستايل وتمثيل للعلامات في السعودية والخليج.",
+            Description = "BARDEES ISSA — model, actress and brand ambassador. Commercial campaigns, fashion, beauty, lifestyle and acting for brands across Saudi Arabia and the GCC.",
+            DescriptionAr = "برديس عيسى — عارضة أزياء وممثلة ووجه إعلاني. حملات تجارية وأزياء وجمال ولايف ستايل وتمثيل للعلامات في السعودية والخليج.",
             Favicon = "assets/brand/favicon.svg",
-            Email = "hello@bardeesrefaat.com",       // placeholder — client to provide
+            Email = "hello@bardeesissa.com",       // placeholder — client to provide
             Phone = "+966 56 576 8902",
             WhatsApp = "966565768902",                // digits only, incl. country code (for wa.me)
             Location = "Saudi Arabia",
             LocationAr = "السعودية",
-            CopyrightText = "BARDEES REFAAT",
-            CopyrightTextAr = "برديس رفعت",
-            DefaultMetaTitle = "BARDEES REFAAT — Model · Actress · Brand Ambassador",
+            CopyrightText = "BARDEES ISSA",
+            CopyrightTextAr = "برديس عيسى",
+            DefaultMetaTitle = "BARDEES ISSA — Model · Actress · Brand Ambassador",
             DefaultMetaDescription = "Model, actress and brand ambassador based in Saudi Arabia, available across the GCC. Commercial campaigns, fashion, beauty, lifestyle, events, content and acting.",
             InstagramUrl = "#",                        // placeholder — add in dashboard when ready
             TikTokUrl = "#",                           // placeholder — add in dashboard when ready
             SnapchatUrl = "#",                         // placeholder — add in dashboard when ready
             FacebookUrl = "#",                         // placeholder — add in dashboard when ready
-            YouTubeUrl = "https://www.youtube.com/@BardeesRefaat",
-            BookingEmail = "hello@bardeesrefaat.com",
+            YouTubeUrl = "https://www.youtube.com/@BardeesIssa",
+            BookingEmail = "hello@bardeesissa.com",
             BookingWhatsApp = "966565768902",
             CreatedAt = now
         });
@@ -84,8 +83,8 @@ public static class ContentSeed
             EyebrowAr = "عارضة أزياء • ممثلة • وجه إعلاني",
             Title = "BARDEES",
             TitleAr = "برديس",
-            Subtitle = "REFAAT",
-            SubtitleAr = "رفعت",
+            Subtitle = "ISSA",
+            SubtitleAr = "عيسى",
             Description = "Based in Saudi Arabia — <em class=\"serif-em\" style=\"font-style:normal\">available for brands & campaigns across the GCC.</em> Commercial, fashion, beauty, lifestyle, content and acting.",
             DescriptionAr = "مقيمة في السعودية — <em class=\"serif-em\" style=\"font-style:normal\">متاحة للعلامات والحملات عبر الخليج.</em> إعلانات وأزياء وجمال ولايف ستايل ومحتوى وتمثيل.",
             Sectors = "Commercial · Fashion · Beauty · Lifestyle · Acting",
@@ -169,7 +168,6 @@ public static class ContentSeed
             ("work", "home", "Selected — Issue 01", "مختارات — العدد 01", "Selected <em>work</em>", "أعمال <em>مختارة</em>", null, null),
             ("showreel", "home", "Showreel", "شوريل", "See me <em>in motion</em>.", "شاهدني <em>في حركة</em>.",
                 "A short cut across campaigns, content and events.", "لقطة قصيرة من الحملات والمحتوى والفعاليات."),
-            ("presence", "home", "Digital presence", "الحضور الرقمي", "Audience & <em>platforms</em>.", "الجمهور <em>والمنصات</em>.", null, null),
             ("services", "home", "What I offer", "ما أقدّمه", "Services, <em>tailored</em>.", "خدمات <em>مصمّمة</em>.", null, null),
             ("process", "home", "How a collaboration works", "كيف يتم التعاون", "Four steps, <em>zero friction</em>.", "أربع خطوات، <em>بلا تعقيد</em>.", null, null),
             ("faq", "home", "Good to know", "معلومات مفيدة", "Questions, <em>answered</em>.", "أسئلة، <em>وأجوبتها</em>.", null, null),
@@ -330,43 +328,6 @@ public static class ContentSeed
             db.Faqs.Add(new Faq { Question = f.q, QuestionAr = f.qAr, Answer = f.a, AnswerAr = f.aAr, DisplayOrder = order++, IsActive = true, CreatedAt = now });
     }
 
-    private static async Task SeedPresence(ApplicationDbContext db)
-    {
-        if (!await db.PresenceStats.AnyAsync())
-        {
-            var stats = new (string v, string l, string lAr)[]
-            {
-                ("XXK+", "Followers", "متابع"),
-                ("XXK+", "Monthly Reach", "وصول شهري"),
-                ("XX%", "Saudi Audience", "جمهور سعودي"),
-                ("GCC", "Available", "متاحة"),
-            };
-            var o = 0;
-            foreach (var s in stats)
-                db.PresenceStats.Add(new PresenceStat { Value = s.v, Label = s.l, LabelAr = s.lAr, DisplayOrder = o++, IsActive = true });
-        }
-
-        if (!await db.Platforms.AnyAsync())
-        {
-            var platforms = new (string n, string icon)[] { ("Instagram", "instagram"), ("TikTok", "tiktok"), ("Snapchat", "snapchat") };
-            var o = 0;
-            foreach (var p in platforms)
-                db.Platforms.Add(new Platform { Name = p.n, Icon = p.icon, Url = "#", DisplayOrder = o++, IsActive = true, CreatedAt = DateTime.UtcNow });
-        }
-
-        if (!await db.ContentStyles.AnyAsync())
-        {
-            var styles = new (string en, string ar)[]
-            {
-                ("Short-form video", "فيديو قصير"), ("Reels", "ريلز"), ("Stories", "ستوريز"),
-                ("Brand campaigns", "حملات إعلانية"), ("Event coverage", "تغطية فعاليات"), ("Lifestyle content", "محتوى لايف ستايل"),
-            };
-            var o = 0;
-            foreach (var s in styles)
-                db.ContentStyles.Add(new ContentStyle { Name = s.en, NameAr = s.ar, DisplayOrder = o++, IsActive = true });
-        }
-    }
-
     private static async Task SeedVideos(ApplicationDbContext db, DateTime now)
     {
         if (await db.VideoCategories.AnyAsync()) return;
@@ -430,7 +391,7 @@ public static class ContentSeed
             TitleAr = "هل تبحث عن عارضة أزياء أو ممثلة أو وجه إعلاني لحملتك القادمة؟",
             Description = "Book with Bardees. Send your brief here and I'll reply on WhatsApp or by email — the fastest way to reach me is the WhatsApp button.",
             DescriptionAr = "احجز مع برديس. أرسل ملخّصك من هنا وسأرد عبر واتساب أو البريد — وأسرع طريقة للوصول إليّ هي زر واتساب.",
-            Email = "hello@bardeesrefaat.com",         // placeholder — client to provide
+            Email = "hello@bardeesissa.com",         // placeholder — client to provide
             Phone = "+966 56 576 8902",
             WhatsApp = "966565768902",                  // digits only, incl. country code (for wa.me)
             Location = "Saudi Arabia · GCC",
@@ -484,13 +445,13 @@ public static class ContentSeed
         if (await db.SeoPages.AnyAsync()) return;
         var pages = new (string name, string route, string title, string desc)[]
         {
-            ("Home", "/", "BARDEES REFAAT — Model · Actress · Brand Ambassador", "Model, actress and brand ambassador based in Saudi Arabia, available across the GCC. Commercial campaigns, fashion, beauty, lifestyle, events, content and acting."),
-            ("About", "/about", "About — BARDEES REFAAT", "A Saudi-based model, actress and brand ambassador working with brands across Saudi Arabia and the GCC."),
-            ("Work", "/work", "Work — BARDEES REFAAT", "Selected work across commercial, fashion & beauty, food & lifestyle, medical, brand ambassador and acting."),
-            ("Services", "/services", "Services — BARDEES REFAAT", "Modelling, acting, brand ambassadorship, wardrobe styling, brand & event coverage and content creation — tailored to the brief."),
+            ("Home", "/", "BARDEES ISSA — Model · Actress · Brand Ambassador", "Model, actress and brand ambassador based in Saudi Arabia, available across the GCC. Commercial campaigns, fashion, beauty, lifestyle, events, content and acting."),
+            ("About", "/about", "About — BARDEES ISSA", "A Saudi-based model, actress and brand ambassador working with brands across Saudi Arabia and the GCC."),
+            ("Work", "/work", "Work — BARDEES ISSA", "Selected work across commercial, fashion & beauty, food & lifestyle, medical, brand ambassador and acting."),
+            ("Services", "/services", "Services — BARDEES ISSA", "Modelling, acting, brand ambassadorship, wardrobe styling, brand & event coverage and content creation — tailored to the brief."),
             ("Abayas", "/abayas", "Abayas — Bardees Abaya Collection", "Bardees Abaya Collection — ready-to-wear and made-to-measure abayas designed and tailored by Bardees. Order over WhatsApp."),
-            ("Videos", "/videos", "Videos — BARDEES REFAAT", "Commercial campaigns, modelling, acting and behind-the-scenes films — filter by category and watch."),
-            ("Contact", "/contact", "Contact — BARDEES REFAAT", "Looking for a model, actress or advertising face? Book with Bardees over WhatsApp or email."),
+            ("Videos", "/videos", "Videos — BARDEES ISSA", "Commercial campaigns, modelling, acting and behind-the-scenes films — filter by category and watch."),
+            ("Contact", "/contact", "Contact — BARDEES ISSA", "Looking for a model, actress or advertising face? Book with Bardees over WhatsApp or email."),
         };
         foreach (var p in pages)
             db.SeoPages.Add(new SeoPage

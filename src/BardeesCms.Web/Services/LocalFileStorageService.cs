@@ -16,9 +16,13 @@ public class FileStorageOptions
     public int MaxImageWidth { get; set; } = 2000;
     /// <summary>Longest edge of generated WebP thumbnails.</summary>
     public int ThumbnailWidth { get; set; } = 480;
-    public string[] ImageExtensions { get; set; } = { ".jpg", ".jpeg", ".png", ".webp", ".gif", ".svg", ".avif" };
+    /// <summary>Widths (px) of the responsive WebP renditions generated for &lt;picture&gt; srcset.</summary>
+    public static readonly int[] ResponsiveWidths = { 480, 960, 1440 };
+    // SVG is intentionally NOT accepted for upload: it can carry inline scripts and would be
+    // served from our own origin (stored XSS). The static brand favicon.svg under /assets is unaffected.
+    public string[] ImageExtensions { get; set; } = { ".jpg", ".jpeg", ".png", ".webp", ".gif", ".avif" };
     public string[] VideoExtensions { get; set; } = { ".mp4", ".webm", ".mov" };
-    public string[] ImageContentTypes { get; set; } = { "image/jpeg", "image/png", "image/webp", "image/gif", "image/svg+xml", "image/avif" };
+    public string[] ImageContentTypes { get; set; } = { "image/jpeg", "image/png", "image/webp", "image/gif", "image/avif" };
     public string[] VideoContentTypes { get; set; } = { "video/mp4", "video/webm", "video/quicktime" };
 }
 
@@ -36,13 +40,55 @@ public class LocalFileStorageService : IFileStorageService
         _logger = logger;
     }
 
-    public bool IsAllowedImage(IFormFile file) => IsAllowed(file, _options.ImageExtensions, _options.ImageContentTypes);
-    public bool IsAllowedVideo(IFormFile file) => IsAllowed(file, _options.VideoExtensions, _options.VideoContentTypes);
+    public bool IsAllowedImage(IFormFile file) => IsAllowed(file, _options.ImageExtensions, _options.ImageContentTypes, video: false);
+    public bool IsAllowedVideo(IFormFile file) => IsAllowed(file, _options.VideoExtensions, _options.VideoContentTypes, video: true);
 
-    private static bool IsAllowed(IFormFile file, string[] exts, string[] types)
+    // Extension and Content-Type are both client-controlled and trivially spoofable, so we also
+    // verify the file's real leading bytes (magic number) match the claimed kind.
+    private static bool IsAllowed(IFormFile file, string[] exts, string[] types, bool video)
     {
         var ext = Path.GetExtension(file.FileName).ToLowerInvariant();
-        return exts.Contains(ext) && types.Contains(file.ContentType.ToLowerInvariant());
+        if (!exts.Contains(ext) || !types.Contains(file.ContentType.ToLowerInvariant())) return false;
+        return video ? HasVideoSignature(file) : HasImageSignature(file);
+    }
+
+    private static byte[] ReadHeader(IFormFile file, int count)
+    {
+        using var s = file.OpenReadStream();
+        var buf = new byte[count];
+        var read = 0;
+        int n;
+        while (read < count && (n = s.Read(buf, read, count - read)) > 0) read += n;
+        return read < count ? buf[..read] : buf;
+    }
+
+    private static bool HasImageSignature(IFormFile file)
+    {
+        var h = ReadHeader(file, 12);
+        if (h.Length < 12) return false;
+        // JPEG
+        if (h[0] == 0xFF && h[1] == 0xD8 && h[2] == 0xFF) return true;
+        // PNG
+        if (h[0] == 0x89 && h[1] == 0x50 && h[2] == 0x4E && h[3] == 0x47) return true;
+        // GIF ("GIF8")
+        if (h[0] == (byte)'G' && h[1] == (byte)'I' && h[2] == (byte)'F' && h[3] == (byte)'8') return true;
+        // WEBP ("RIFF"...."WEBP")
+        if (h[0] == (byte)'R' && h[1] == (byte)'I' && h[2] == (byte)'F' && h[3] == (byte)'F'
+            && h[8] == (byte)'W' && h[9] == (byte)'E' && h[10] == (byte)'B' && h[11] == (byte)'P') return true;
+        // AVIF/HEIF (ISO-BMFF: "....ftyp")
+        if (h[4] == (byte)'f' && h[5] == (byte)'t' && h[6] == (byte)'y' && h[7] == (byte)'p') return true;
+        return false;
+    }
+
+    private static bool HasVideoSignature(IFormFile file)
+    {
+        var h = ReadHeader(file, 12);
+        if (h.Length < 12) return false;
+        // MP4 / MOV (ISO-BMFF: "....ftyp")
+        if (h[4] == (byte)'f' && h[5] == (byte)'t' && h[6] == (byte)'y' && h[7] == (byte)'p') return true;
+        // WEBM / Matroska (EBML header)
+        if (h[0] == 0x1A && h[1] == 0x45 && h[2] == 0xDF && h[3] == 0xA3) return true;
+        return false;
     }
 
     public async Task<StoredFile> SaveAsync(IFormFile file, string folder, CancellationToken ct = default)
@@ -113,6 +159,19 @@ public class LocalFileStorageService : IFileStorageService
                     await thumb.SaveAsync(thumbAbs, new SixLabors.ImageSharp.Formats.Webp.WebpEncoder { Quality = 80 }, ct);
                 }
                 thumbWebPath = $"{_options.UploadsRoot}/{safeFolder}/{thumbName}".Replace("\\", "/");
+
+                // Responsive WebP renditions (fixed width buckets) for <picture> srcset.
+                // Only generate buckets narrower than the source — never upscale.
+                var baseName = Path.GetFileNameWithoutExtension(fileName);
+                foreach (var w in FileStorageOptions.ResponsiveWidths)
+                {
+                    if (img.Width < w) continue;
+                    var h = (int)Math.Round(img.Height * (w / (double)img.Width));
+                    using var rimg = img.Clone(x => x.Resize(w, h));
+                    await rimg.SaveAsync(
+                        Path.Combine(absoluteDir, $"{baseName}-{w}.webp"),
+                        new SixLabors.ImageSharp.Formats.Webp.WebpEncoder { Quality = 80 }, ct);
+                }
             }
             catch (Exception ex)
             {
@@ -139,12 +198,16 @@ public class LocalFileStorageService : IFileStorageService
             try { File.Delete(absolute); }
             catch (Exception ex) { _logger.LogWarning(ex, "Failed deleting {Path}.", absolute); }
 
-            // Remove the generated thumbnail sibling, if any.
-            var thumb = Path.Combine(Path.GetDirectoryName(absolute)!, $"{Path.GetFileNameWithoutExtension(absolute)}-thumb.webp");
-            if (File.Exists(thumb))
+            // Remove the generated WebP siblings (thumbnail + responsive renditions), if any.
+            var dir = Path.GetDirectoryName(absolute)!;
+            var stem = Path.GetFileNameWithoutExtension(absolute);
+            var siblings = new List<string> { Path.Combine(dir, $"{stem}-thumb.webp") };
+            foreach (var w in FileStorageOptions.ResponsiveWidths)
+                siblings.Add(Path.Combine(dir, $"{stem}-{w}.webp"));
+            foreach (var sibling in siblings.Where(File.Exists))
             {
-                try { File.Delete(thumb); }
-                catch (Exception ex) { _logger.LogWarning(ex, "Failed deleting thumbnail {Path}.", thumb); }
+                try { File.Delete(sibling); }
+                catch (Exception ex) { _logger.LogWarning(ex, "Failed deleting derived image {Path}.", sibling); }
             }
         }
         return Task.CompletedTask;

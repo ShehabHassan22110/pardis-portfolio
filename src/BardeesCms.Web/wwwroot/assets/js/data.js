@@ -1,5 +1,5 @@
 /* =============================================================================
-   PORTFOLIO DATA — single source of truth (BARDEES REFAAT)
+   PORTFOLIO DATA — single source of truth (BARDEES ISSA)
    Images are stored as BASE names; app.js builds <picture> with
    assets/img/<base>-<rendition>.webp (+ .jpg fallback).
    Renditions available: portrait (4:5), sq (1:1); hero shots also wide (16:9) + hero (3:4).
@@ -9,15 +9,15 @@
    ============================================================================= */
 
 const PROFILE = {
-  name: "BARDEES REFAAT",
+  name: "BARDEES ISSA",
   nameShort: "Bardees",
-  nameAr: "برديس رفعت",
+  nameAr: "برديس عيسى",
   nameArShort: "برديس",
   role: "Saudi Market Model & Brand Ambassador",
   roleAr: "عارضة السوق السعودي وسفيرة علامات تجارية",
   tagline: "Representing Brands. Connecting Markets.",
   taglineAr: "أمثّل العلامات. أربط الأسواق.",
-  email: "hello@bardeesrefaat.com",   // ⚑ placeholder
+  email: "hello@bardeesissa.com",   // ⚑ placeholder
   phone: "+966 5X XXX XXXX",           // ⚑ placeholder
   whatsapp: "9665XXXXXXXX",            // ⚑ placeholder (digits only, incl. country code)
   facts: [

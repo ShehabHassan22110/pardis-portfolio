@@ -86,6 +86,14 @@ public class UsersController : AdminControllerBase
         var user = await _users.FindByIdAsync(vm.Id);
         if (user is null) return NotFound();
 
+        // Guard: don't let an admin deactivate their own account (would lock themselves out).
+        if (user.Id == _users.GetUserId(User) && !vm.IsActive)
+        {
+            Flash("You cannot deactivate your own account.", "danger");
+            PopulateRoles();
+            return View(vm);
+        }
+
         // Guard: don't strip the last SuperAdmin of its role.
         var currentRoles = await _users.GetRolesAsync(user);
         if (currentRoles.Contains(Roles.SuperAdmin) && vm.Role != Roles.SuperAdmin && await IsLastSuperAdmin(user.Id))
@@ -115,6 +123,13 @@ public class UsersController : AdminControllerBase
     {
         var user = await _users.FindByIdAsync(id);
         if (user is null) return NotFound();
+
+        // Guard: don't let an admin delete their own account.
+        if (user.Id == _users.GetUserId(User))
+        {
+            Flash("You cannot delete your own account.", "danger");
+            return RedirectToAction(nameof(Index));
+        }
 
         if (await _users.IsInRoleAsync(user, Roles.SuperAdmin) && await IsLastSuperAdmin(user.Id))
         {

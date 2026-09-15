@@ -56,6 +56,13 @@ public class LoginModel : PageModel
 
         if (result.Succeeded)
         {
+            // Record last-login time (shown in the admin Users list).
+            var user = await _signInManager.UserManager.FindByEmailAsync(Input.Email);
+            if (user is not null)
+            {
+                user.LastLoginAt = DateTime.UtcNow;
+                await _signInManager.UserManager.UpdateAsync(user);
+            }
             _logger.LogInformation("Admin {Email} signed in.", Input.Email);
             return LocalRedirect(returnUrl);
         }

@@ -23,7 +23,7 @@ public class UserCreateVm
     [Display(Name = "Full name"), StringLength(200)]
     public string? FullName { get; set; }
 
-    [Required, StringLength(100, MinimumLength = 6)]
+    [Required, StringLength(100, MinimumLength = 10)]
     [DataType(DataType.Password)]
     public string Password { get; set; } = "";
 

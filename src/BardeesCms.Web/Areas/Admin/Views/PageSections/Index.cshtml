@@ -50,7 +50,7 @@
                             <td data-label="#"><span style="color:var(--a-gold-2);font-family:var(--a-serif)">@((p.DisplayOrder + 1).ToString("00"))</span></td>
                             <td data-label="Section">
                                 <a class="cell-title" asp-action="Edit" asp-route-id="@p.Id"><code>@p.Key</code></a>
-                                @if (!string.IsNullOrEmpty(p.Title)) { <div style="font-size:.78rem;color:var(--a-muted);max-width:52ch;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">@Html.Raw(p.Title)</div> }
+                                @if (!string.IsNullOrEmpty(p.Title)) { <div style="font-size:.78rem;color:var(--a-muted);max-width:52ch;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">@Html.Sanitized(p.Title)</div> }
                             </td>
                             <td data-label="Page" class="d-none d-md-table-cell">@p.Page</td>
                             <td data-label="Active">

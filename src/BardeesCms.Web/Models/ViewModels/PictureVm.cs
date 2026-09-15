@@ -9,4 +9,6 @@ public class PictureVm
     public string CssClass { get; set; } = "";
     public string ImgClass { get; set; } = "";
     public bool Eager { get; set; }
+    /// <summary>Responsive "sizes" hint (how wide the image renders across breakpoints). Defaults to 100vw.</summary>
+    public string Sizes { get; set; } = "100vw";
 }

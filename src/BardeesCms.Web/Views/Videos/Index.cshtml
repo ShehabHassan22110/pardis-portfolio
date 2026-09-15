@@ -8,11 +8,11 @@
     <div class="container">
         <div class="title-c reveal">
             <span class="tc-eyebrow">@Site.T("Watch", "شاهد")</span>
-            <h2 class="d-1 tc-h">@Html.Raw(Site.T("The <em>film</em> library.", "مكتبة <em>الأفلام</em>."))</h2>
+            <h1 class="d-1 tc-h">@Html.Raw(Site.T("The <em>film</em> library.", "مكتبة <em>الأفلام</em>."))</h1>
             <p class="tc-note">@Site.T("Commercial campaigns, modelling, acting and behind-the-scenes — filter by category, tap any film to play.", "حملات إعلانية ومودلينج وتمثيل وكواليس — صفِّ حسب الفئة واضغط أي فيلم لتشغيله.")</p>
             @if (!string.IsNullOrEmpty(Model.YouTubeUrl) && Model.YouTubeUrl != "#")
             {
-                <a class="btn-line mt-2" href="@Model.YouTubeUrl" target="_blank" rel="noopener" style="color:#FF0000;border-color:#FF0000">@Site.T("Watch on YouTube", "شاهد على يوتيوب") <i class="bi bi-youtube"></i></a>
+                <a class="btn-line mt-2" href="@Model.YouTubeUrl" target="_blank" rel="noopener">@Site.T("Watch on YouTube", "شاهد على يوتيوب") <i class="bi bi-youtube"></i></a>
             }
         </div>
 
