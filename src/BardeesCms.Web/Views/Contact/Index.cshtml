@@ -1,4 +1,5 @@
 @model ContactViewModel
+@inject IPublicContentService Content
 @{
     Layout = "_Layout";
     var cs = Model.Settings;
@@ -9,6 +10,25 @@
     var tiktok = (cs?.TikTok ?? "").Trim();
     bool Real(string? v) => !string.IsNullOrEmpty(v) && v != "#";
     var waIntro = Site.T("Hello Bardees, I'd like to discuss a collaboration.", "مرحباً برديس، أود التحدث بخصوص تعاون.");
+
+    // Pull the full, canonical social set from Site Settings (same source the footer
+    // uses) so every configured channel appears here — fall back to the contact-only
+    // Instagram/TikTok/WhatsApp fields when a Site Settings value isn't set.
+    var ss = (await Content.GetLayoutAsync()).Settings;
+    var waNum = Real(wa) ? wa : (ss.WhatsApp ?? "").Trim();
+    var phone = (cs?.Phone ?? "").Trim();
+    var hasPhone = !string.IsNullOrEmpty(phone) && phone != "+966 5X XXX XXXX";
+    (string? url, string icon, string en, string ar)[] socials =
+    {
+        (Real(ss.InstagramUrl) ? ss.InstagramUrl : (Real(ig) ? ig : null), "instagram", "Instagram", "انستقرام"),
+        (Real(ss.TikTokUrl) ? ss.TikTokUrl : (Real(tiktok) ? tiktok : null), "tiktok", "TikTok", "تيك توك"),
+        (Real(ss.SnapchatUrl) ? ss.SnapchatUrl : null, "snapchat", "Snapchat", "سناب شات"),
+        (Real(ss.FacebookUrl) ? ss.FacebookUrl : null, "facebook", "Facebook", "فيسبوك"),
+        (Real(ss.LinkedInUrl) ? ss.LinkedInUrl : null, "linkedin", "LinkedIn", "لينكدإن"),
+        (Real(ss.YouTubeUrl) ? ss.YouTubeUrl : null, "youtube", "YouTube", "يوتيوب"),
+        (Real(waNum) ? $"https://wa.me/{waNum}" : null, "whatsapp", "WhatsApp", "واتساب"),
+        (Real(email) ? $"mailto:{email}" : null, "envelope-fill", "Email", "البريد"),
+    };
 }
 
 <section class="section page-hero">
@@ -63,26 +83,50 @@
                 }
             </div>
 
-            <aside>
-                @if (Real(wa))
+            <aside class="contact-aside">
+                @if (Real(waNum))
                 {
-                    <a class="btn btn-gold btn-lg w-100 mb-3 justify-content-center" style="display:flex;align-items:center;gap:.5rem"
-                       href="https://wa.me/@wa?text=@Uri.EscapeDataString(waIntro)" target="_blank" rel="noopener">
+                    <a class="btn btn-gold btn-lg w-100 mb-3 justify-content-center contact-wa" style="display:flex;align-items:center;gap:.5rem"
+                       href="https://wa.me/@waNum?text=@Uri.EscapeDataString(waIntro)" target="_blank" rel="noopener">
                         <i class="bi bi-whatsapp"></i> @Site.T("Chat on WhatsApp", "تحدّث عبر واتساب")
                     </a>
                     <p class="small mb-4" style="color:var(--muted)">@Site.T("The fastest way to reach Bardees.", "أسرع طريقة للوصول إلى برديس.")</p>
                 }
-                <ul class="about-facts">
-                    @if (Real(email)) { <li><span class="k">@Site.T("Email", "البريد")</span><span class="v"><a href="mailto:@email">@email</a></span></li> }
-                    @if (!string.IsNullOrEmpty(cs?.Phone) && cs.Phone != "+966 5X XXX XXXX") { <li><span class="k">@Site.T("Phone", "الهاتف")</span><span class="v">@cs.Phone</span></li> }
-                    @if (!string.IsNullOrEmpty(cs?.Location)) { <li><span class="k">@Site.T("Location", "الموقع")</span><span class="v">@Site.Pick(cs.Location, cs.LocationAr)</span></li> }
+
+                <ul class="contact-facts">
+                    @if (Real(email))
+                    {
+                        <li><span class="contact-facts__ic"><i class="bi bi-envelope"></i></span>
+                            <span class="contact-facts__body"><span class="k">@Site.T("Email", "البريد")</span>
+                            <a class="v" href="mailto:@email">@email</a></span></li>
+                    }
+                    @if (hasPhone)
+                    {
+                        <li><span class="contact-facts__ic"><i class="bi bi-telephone"></i></span>
+                            <span class="contact-facts__body"><span class="k">@Site.T("Phone", "الهاتف")</span>
+                            <a class="v" href="tel:@(phone.Replace(" ", ""))" dir="ltr">@phone</a></span></li>
+                    }
+                    @if (!string.IsNullOrEmpty(cs?.Location))
+                    {
+                        <li><span class="contact-facts__ic"><i class="bi bi-geo-alt"></i></span>
+                            <span class="contact-facts__body"><span class="k">@Site.T("Location", "الموقع")</span>
+                            <span class="v">@Site.Pick(cs.Location, cs.LocationAr)</span></span></li>
+                    }
                 </ul>
-                <p class="eyebrow mt-4 mb-2">@Site.T("Find me on", "تابعني على")</p>
-                <div class="d-flex flex-wrap gap-2">
-                    @if (Real(wa)) { <a class="btn-line" href="https://wa.me/@wa" target="_blank" rel="noopener">WhatsApp <i class="bi bi-whatsapp"></i></a> }
-                    @if (Real(ig)) { <a class="btn-line" href="@ig" target="_blank" rel="noopener">Instagram <i class="bi bi-instagram"></i></a> }
-                    @if (Real(tiktok)) { <a class="btn-line" href="@tiktok" target="_blank" rel="noopener">TikTok <i class="bi bi-tiktok"></i></a> }
-                </div>
+
+                @if (socials.Any(x => Real(x.url)))
+                {
+                    <p class="eyebrow contact-social-eyebrow">@Site.T("Find me on", "تابعني على")</p>
+                    <div class="contact-socials">
+                        @foreach (var soc in socials.Where(x => Real(x.url)))
+                        {
+                            <a class="contact-social" href="@soc.url" target="_blank" rel="noopener" aria-label="@soc.en">
+                                <span class="contact-social__ic"><i class="bi bi-@soc.icon"></i></span>
+                                <span class="contact-social__label">@Site.Pick(soc.en, soc.ar)</span>
+                            </a>
+                        }
+                    </div>
+                }
             </aside>
         </div>
     </div>

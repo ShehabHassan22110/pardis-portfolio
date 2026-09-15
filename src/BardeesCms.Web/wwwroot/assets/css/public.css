@@ -65,6 +65,49 @@ html { scroll-behavior: smooth; scroll-padding-top: 92px; }
 .form-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 0 16px; }
 @media (max-width: 640px) { .form-2col { grid-template-columns: 1fr; } }
 
+/* ---- Contact aside: modern iconified info cards + full social grid -------- */
+.contact-facts { list-style: none; margin: 0 0 2rem; padding: 0; display: grid; gap: .65rem; }
+.contact-facts li {
+  display: flex; align-items: center; gap: .85rem; padding: .8rem .95rem;
+  border: 1px solid var(--line); border-radius: 14px; background: var(--card);
+  transition: border-color .4s var(--ease), transform .4s var(--ease), box-shadow .4s var(--ease);
+}
+.contact-facts li:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 14px 30px -22px var(--gold-glow); }
+.contact-facts__ic {
+  width: 42px; height: 42px; flex: none; border-radius: 12px; display: grid; place-items: center;
+  background: color-mix(in srgb, var(--accent) 12%, transparent); border: 1px solid var(--line);
+  color: var(--accent); font-size: 1.15rem;
+  transition: background .35s var(--ease), color .35s var(--ease), transform .35s var(--ease);
+}
+.contact-facts li:hover .contact-facts__ic { background: var(--accent); color: #1a1511; transform: scale(1.06); }
+.contact-facts__body { display: flex; flex-direction: column; min-width: 0; }
+.contact-facts .k { font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.contact-facts .v { font-size: 1rem; color: var(--text); text-decoration: none; overflow-wrap: anywhere; }
+.contact-facts a.v:hover { color: var(--accent-2); }
+
+.contact-social-eyebrow { margin: 0 0 .9rem; }
+.contact-socials { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .6rem; }
+@media (max-width: 420px) { .contact-socials { grid-template-columns: 1fr; } }
+.contact-social {
+  display: flex; align-items: center; gap: .7rem; padding: .65rem .8rem;
+  border: 1px solid var(--line); border-radius: 12px; background: var(--card);
+  color: var(--text-soft); text-decoration: none; font-weight: 500; font-size: .9rem;
+  transition: border-color .35s var(--ease), transform .35s var(--ease), color .35s var(--ease), box-shadow .35s var(--ease);
+}
+.contact-social__ic {
+  width: 36px; height: 36px; flex: none; border-radius: 50%; display: grid; place-items: center;
+  background: color-mix(in srgb, var(--accent) 12%, transparent); border: 1px solid var(--line);
+  color: var(--accent); font-size: 1.05rem;
+  transition: background .35s var(--ease), color .35s var(--ease), transform .35s var(--ease);
+}
+.contact-social__label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.contact-social:hover { border-color: var(--accent); color: var(--text); transform: translateY(-3px); box-shadow: 0 16px 34px -20px var(--gold-glow); }
+.contact-social:hover .contact-social__ic { background: var(--accent); color: #1a1511; transform: scale(1.08) rotate(-6deg); }
+@media (prefers-reduced-motion: reduce) {
+  .contact-facts li:hover, .contact-social:hover { transform: none; }
+  .contact-facts li:hover .contact-facts__ic, .contact-social:hover .contact-social__ic { transform: none; }
+}
+
 /* ---- Small-screen heading safety (prevent clipping of big display titles) -- */
 @media (max-width: 560px) {
   .d-1 { font-size: clamp(1.5rem, 8vw, 2.1rem); }
@@ -142,6 +185,50 @@ html[dir="rtl"] a.footer__contact-item:hover { transform: translateX(-3px); }
 /* Social chips — warmer resting state so they never look empty/flat */
 .footer__socials { margin-top: 1.6rem; }
 .footer__socials a { background: color-mix(in srgb, var(--accent) 9%, transparent); border-color: var(--line); }
+.footer__socials a:hover i { animation: footerChipPop .5s var(--ease); }
+
+/* ---- Spacing fix: the giant wordmark used to sit BELOW the bottom bar as a
+   layout block, adding ~150px of dead vertical space. Anchor it to the footer
+   floor as a clipped watermark instead, so it decorates without inflating height. */
+.footer { padding-bottom: clamp(1.4rem, 3vw, 2.2rem); }
+.footer__top { padding-bottom: clamp(1.8rem, 4vw, 2.6rem); }
+.footer__wordmark {
+  position: absolute; inset-inline: 0; bottom: -.14em; margin-top: 0;
+  z-index: 0; opacity: .55; font-size: clamp(2.6rem, 12vw, 9rem);
+}
+.footer__bottom { position: relative; z-index: 1; }
+
+/* ---- Developer credit — click opens WhatsApp chat ---- */
+.footer__credit {
+  display: inline-flex; align-items: baseline; gap: .4rem;
+  text-decoration: none; color: var(--muted); font-size: .82rem;
+  transition: color .35s var(--ease), transform .35s var(--ease);
+}
+.footer__credit-label { color: var(--muted); }
+.footer__credit-name {
+  position: relative; color: var(--text-soft); font-weight: 600; letter-spacing: .01em;
+  display: inline-flex; align-items: center; gap: .35rem; transition: color .35s var(--ease);
+}
+.footer__credit-name i { color: #25d366; font-size: .95em; transition: transform .35s var(--ease); }
+/* animated underline that grows from the start edge on hover */
+.footer__credit-name::after {
+  content: ""; position: absolute; inset-inline-start: 0; bottom: -2px; height: 1.5px;
+  width: 100%; transform: scaleX(0); transform-origin: inline-start;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  transition: transform .4s var(--ease);
+}
+.footer__credit:hover { color: var(--text-soft); transform: translateY(-1px); }
+.footer__credit:hover .footer__credit-name { color: var(--accent-2); }
+.footer__credit:hover .footer__credit-name::after { transform: scaleX(1); }
+.footer__credit:hover .footer__credit-name i { animation: footerWaPulse .8s var(--ease) infinite; }
+
+@keyframes footerChipPop { 0% { transform: scale(1); } 45% { transform: scale(1.35) rotate(-6deg); } 100% { transform: scale(1.18); } }
+@keyframes footerWaPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.22); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .footer__socials a:hover i,
+  .footer__credit:hover .footer__credit-name i { animation: none; }
+}
 
 /* ============================================================================
    Buttons — luminous metallic gold + motion (idle shimmer, hover lift, sheen)
