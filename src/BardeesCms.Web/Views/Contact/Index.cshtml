@@ -18,16 +18,17 @@
     var waNum = Real(wa) ? wa : (ss.WhatsApp ?? "").Trim();
     var phone = (cs?.Phone ?? "").Trim();
     var hasPhone = !string.IsNullOrEmpty(phone) && phone != "+966 5X XXX XXXX";
-    (string? url, string icon, string en, string ar)[] socials =
+    // brand = the platform's real accent colour; ink = icon colour that reads on it.
+    (string? url, string icon, string en, string ar, string brand, string ink)[] socials =
     {
-        (Real(ss.InstagramUrl) ? ss.InstagramUrl : (Real(ig) ? ig : null), "instagram", "Instagram", "انستقرام"),
-        (Real(ss.TikTokUrl) ? ss.TikTokUrl : (Real(tiktok) ? tiktok : null), "tiktok", "TikTok", "تيك توك"),
-        (Real(ss.SnapchatUrl) ? ss.SnapchatUrl : null, "snapchat", "Snapchat", "سناب شات"),
-        (Real(ss.FacebookUrl) ? ss.FacebookUrl : null, "facebook", "Facebook", "فيسبوك"),
-        (Real(ss.LinkedInUrl) ? ss.LinkedInUrl : null, "linkedin", "LinkedIn", "لينكدإن"),
-        (Real(ss.YouTubeUrl) ? ss.YouTubeUrl : null, "youtube", "YouTube", "يوتيوب"),
-        (Real(waNum) ? $"https://wa.me/{waNum}" : null, "whatsapp", "WhatsApp", "واتساب"),
-        (Real(email) ? $"mailto:{email}" : null, "envelope-fill", "Email", "البريد"),
+        (Real(ss.InstagramUrl) ? ss.InstagramUrl : (Real(ig) ? ig : null), "instagram", "Instagram", "انستقرام", "#E1306C", "#fff"),
+        (Real(ss.TikTokUrl) ? ss.TikTokUrl : (Real(tiktok) ? tiktok : null), "tiktok", "TikTok", "تيك توك", "#111111", "#fff"),
+        (Real(ss.SnapchatUrl) ? ss.SnapchatUrl : null, "snapchat", "Snapchat", "سناب شات", "#F7B500", "#1a1511"),
+        (Real(ss.FacebookUrl) ? ss.FacebookUrl : null, "facebook", "Facebook", "فيسبوك", "#1877F2", "#fff"),
+        (Real(ss.LinkedInUrl) ? ss.LinkedInUrl : null, "linkedin", "LinkedIn", "لينكدإن", "#0A66C2", "#fff"),
+        (Real(ss.YouTubeUrl) ? ss.YouTubeUrl : null, "youtube", "YouTube", "يوتيوب", "#FF0000", "#fff"),
+        (Real(waNum) ? $"https://wa.me/{waNum}" : null, "whatsapp", "WhatsApp", "واتساب", "#25D366", "#fff"),
+        (Real(email) ? $"mailto:{email}" : null, "envelope-fill", "Email", "البريد", "#C98A5E", "#1a1511"),
     };
 }
 
@@ -120,9 +121,10 @@
                     <div class="contact-socials">
                         @foreach (var soc in socials.Where(x => Real(x.url)))
                         {
-                            <a class="contact-social" href="@soc.url" target="_blank" rel="noopener" aria-label="@soc.en">
-                                <span class="contact-social__ic"><i class="bi bi-@soc.icon"></i></span>
-                                <span class="contact-social__label">@Site.Pick(soc.en, soc.ar)</span>
+                            <a class="social-ico" href="@soc.url" target="_blank" rel="noopener"
+                               style="--brand:@soc.brand;--brand-ink:@soc.ink"
+                               aria-label="@Site.Pick(soc.en, soc.ar)" title="@Site.Pick(soc.en, soc.ar)">
+                                <i class="bi bi-@soc.icon"></i>
                             </a>
                         }
                     </div>

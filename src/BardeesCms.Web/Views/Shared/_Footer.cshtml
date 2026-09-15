@@ -11,16 +11,17 @@
     // Every social field on SiteSettings renders here automatically when set in the
     // dashboard (empty or "#" placeholders are skipped) — add Facebook/LinkedIn/etc. later
     // and they appear with no code change.
-    (string? url, string icon, string label)[] socials =
+    // brand = the platform's real accent colour; ink = icon colour that reads on it.
+    (string? url, string icon, string label, string brand, string ink)[] socials =
     {
-        (s.InstagramUrl, "instagram", "Instagram"),
-        (s.TikTokUrl, "tiktok", "TikTok"),
-        (s.SnapchatUrl, "snapchat", "Snapchat"),
-        (s.FacebookUrl, "facebook", "Facebook"),
-        (s.LinkedInUrl, "linkedin", "LinkedIn"),
-        (s.YouTubeUrl, "youtube", "YouTube"),
-        (wa, "whatsapp", "WhatsApp"),
-        (email is null ? null : $"mailto:{email}", "envelope-fill", "Email"),
+        (s.InstagramUrl, "instagram", "Instagram", "#E1306C", "#fff"),
+        (s.TikTokUrl, "tiktok", "TikTok", "#111111", "#fff"),
+        (s.SnapchatUrl, "snapchat", "Snapchat", "#F7B500", "#1a1511"),
+        (s.FacebookUrl, "facebook", "Facebook", "#1877F2", "#fff"),
+        (s.LinkedInUrl, "linkedin", "LinkedIn", "#0A66C2", "#fff"),
+        (s.YouTubeUrl, "youtube", "YouTube", "#FF0000", "#fff"),
+        (wa, "whatsapp", "WhatsApp", "#25D366", "#fff"),
+        (email is null ? null : $"mailto:{email}", "envelope-fill", "Email", "#C98A5E", "#1a1511"),
     };
     var exploreLinks = Model.FooterNav.SelectMany(g => g)
         .Where(i => !(i.Url ?? "").Contains("contact", StringComparison.OrdinalIgnoreCase))
@@ -48,7 +49,7 @@
                 <div class="footer__socials">
                     @foreach (var soc in socials.Where(x => !string.IsNullOrEmpty(x.url) && x.url != "#"))
                     {
-                        <a href="@soc.url" target="_blank" rel="noopener" aria-label="@soc.label"><i class="bi bi-@soc.icon"></i></a>
+                        <a href="@soc.url" target="_blank" rel="noopener" aria-label="@soc.label" style="--brand:@soc.brand;--brand-ink:@soc.ink"><i class="bi bi-@soc.icon"></i></a>
                     }
                 </div>
             </div>

@@ -86,26 +86,28 @@ html { scroll-behavior: smooth; scroll-padding-top: 92px; }
 .contact-facts a.v:hover { color: var(--accent-2); }
 
 .contact-social-eyebrow { margin: 0 0 .9rem; }
-.contact-socials { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .6rem; }
-@media (max-width: 420px) { .contact-socials { grid-template-columns: 1fr; } }
-.contact-social {
-  display: flex; align-items: center; gap: .7rem; padding: .65rem .8rem;
-  border: 1px solid var(--line); border-radius: 12px; background: var(--card);
-  color: var(--text-soft); text-decoration: none; font-weight: 500; font-size: .9rem;
-  transition: border-color .35s var(--ease), transform .35s var(--ease), color .35s var(--ease), box-shadow .35s var(--ease);
+
+/* Icon-only social buttons, each filled with its platform's real brand colour.
+   Shared look with the footer (.footer__socials a). Driven by --brand / --brand-ink
+   set inline per link. */
+.contact-socials { display: flex; flex-wrap: wrap; gap: .7rem; }
+.social-ico {
+  width: 48px; height: 48px; border-radius: 50%; display: inline-grid; place-items: center;
+  background: var(--brand, var(--accent)); color: var(--brand-ink, #1a1511);
+  border: 1px solid rgba(255, 255, 255, .16); font-size: 1.25rem; line-height: 1;
+  text-decoration: none;
+  transition: transform .35s var(--ease), filter .35s var(--ease), box-shadow .35s var(--ease);
 }
-.contact-social__ic {
-  width: 36px; height: 36px; flex: none; border-radius: 50%; display: grid; place-items: center;
-  background: color-mix(in srgb, var(--accent) 12%, transparent); border: 1px solid var(--line);
-  color: var(--accent); font-size: 1.05rem;
-  transition: background .35s var(--ease), color .35s var(--ease), transform .35s var(--ease);
+.social-ico i { transition: transform .35s var(--ease); }
+.social-ico:hover {
+  transform: translateY(-4px) scale(1.06); filter: brightness(1.08);
+  box-shadow: 0 14px 28px -12px color-mix(in srgb, var(--brand, var(--accent)) 65%, transparent);
 }
-.contact-social__label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.contact-social:hover { border-color: var(--accent); color: var(--text); transform: translateY(-3px); box-shadow: 0 16px 34px -20px var(--gold-glow); }
-.contact-social:hover .contact-social__ic { background: var(--accent); color: #1a1511; transform: scale(1.08) rotate(-6deg); }
+.social-ico:hover i { transform: scale(1.12); }
 @media (prefers-reduced-motion: reduce) {
-  .contact-facts li:hover, .contact-social:hover { transform: none; }
-  .contact-facts li:hover .contact-facts__ic, .contact-social:hover .contact-social__ic { transform: none; }
+  .contact-facts li:hover, .social-ico:hover { transform: none; }
+  .contact-facts li:hover .contact-facts__ic { transform: none; }
+  .social-ico:hover i { transform: none; }
 }
 
 /* ---- Small-screen heading safety (prevent clipping of big display titles) -- */
@@ -182,9 +184,22 @@ html[dir="rtl"] a.footer__contact-item:hover { transform: translateX(-3px); }
 .footer__contact-item--static { cursor: default; }
 .footer__cta { margin-top: 1.5rem; align-self: flex-start; }
 
-/* Social chips — warmer resting state so they never look empty/flat */
+/* Social chips — filled with each platform's real brand colour (--brand / --brand-ink
+   set inline per link); same treatment as the contact page's .social-ico. */
 .footer__socials { margin-top: 1.6rem; }
-.footer__socials a { background: color-mix(in srgb, var(--accent) 9%, transparent); border-color: var(--line); }
+.footer__socials a {
+  background: var(--brand, var(--accent));
+  border-color: rgba(255, 255, 255, .16);
+  color: var(--brand-ink, #1a1511) !important;
+}
+.footer__socials a:hover {
+  background: var(--brand, var(--accent));
+  border-color: rgba(255, 255, 255, .16);
+  color: var(--brand-ink, #1a1511) !important;
+  transform: translateY(-4px) scale(1.06);
+  filter: brightness(1.08);
+  box-shadow: 0 12px 24px -12px color-mix(in srgb, var(--brand, var(--accent)) 65%, transparent);
+}
 .footer__socials a:hover i { animation: footerChipPop .5s var(--ease); }
 
 /* ---- Spacing fix: the giant wordmark used to sit BELOW the bottom bar as a
