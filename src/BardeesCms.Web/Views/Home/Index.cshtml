@@ -44,7 +44,12 @@
                     {
                         <p class="hero__lead mb-3 reveal" data-d="2" style="max-width:46ch;color:rgba(240,233,220,.9)">@Html.Sanitized(Site.Pick(h.Description, h.DescriptionAr))</p>
                     }
-                    @if (!string.IsNullOrEmpty(h.Sectors)) { <p class="hero__sectors reveal mb-4" data-d="2">@Site.Pick(h.Sectors, h.SectorsAr)</p> }
+                    @if (!string.IsNullOrEmpty(h.Sectors))
+                    {
+                        <h3 class="hero__lead reveal mb-4" data-d="2" style="max-width:46ch;color: currentColor;">
+                            @Site.Pick(h.Sectors, h.SectorsAr)
+                        </h3>
+                    }
                     <div class="d-flex flex-wrap gap-2 reveal" data-d="2">
                         @if (!string.IsNullOrEmpty(h.PrimaryButtonText)) { <a class="btn btn-gold" href="@(h.PrimaryButtonUrl ?? "#work")">@Site.Pick(h.PrimaryButtonText, h.PrimaryButtonTextAr) <i class="bi bi-arrow-up-right"></i></a> }
                         @if (!string.IsNullOrEmpty(h.SecondaryButtonText)) { <a class="btn-line" href="@(h.SecondaryButtonUrl ?? "/contact")" style="color:#f0e9dc;border-color:rgba(255,255,255,.5)">@Site.Pick(h.SecondaryButtonText, h.SecondaryButtonTextAr) <i class="bi bi-arrow-up-right"></i></a> }
