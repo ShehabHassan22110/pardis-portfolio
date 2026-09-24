@@ -192,7 +192,7 @@
             <div class="abaya-teaser reveal">
                 <div class="abaya-teaser__inner">
                     <div class="abaya-teaser__copy">
-                        <span class="tc-eyebrow">@Site.Pick(secAbaya?.Eyebrow, secAbaya?.EyebrowAr) ?? Site.T("Bardees Abaya Collection", "مجموعة عبايات برديس")</span>
+                        <span class="tc-eyebrow">@(Site.Pick(secAbaya?.Eyebrow, secAbaya?.EyebrowAr) ?? Site.T("Bardees Abaya Collection", "مجموعة عبايات برديس"))</span>
                         <h2 class="d-1 tc-h mt-2">@Html.Sanitized(Site.Pick(secAbaya?.Title, secAbaya?.TitleAr) ?? Site.T("Designed &amp; tailored by <em>Bardees</em>.", "تصميم وتفصيل <em>برديس</em>."))</h2>
                         @if (!string.IsNullOrEmpty(secAbaya?.Note)) { <p class="tc-note" style="margin-inline:0">@Html.Sanitized(Site.Pick(secAbaya.Note, secAbaya.NoteAr))</p> }
                         else { <p class="tc-note" style="margin-inline:0">@Site.T("A personal line of abayas — ready-to-wear and made-to-measure. Ordered directly over WhatsApp.", "خط عبايات خاص — جاهزة وتفصيل حسب الطلب. تُطلب مباشرةً عبر واتساب.")</p> }

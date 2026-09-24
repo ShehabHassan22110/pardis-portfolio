@@ -216,6 +216,7 @@ public static class ContentSeed
             ("Alhomaidhi Watches", "الحميضي للساعات", "brand-alhomaidhi", "Brand Ambassador", "سفيرة العلامة", "Watches", "ساعات"),
             ("Alhomaidhi Group", "مجموعة الحميضي", "brand-alhomaidhi-group", "Brand Ambassador", "سفيرة العلامة", "Group", "مجموعة"),
             ("MecroLine", "ميكرولاين", "brand-mecroline", "General Supplies", "توريدات عامة", "General Supplies", "توريدات عامة"),
+            ("Samayahia", "سما يحيى", "brand-samayahia", "Brand Ambassador", "سفيرة العلامة", "Marble & Ceramic", "رخام وسيراميك"),
         };
         var order = 0;
         foreach (var c in clients)
