@@ -53,6 +53,8 @@ public static class ContentSeed
             TaglineAr = "مقيمة في السعودية — متاحة عبر الخليج.",
             Description = "BARDEES ISSA — model, actress and brand ambassador. Commercial campaigns, fashion, beauty, lifestyle and acting for brands across Saudi Arabia and the GCC.",
             DescriptionAr = "برديس عيسى — عارضة أزياء وممثلة ووجه إعلاني. حملات تجارية وأزياء وجمال ولايف ستايل وتمثيل للعلامات في السعودية والخليج.",
+            LogoDark = "/assets/img/logo-dark.png",
+            LogoLight = "/assets/img/logo-light.png",
             Favicon = "assets/brand/favicon.svg",
             Email = "hello@bardeesissa.com",       // placeholder — client to provide
             Phone = "+966 56 576 8902",
