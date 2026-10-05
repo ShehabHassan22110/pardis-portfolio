@@ -14,4 +14,12 @@ public class AbayasController : Controller
         ViewData["Seo"] = await _content.GetSeoAsync("/abayas");
         return View(await _content.GetAbayasAsync());
     }
+
+    [HttpGet("/abayas/{slug}")]
+    public async Task<IActionResult> Detail(string slug)
+    {
+        var vm = await _content.GetAbayaAsync(slug);
+        if (vm is null) return NotFound();
+        return View(vm);
+    }
 }

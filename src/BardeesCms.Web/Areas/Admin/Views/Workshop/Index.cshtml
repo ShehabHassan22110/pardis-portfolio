@@ -1,0 +1,79 @@
+@model WorkshopFormVm
+@{
+    ViewData["Title"] = "Workshop section";
+    var header = new PageHeaderModel { Title = "Workshop section", Subtitle = "The “Attend a workshop” invitation shown on the Abayas page." };
+}
+<partial name="_PageHeader" model="header" />
+
+<form asp-action="Index" method="post" enctype="multipart/form-data" class="form-cms">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="Image" />
+    <div asp-validation-summary="ModelOnly" class="admin-alert admin-alert--danger" style="display:@(ViewData.ModelState.IsValid ? "none" : "flex")"></div>
+
+    <div class="card-cms"><div class="card-cms__body">
+        <h3 class="section-title">Heading</h3>
+        <div class="field-pair">
+            <div class="form-row"><label asp-for="Eyebrow" class="lang-tag">Eyebrow · EN</label><input asp-for="Eyebrow" class="form-control" placeholder="Workshops" /></div>
+            <div class="form-row"><label asp-for="EyebrowAr" class="lang-tag">Eyebrow · AR</label><input asp-for="EyebrowAr" class="form-control" dir="rtl" /></div>
+        </div>
+        <div class="field-pair">
+            <div class="form-row"><label asp-for="Title" class="lang-tag">Title · EN</label><input asp-for="Title" class="form-control" placeholder="Attend an abaya workshop" /></div>
+            <div class="form-row"><label asp-for="TitleAr" class="lang-tag">Title · AR</label><input asp-for="TitleAr" class="form-control" dir="rtl" /></div>
+        </div>
+        <div class="field-pair">
+            <div class="form-row"><label asp-for="Description" class="lang-tag">Description · EN</label><textarea asp-for="Description" class="form-control" style="min-height:90px"></textarea></div>
+            <div class="form-row"><label asp-for="DescriptionAr" class="lang-tag">Description · AR</label><textarea asp-for="DescriptionAr" class="form-control" dir="rtl" style="min-height:90px"></textarea></div>
+        </div>
+    </div></div>
+
+    <div class="card-cms"><div class="card-cms__body">
+        <h3 class="section-title">Details</h3>
+        <div class="field-pair">
+            <div class="form-row"><label asp-for="ScheduleText" class="lang-tag">Schedule · EN</label><input asp-for="ScheduleText" class="form-control" placeholder="Saturdays · 4–7 PM" /></div>
+            <div class="form-row"><label asp-for="ScheduleTextAr" class="lang-tag">Schedule · AR</label><input asp-for="ScheduleTextAr" class="form-control" dir="rtl" /></div>
+        </div>
+        <div class="field-pair">
+            <div class="form-row"><label asp-for="LocationText" class="lang-tag">Location · EN</label><input asp-for="LocationText" class="form-control" placeholder="Riyadh studio" /></div>
+            <div class="form-row"><label asp-for="LocationTextAr" class="lang-tag">Location · AR</label><input asp-for="LocationTextAr" class="form-control" dir="rtl" /></div>
+        </div>
+        <div class="field-pair">
+            <div class="form-row"><label asp-for="Highlights" class="lang-tag">Highlights · EN</label><textarea asp-for="Highlights" class="form-control" style="min-height:110px" placeholder="One per line, e.g.&#10;Pattern cutting basics&#10;Hand embroidery&#10;Fabric selection"></textarea></div>
+            <div class="form-row"><label asp-for="HighlightsAr" class="lang-tag">Highlights · AR</label><textarea asp-for="HighlightsAr" class="form-control" dir="rtl" style="min-height:110px"></textarea></div>
+        </div>
+        <p class="hint">Highlights show as a checklist — one item per line.</p>
+    </div></div>
+
+    <div class="card-cms"><div class="card-cms__body">
+        <h3 class="section-title">Call to action</h3>
+        <p class="hint">The button opens a WhatsApp chat using the number from <strong>Contact Settings</strong> (reused across the Abayas page). Leave the message empty to use a sensible default.</p>
+        <div class="field-pair">
+            <div class="form-row"><label asp-for="ButtonText" class="lang-tag">Button · EN</label><input asp-for="ButtonText" class="form-control" placeholder="Text me on WhatsApp" /></div>
+            <div class="form-row"><label asp-for="ButtonTextAr" class="lang-tag">Button · AR</label><input asp-for="ButtonTextAr" class="form-control" dir="rtl" /></div>
+        </div>
+        <div class="field-pair">
+            <div class="form-row"><label asp-for="WhatsAppMessage" class="lang-tag">Message · EN</label><textarea asp-for="WhatsAppMessage" class="form-control" style="min-height:70px" placeholder="Hello Bardees, I'd like to attend one of your abaya workshops."></textarea></div>
+            <div class="form-row"><label asp-for="WhatsAppMessageAr" class="lang-tag">Message · AR</label><textarea asp-for="WhatsAppMessageAr" class="form-control" dir="rtl" style="min-height:70px"></textarea></div>
+        </div>
+    </div></div>
+
+    <div class="card-cms"><div class="card-cms__body">
+        <h3 class="section-title">Image &amp; visibility</h3>
+        <div class="img-upload" style="margin-bottom:8px">
+            <img id="wsPreview" class="img-upload__preview" src="@ImageResolver.Src(Model.Image, "landscape")" alt="" />
+            <div>
+                <label class="btn-ghost" for="ImageFile"><i class="bi bi-upload"></i> Choose image</label>
+                <input class="d-none" type="file" asp-for="ImageFile" accept="image/*" data-preview="#wsPreview" />
+                <div class="hint">Optional. A wide/landscape photo works best. Max 8 MB.</div>
+                <span asp-validation-for="ImageFile" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-row" style="display:flex;gap:20px;align-items:center;margin-top:14px"><label class="switch"><input asp-for="IsActive" /><span class="switch__slider"></span></label> <span>Active (show on the Abayas page)</span></div>
+    </div></div>
+
+    <div style="display:flex;gap:10px;margin-top:22px">
+        <button type="submit" class="btn-gold"><i class="bi bi-check-lg"></i> Save</button>
+    </div>
+</form>
+
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

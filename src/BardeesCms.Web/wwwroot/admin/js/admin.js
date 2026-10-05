@@ -167,4 +167,68 @@
       if (e.dataTransfer.files.length) { input.files = e.dataTransfer.files; input.dispatchEvent(new Event("change")); }
     });
   });
+
+  // ---- Rich-text editor: upgrades any <textarea data-richtext> -------------
+  // Dependency-free; emits only tags allowed by the server-side sanitizer.
+  const RT_BUTTONS = [
+    { cmd: "bold", icon: "type-bold", title: "Bold" },
+    { cmd: "italic", icon: "type-italic", title: "Italic" },
+    { cmd: "underline", icon: "type-underline", title: "Underline" },
+    { cmd: "formatBlock", value: "H2", icon: "type-h2", title: "Heading" },
+    { cmd: "formatBlock", value: "H3", icon: "type-h3", title: "Subheading" },
+    { cmd: "insertUnorderedList", icon: "list-ul", title: "Bulleted list" },
+    { cmd: "insertOrderedList", icon: "list-ol", title: "Numbered list" },
+    { cmd: "formatBlock", value: "BLOCKQUOTE", icon: "quote", title: "Quote" },
+    { cmd: "createLink", icon: "link-45deg", title: "Link" },
+    { cmd: "removeFormat", icon: "eraser", title: "Clear formatting" },
+  ];
+
+  function buildRichText(ta) {
+    if (ta.dataset.rtReady) return;
+    ta.dataset.rtReady = "1";
+
+    const wrap = document.createElement("div");
+    wrap.className = "rt-editor";
+    const bar = document.createElement("div");
+    bar.className = "rt-toolbar";
+    const area = document.createElement("div");
+    area.className = "rt-area form-control";
+    area.contentEditable = "true";
+    area.innerHTML = ta.value || "";
+    if (ta.getAttribute("dir") === "rtl") area.dir = "rtl";
+
+    RT_BUTTONS.forEach(b => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "rt-btn";
+      btn.title = b.title;
+      btn.innerHTML = '<i class="bi bi-' + b.icon + '"></i>';
+      btn.addEventListener("mousedown", e => e.preventDefault()); // keep selection
+      btn.addEventListener("click", () => {
+        area.focus();
+        if (b.cmd === "createLink") {
+          const url = window.prompt("Link URL (https://…)");
+          if (url) document.execCommand("createLink", false, url.trim());
+        } else if (b.cmd === "formatBlock") {
+          document.execCommand("formatBlock", false, b.value);
+        } else {
+          document.execCommand(b.cmd, false, null);
+        }
+        sync();
+      });
+      bar.appendChild(btn);
+    });
+
+    const sync = () => { ta.value = area.innerHTML.trim() === "<br>" ? "" : area.innerHTML; };
+    area.addEventListener("input", sync);
+    area.addEventListener("blur", sync);
+
+    ta.style.display = "none";
+    ta.parentNode.insertBefore(wrap, ta);
+    wrap.appendChild(bar);
+    wrap.appendChild(area);
+    wrap.appendChild(ta);
+  }
+
+  $$("textarea[data-richtext]").forEach(buildRichText);
 })();

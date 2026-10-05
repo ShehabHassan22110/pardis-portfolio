@@ -17,6 +17,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<AboutFact> AboutFacts => Set<AboutFact>();
     public DbSet<ContactSettings> ContactSettings => Set<ContactSettings>();
     public DbSet<PageSection> PageSections => Set<PageSection>();
+    public DbSet<WorkshopSection> WorkshopSections => Set<WorkshopSection>();
 
     // Content collections
     public DbSet<Brand> Brands => Set<Brand>();
@@ -27,6 +28,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<PortfolioProject> PortfolioProjects => Set<PortfolioProject>();
     public DbSet<PortfolioMedia> PortfolioMedia => Set<PortfolioMedia>();
     public DbSet<Abaya> Abayas => Set<Abaya>();
+    public DbSet<AbayaImage> AbayaImages => Set<AbayaImage>();
     public DbSet<Video> Videos => Set<Video>();
     public DbSet<VideoCategory> VideoCategories => Set<VideoCategory>();
     public DbSet<Service> Services => Set<Service>();
@@ -75,6 +77,10 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         builder.Entity<PortfolioMedia>()
             .HasOne(m => m.PortfolioProject).WithMany(p => p.Media)
             .HasForeignKey(m => m.PortfolioProjectId).OnDelete(DeleteBehavior.Cascade);
+
+        builder.Entity<AbayaImage>()
+            .HasOne(m => m.Abaya).WithMany(a => a.Images)
+            .HasForeignKey(m => m.AbayaId).OnDelete(DeleteBehavior.Cascade);
 
         // Keep projects when their discipline is removed (just detach the category).
         builder.Entity<PortfolioProject>()

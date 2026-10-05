@@ -65,51 +65,78 @@ public class AbayasController : AdminControllerBase
         if (!ModelState.IsValid) return View("Edit", vm);
         _db.Abayas.Add(e);
         await _db.SaveChangesAsync();
+        await AppendGalleryAsync(vm.GalleryFiles, e.Id);
         await _log.LogAsync("Created", nameof(Abaya), e.Id.ToString(), e.Name);
         Flash($"Abaya “{e.Name}” created.");
-        return RedirectToAction(nameof(Index));
+        return RedirectToAction(nameof(Edit), new { id = e.Id });
     }
 
     public async Task<IActionResult> Edit(int id)
     {
-        var e = await _db.Abayas.FindAsync(id);
+        var e = await _db.Abayas.Include(a => a.Images).FirstOrDefaultAsync(a => a.Id == id);
         if (e is null) return NotFound();
         return View(new AbayaFormVm
         {
             Id = e.Id, Name = e.Name, NameAr = e.NameAr, Slug = e.Slug,
             Description = e.Description, DescriptionAr = e.DescriptionAr,
             Fabric = e.Fabric, FabricAr = e.FabricAr, Type = e.Type,
-            CoverImage = e.CoverImage, DisplayOrder = e.DisplayOrder,
-            IsFeatured = e.IsFeatured, IsActive = e.IsActive
+            CoverImage = e.CoverImage, VideoUrl = e.VideoUrl, DisplayOrder = e.DisplayOrder,
+            IsFeatured = e.IsFeatured, IsActive = e.IsActive,
+            Images = e.Images.OrderBy(m => m.DisplayOrder).ThenBy(m => m.Id).ToList()
         });
     }
 
     [HttpPost, ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(AbayaFormVm vm)
     {
-        if (!ModelState.IsValid) return View(vm);
-        var e = await _db.Abayas.FindAsync(vm.Id);
+        var e = await _db.Abayas.Include(a => a.Images).FirstOrDefaultAsync(a => a.Id == vm.Id);
         if (e is null) return NotFound();
+        if (!ModelState.IsValid) { vm.Images = CurrentImages(e); return View(vm); }
         await MapAsync(vm, e);
-        if (!ModelState.IsValid) return View(vm);
+        if (!ModelState.IsValid) { vm.Images = CurrentImages(e); return View(vm); }
         e.UpdatedAt = DateTime.UtcNow;
         await _db.SaveChangesAsync();
+        await AppendGalleryAsync(vm.GalleryFiles, e.Id);
         await _log.LogAsync("Updated", nameof(Abaya), e.Id.ToString(), e.Name);
         Flash($"Abaya “{e.Name}” saved.");
-        return RedirectToAction(nameof(Index));
+        return RedirectToAction(nameof(Edit), new { id = e.Id });
     }
 
     [HttpPost, ValidateAntiForgeryToken]
     public async Task<IActionResult> Delete(int id)
     {
-        var e = await _db.Abayas.FindAsync(id);
+        var e = await _db.Abayas.Include(a => a.Images).FirstOrDefaultAsync(a => a.Id == id);
         if (e is null) return NotFound();
         await _files.DeleteAsync(e.CoverImage);
+        foreach (var m in e.Images) { await _files.DeleteAsync(m.FilePath); }
         _db.Abayas.Remove(e);
         await _db.SaveChangesAsync();
         await _log.LogAsync("Deleted", nameof(Abaya), id.ToString(), e.Name);
         Flash($"Abaya “{e.Name}” deleted.");
         return RedirectToAction(nameof(Index));
+    }
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteImage(int id)
+    {
+        var m = await _db.AbayaImages.FindAsync(id);
+        if (m is null) return NotFound();
+        var abayaId = m.AbayaId;
+        await _files.DeleteAsync(m.FilePath);
+        _db.AbayaImages.Remove(m);
+        await _db.SaveChangesAsync();
+        Flash("Image removed.");
+        return RedirectToAction(nameof(Edit), new { id = abayaId });
+    }
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> ReorderImages([FromBody] int[] ids)
+    {
+        var items = await _db.AbayaImages.Where(m => ids.Contains(m.Id)).ToListAsync();
+        for (var i = 0; i < ids.Length; i++)
+            if (items.FirstOrDefault(x => x.Id == ids[i]) is { } hit) hit.DisplayOrder = i;
+        await _db.SaveChangesAsync();
+        return Ok();
     }
 
     [HttpPost, ValidateAntiForgeryToken]
@@ -138,6 +165,7 @@ public class AbayasController : AdminControllerBase
         e.Name = vm.Name; e.NameAr = vm.NameAr;
         e.Description = vm.Description; e.DescriptionAr = vm.DescriptionAr;
         e.Fabric = vm.Fabric; e.FabricAr = vm.FabricAr; e.Type = vm.Type;
+        e.VideoUrl = string.IsNullOrWhiteSpace(vm.VideoUrl) ? null : vm.VideoUrl.Trim();
         e.DisplayOrder = vm.DisplayOrder; e.IsFeatured = vm.IsFeatured; e.IsActive = vm.IsActive;
 
         if (vm.CoverImageFile is { Length: > 0 })
@@ -154,6 +182,24 @@ public class AbayasController : AdminControllerBase
         else { e.CoverImage = vm.CoverImage; }
         e.ThumbnailImage = e.CoverImage;
     }
+
+    /// <summary>Store each uploaded gallery image and append AbayaImage rows.</summary>
+    private async Task AppendGalleryAsync(IFormFile[]? files, int abayaId)
+    {
+        if (files is null || files.Length == 0) return;
+        var order = (await _db.AbayaImages.Where(m => m.AbayaId == abayaId)
+                                          .MaxAsync(m => (int?)m.DisplayOrder) ?? -1) + 1;
+        foreach (var file in files)
+        {
+            if (file is not { Length: > 0 } || !_files.IsAllowedImage(file)) continue;
+            var stored = await _files.SaveAsync(file, "abayas");
+            _db.AbayaImages.Add(new AbayaImage { AbayaId = abayaId, FilePath = stored.WebPath, DisplayOrder = order++ });
+        }
+        await _db.SaveChangesAsync();
+    }
+
+    private static List<AbayaImage> CurrentImages(Abaya e) =>
+        e.Images.OrderBy(m => m.DisplayOrder).ThenBy(m => m.Id).ToList();
 
     private async Task<string> UniqueSlug(string? provided, string name, int? excludeId)
     {

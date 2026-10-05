@@ -18,6 +18,7 @@ public interface IPublicContentService
     Task<Service?> GetServiceAsync(string slug);
     Task<VideosViewModel> GetVideosAsync();
     Task<AbayasViewModel> GetAbayasAsync();
+    Task<AbayaDetailViewModel?> GetAbayaAsync(string slug);
     Task<ContactViewModel> GetContactAsync();
     Task<SeoPage?> GetSeoAsync(string route);
     void Invalidate();
@@ -148,9 +149,26 @@ public class PublicContentService : IPublicContentService
             Abayas = await _db.Abayas.AsNoTracking().Where(a => a.IsActive)
                 .OrderBy(a => a.DisplayOrder).ThenBy(a => a.Id).ToListAsync(),
             Heading = await _db.PageSections.AsNoTracking().FirstOrDefaultAsync(s => s.Key == "abaya-page"),
-            WhatsApp = settings?.WhatsApp
+            WhatsApp = settings?.WhatsApp,
+            Workshop = await _db.WorkshopSections.AsNoTracking().FirstOrDefaultAsync(w => w.IsActive)
         };
     });
+
+    public async Task<AbayaDetailViewModel?> GetAbayaAsync(string slug)
+    {
+        var abaya = await _db.Abayas.AsNoTracking().Include(a => a.Images)
+            .FirstOrDefaultAsync(a => a.Slug == slug && a.IsActive);
+        if (abaya is null) return null;
+        abaya.Images = abaya.Images.OrderBy(m => m.DisplayOrder).ThenBy(m => m.Id).ToList();
+
+        var related = await _db.Abayas.AsNoTracking()
+            .Where(a => a.IsActive && a.Id != abaya.Id && a.Type == abaya.Type)
+            .OrderByDescending(a => a.IsFeatured).ThenBy(a => a.DisplayOrder).ThenBy(a => a.Id)
+            .Take(4).ToListAsync();
+
+        var settings = await _db.SiteSettings.AsNoTracking().FirstOrDefaultAsync();
+        return new AbayaDetailViewModel { Abaya = abaya, Related = related, WhatsApp = settings?.WhatsApp };
+    }
 
     public async Task<ContactViewModel> GetContactAsync() => new ContactViewModel
     {

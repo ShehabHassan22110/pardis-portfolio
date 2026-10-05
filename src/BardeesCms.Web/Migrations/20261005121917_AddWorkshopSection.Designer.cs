@@ -4,6 +4,7 @@ using BardeesCms.Web.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BardeesCms.Web.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20261005121917_AddWorkshopSection")]
+    partial class AddWorkshopSection
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -78,52 +81,12 @@ namespace BardeesCms.Web.Migrations
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("VideoUrl")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("Slug")
                         .IsUnique();
 
                     b.ToTable("Abayas");
-                });
-
-            modelBuilder.Entity("BardeesCms.Web.Models.Entities.AbayaImage", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("AbayaId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("AltText")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("AltTextAr")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Caption")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CaptionAr")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("DisplayOrder")
-                        .HasColumnType("int");
-
-                    b.Property<string>("FilePath")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AbayaId");
-
-                    b.ToTable("AbayaImages");
                 });
 
             modelBuilder.Entity("BardeesCms.Web.Models.Entities.AboutFact", b =>
@@ -1787,17 +1750,6 @@ namespace BardeesCms.Web.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("BardeesCms.Web.Models.Entities.AbayaImage", b =>
-                {
-                    b.HasOne("BardeesCms.Web.Models.Entities.Abaya", "Abaya")
-                        .WithMany("Images")
-                        .HasForeignKey("AbayaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Abaya");
-                });
-
             modelBuilder.Entity("BardeesCms.Web.Models.Entities.AboutFact", b =>
                 {
                     b.HasOne("BardeesCms.Web.Models.Entities.AboutSection", "AboutSection")
@@ -1911,11 +1863,6 @@ namespace BardeesCms.Web.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("BardeesCms.Web.Models.Entities.Abaya", b =>
-                {
-                    b.Navigation("Images");
                 });
 
             modelBuilder.Entity("BardeesCms.Web.Models.Entities.AboutSection", b =>

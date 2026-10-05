@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using BardeesCms.Web.Models.Entities;
 using BardeesCms.Web.Models.Enums;
 
 namespace BardeesCms.Web.Areas.Admin.Models;
@@ -16,9 +17,13 @@ public class AbayaFormVm
     [Display(Name = "Slug"), StringLength(200)]
     public string? Slug { get; set; }
 
+    [Display(Name = "Description")]
     public string? Description { get; set; }
     [Display(Name = "Description (Arabic)")]
     public string? DescriptionAr { get; set; }
+
+    [Display(Name = "Video link"), StringLength(500)]
+    public string? VideoUrl { get; set; }
 
     [Display(Name = "Fabric / detail"), StringLength(200)]
     public string? Fabric { get; set; }
@@ -38,4 +43,11 @@ public class AbayaFormVm
     public bool IsFeatured { get; set; }
     [Display(Name = "Active (visible)")]
     public bool IsActive { get; set; } = true;
+
+    /// <summary>New gallery images to append on save.</summary>
+    [Display(Name = "Gallery images")]
+    public IFormFile[]? GalleryFiles { get; set; }
+
+    /// <summary>Existing gallery images (for display/reorder/delete).</summary>
+    public List<AbayaImage> Images { get; set; } = new();
 }

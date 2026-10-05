@@ -72,6 +72,17 @@ public class AbayasViewModel
     public PageSection? Heading { get; set; }
     /// <summary>WhatsApp number (digits, incl. country code) used for "Request Order".</summary>
     public string? WhatsApp { get; set; }
+    /// <summary>Optional "Attend a workshop" invitation block; null/inactive hides it.</summary>
+    public WorkshopSection? Workshop { get; set; }
+}
+
+/// <summary>A single abaya detail page: the design, its gallery/video, and related pieces.</summary>
+public class AbayaDetailViewModel
+{
+    public Abaya Abaya { get; set; } = new();
+    public List<Abaya> Related { get; set; } = new();
+    /// <summary>WhatsApp number (digits, incl. country code) used for "Request Order".</summary>
+    public string? WhatsApp { get; set; }
 }
 
 /// <summary>Contact page: settings + the bindable form.</summary>

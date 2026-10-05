@@ -1,0 +1,156 @@
+@using System.Text.RegularExpressions
+@model AbayaDetailViewModel
+@inject BardeesCms.Web.Services.ResponsiveImages Responsive
+@{
+    Layout = "_Layout";
+    var a = Model.Abaya;
+    var title = Site.Pick(a.Name, a.NameAr);
+    ViewData["Title"] = title;
+    var fabric = Site.Pick(a.Fabric, a.FabricAr);
+    var body = Site.Pick(a.Description, a.DescriptionAr);
+    var cover = string.IsNullOrEmpty(a.CoverImage) ? a.ThumbnailImage : a.CoverImage;
+    var wa = (Model.WhatsApp ?? "").Trim();
+    var origin = $"{Context.Request.Scheme}://{Context.Request.Host}";
+
+    var typeLabel = a.Type == AbayaType.Custom
+        ? Site.T("Custom Tailoring", "تفصيل حسب الطلب")
+        : Site.T("Ready to Wear", "جاهزة للارتداء");
+
+    string RequestLink()
+    {
+        var msg = Site.T(
+            $"Hello Bardees, I'd like to request the “{title}” abaya.",
+            $"مرحباً برديس، أرغب في طلب عباية “{title}”.");
+        return string.IsNullOrEmpty(wa) ? "/contact" : $"https://wa.me/{wa}?text={Uri.EscapeDataString(msg)}";
+    }
+
+    // Resolve the video into an embeddable form: YouTube/Vimeo iframe, or a direct <video> file.
+    string? ytId = null, vimeoId = null, fileSrc = null;
+    var vurl = (a.VideoUrl ?? "").Trim();
+    if (!string.IsNullOrEmpty(vurl))
+    {
+        var m = Regex.Match(vurl, @"(?:youtu\.be/|watch\?v=|/embed/|/shorts/)([A-Za-z0-9_-]{6,})", RegexOptions.IgnoreCase);
+        if (m.Success) { ytId = m.Groups[1].Value; }
+        else
+        {
+            var mv = Regex.Match(vurl, @"vimeo\.com/(?:video/)?(\d+)", RegexOptions.IgnoreCase);
+            if (mv.Success) { vimeoId = mv.Groups[1].Value; }
+            else if (Regex.IsMatch(vurl, @"\.(mp4|webm|mov)(\?.*)?$", RegexOptions.IgnoreCase) || vurl.StartsWith("/"))
+            { fileSrc = ImageResolver.Src(vurl); }
+        }
+    }
+    var hasVideo = ytId != null || vimeoId != null || fileSrc != null;
+}
+
+@section JsonLd {
+    <script type="application/ld+json">
+    {"@@context":"https://schema.org","@@type":"BreadcrumbList","itemListElement":[
+      {"@@type":"ListItem","position":1,"name":"@Site.T("Home","الرئيسية")","item":"@origin/"},
+      {"@@type":"ListItem","position":2,"name":"@Site.T("Abayas","العبايات")","item":"@origin/abayas"},
+      {"@@type":"ListItem","position":3,"name":"@Html.Raw(System.Text.Json.JsonEncodedText.Encode(title ?? ""))"}
+    ]}
+    </script>
+}
+
+<section class="section page-hero">
+    <div class="container">
+        <a class="line-link reveal" href="/abayas">@Site.T("← Back to collection", "→ العودة للمجموعة")</a>
+
+        <div class="project-hero reveal mt-3">
+            <figure class="project-hero__media">
+                @{ var coverPic = new PictureVm { Image = cover, Rendition = "portrait", Alt = title ?? "", Eager = true }; }
+                <partial name="_Picture" model="coverPic" />
+            </figure>
+
+            <div class="project-hero__body">
+                <div class="title-c" style="margin-inline:0;text-align:start">
+                    <span class="tc-eyebrow">@typeLabel</span>
+                    <h1 class="d-1 tc-h">@title</h1>
+                    @if (!string.IsNullOrEmpty(fabric)) { <p class="tc-note" style="margin-inline:0">@fabric</p> }
+                </div>
+
+                @if (!string.IsNullOrEmpty(body))
+                {
+                    <div class="richtext">@Html.Sanitized(body)</div>
+                }
+
+                <a class="btn btn-gold btn-lg mt-2" href="@RequestLink()" target="_blank" rel="noopener">
+                    @Site.T("Request Order", "اطلبي التصميم") <i class="bi bi-whatsapp"></i>
+                </a>
+            </div>
+        </div>
+
+        @if (hasVideo)
+        {
+            <div class="abaya-video reveal">
+                @if (ytId != null)
+                {
+                    <div class="ratio ratio-16x9">
+                        <iframe src="https://www.youtube-nocookie.com/embed/@ytId" title="@title"
+                                loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen></iframe>
+                    </div>
+                }
+                else if (vimeoId != null)
+                {
+                    <div class="ratio ratio-16x9">
+                        <iframe src="https://player.vimeo.com/video/@vimeoId" title="@title"
+                                loading="lazy" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                }
+                else if (fileSrc != null)
+                {
+                    <video class="abaya-video__file" controls preload="metadata" playsinline
+                           poster="@ImageResolver.Src(cover, "wide")">
+                        <source src="@fileSrc" />
+                    </video>
+                }
+            </div>
+        }
+
+        @if (a.Images.Any())
+        {
+            <div class="project-gallery">
+                @foreach (var m in a.Images)
+                {
+                    var gsrc = ImageResolver.Src(m.FilePath);
+                    var gwebp = Responsive.WebpSrcSet(m.FilePath);
+                    var galt = Site.Pick(m.AltText, m.AltTextAr);
+                    <figure class="reveal">
+                        <picture>
+                            @if (!string.IsNullOrEmpty(gwebp)) { <source type="image/webp" srcset="@gwebp" sizes="(max-width: 700px) 100vw, 700px" /> }
+                            <img src="@gsrc" alt="@galt" loading="lazy" decoding="async"
+                                 data-lightbox data-full="@gsrc" data-caption="@Site.Pick(m.Caption, m.CaptionAr)"
+                                 role="button" tabindex="0" aria-label="@(string.IsNullOrEmpty(galt) ? "Open image" : galt)" />
+                        </picture>
+                    </figure>
+                }
+            </div>
+        }
+    </div>
+</section>
+
+@if (Model.Related.Any())
+{
+    <section class="section bg-surface">
+        <div class="container">
+            <div class="title-c reveal"><span class="tc-eyebrow">@Site.T("More designs", "تصاميم أخرى")</span></div>
+            <div class="abaya-grid">
+                @foreach (var r in Model.Related)
+                {
+                    var rImg = string.IsNullOrEmpty(r.CoverImage) ? r.ThumbnailImage : r.CoverImage;
+                    var rName = Site.Pick(r.Name, r.NameAr);
+                    var rPic = new PictureVm { Image = rImg, Rendition = "portrait", Alt = rName ?? "" };
+                    <a class="abaya-card m-0" href="/abayas/@r.Slug">
+                        <div class="abaya-card__img"><partial name="_Picture" model="rPic" /></div>
+                        <div class="abaya-card__body">
+                            <span class="abaya-card__name">@rName</span>
+                            @{ var rFabric = Site.Pick(r.Fabric, r.FabricAr); }
+                            @if (!string.IsNullOrEmpty(rFabric)) { <span class="abaya-card__fabric">@rFabric</span> }
+                        </div>
+                    </a>
+                }
+            </div>
+        </div>
+    </section>
+}

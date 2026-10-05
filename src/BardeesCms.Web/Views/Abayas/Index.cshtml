@@ -22,6 +22,16 @@
             $"مرحباً برديس، أرغب في طلب عباية “{name}”.");
         return string.IsNullOrEmpty(wa) ? "/contact" : $"https://wa.me/{wa}?text={Uri.EscapeDataString(msg)}";
     }
+
+    var ws = Model.Workshop;
+    string WorkshopLink()
+    {
+        var msg = Site.Pick(ws?.WhatsAppMessage, ws?.WhatsAppMessageAr);
+        if (string.IsNullOrWhiteSpace(msg))
+            msg = Site.T("Hello Bardees, I'd like to attend one of your abaya workshops.",
+                         "مرحباً برديس، أرغب في حضور إحدى ورش العبايات لديك.");
+        return string.IsNullOrEmpty(wa) ? "/contact" : $"https://wa.me/{wa}?text={Uri.EscapeDataString(msg)}";
+    }
 }
 
 <section class="section page-hero" id="abaya-collection">
@@ -37,6 +47,76 @@
                 <span class="tc-eyebrow">@Site.T("Bardees Abaya Collection", "مجموعة عبايات برديس")</span>
                 <h1 class="d-1 tc-h">@Html.Raw(Site.T("Designed &amp; tailored by <em>Bardees</em>.", "تصميم وتفصيل <em>برديس</em>."))</h1>
                 <p class="tc-note">@Site.T("A personal line of abayas — from ready-to-wear pieces to made-to-measure tailoring. Order directly over WhatsApp.", "خط عبايات خاص — من القطع الجاهزة إلى التفصيل حسب الطلب. اطلبي مباشرةً عبر واتساب.")</p>
+            </div>
+        }
+
+        @* Attend a workshop — an animated invite under the hero title that opens the full detail in a modal *@
+        @if (ws is not null)
+        {
+            var wsTitle = Site.Pick(ws.Title, ws.TitleAr);
+            var wsEyebrow = Site.Pick(ws.Eyebrow, ws.EyebrowAr);
+            var wsDesc = Site.Pick(ws.Description, ws.DescriptionAr);
+            var wsSchedule = Site.Pick(ws.ScheduleText, ws.ScheduleTextAr);
+            var wsLocation = Site.Pick(ws.LocationText, ws.LocationTextAr);
+            var wsHighlights = (Site.Pick(ws.Highlights, ws.HighlightsAr) ?? "")
+                .Split('\n').Select(h => h.Trim()).Where(h => h.Length > 0).ToList();
+            var wsBtn = Site.Pick(ws.ButtonText, ws.ButtonTextAr);
+            if (string.IsNullOrWhiteSpace(wsBtn)) { wsBtn = Site.T("Text me on WhatsApp", "راسليني على واتساب"); }
+            var wsImg = ImageResolver.Src(ws.Image, "landscape");
+            var wsInvite = Site.T("Join an abaya workshop", "احضري ورشة العبايات");
+
+            <div class="ws-invite reveal" data-d="1">
+                <button type="button" class="ws-trigger" data-bs-toggle="modal" data-bs-target="#workshopModal">
+                    <span class="ws-trigger__aura" aria-hidden="true"></span>
+                    <span class="ws-trigger__icon" aria-hidden="true"><i class="bi bi-scissors"></i></span>
+                    <span class="ws-trigger__text">
+                        <span class="ws-trigger__label">@(wsEyebrow ?? Site.T("Workshops", "ورش العمل"))</span>
+                        <span class="ws-trigger__title">@wsInvite</span>
+                    </span>
+                    <span class="ws-trigger__go" aria-hidden="true"><i class="bi bi-arrow-@(Site.IsRtl ? "left" : "right")"></i></span>
+                </button>
+            </div>
+
+            <div class="modal fade ws-modal" id="workshopModal" tabindex="-1" aria-labelledby="workshopModalTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content ws-modal__content">
+                        <button type="button" class="ws-modal__close" data-bs-dismiss="modal" aria-label="@Site.T("Close", "إغلاق")"><i class="bi bi-x-lg"></i></button>
+                        <div class="ws-modal__aside">
+                            @if (!string.IsNullOrEmpty(wsImg))
+                            {
+                                <partial name="_Picture" model="@(new PictureVm { Image = ws.Image, Rendition = "landscape", Alt = wsTitle ?? "", Sizes = "(max-width: 720px) 100vw, 44vw" })" />
+                            }
+                            else
+                            {
+                                <span class="ws-modal__mono" aria-hidden="true">B</span>
+                            }
+                            @if (!string.IsNullOrWhiteSpace(wsEyebrow)) { <span class="ws-modal__badge">@wsEyebrow</span> }
+                        </div>
+                        <div class="ws-modal__body">
+                            <h2 class="ws-modal__title" id="workshopModalTitle">@(wsTitle ?? wsInvite)</h2>
+                            @if (!string.IsNullOrWhiteSpace(wsDesc)) { <p class="ws-modal__desc">@wsDesc</p> }
+
+                            @if (!string.IsNullOrWhiteSpace(wsSchedule) || !string.IsNullOrWhiteSpace(wsLocation))
+                            {
+                                <ul class="ws-modal__meta">
+                                    @if (!string.IsNullOrWhiteSpace(wsSchedule)) { <li><i class="bi bi-calendar-event"></i> @wsSchedule</li> }
+                                    @if (!string.IsNullOrWhiteSpace(wsLocation)) { <li><i class="bi bi-geo-alt"></i> @wsLocation</li> }
+                                </ul>
+                            }
+
+                            @if (wsHighlights.Any())
+                            {
+                                <ul class="ws-modal__list">
+                                    @foreach (var h in wsHighlights) { <li><i class="bi bi-check2-circle"></i> <span>@h</span></li> }
+                                </ul>
+                            }
+
+                            <a class="btn btn-gold btn-lg ws-modal__cta" href="@WorkshopLink()" target="_blank" rel="noopener">
+                                @wsBtn <i class="bi bi-whatsapp"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         }
 
@@ -62,13 +142,16 @@
                         var fabric = Site.Pick(a.Fabric, a.FabricAr);
                         var pic = new PictureVm { Image = img, Rendition = "portrait", Alt = name ?? "" };
                         <figure class="abaya-card m-0">
-                            <div class="abaya-card__img"><partial name="_Picture" model="pic" /></div>
+                            <a class="abaya-card__img" href="/abayas/@a.Slug" aria-label="@name"><partial name="_Picture" model="pic" /></a>
                             <figcaption class="abaya-card__body">
-                                <span class="abaya-card__name">@name</span>
+                                <a class="abaya-card__name" href="/abayas/@a.Slug">@name</a>
                                 @if (!string.IsNullOrEmpty(fabric)) { <span class="abaya-card__fabric">@fabric</span> }
-                                <a class="btn btn-gold btn-sm abaya-card__cta" href="@RequestLink(a)" target="_blank" rel="noopener">
-                                    @Site.T("Request Order", "اطلبي التصميم") <i class="bi bi-whatsapp"></i>
-                                </a>
+                                <div class="abaya-card__actions">
+                                    <a class="btn btn-gold btn-sm abaya-card__cta" href="@RequestLink(a)" target="_blank" rel="noopener">
+                                        @Site.T("Request Order", "اطلبي التصميم") <i class="bi bi-whatsapp"></i>
+                                    </a>
+                                    <a class="abaya-card__more" href="/abayas/@a.Slug">@Site.T("Details", "التفاصيل") <i class="bi bi-arrow-@(Site.IsRtl ? "left" : "right")"></i></a>
+                                </div>
                             </figcaption>
                         </figure>
                     }

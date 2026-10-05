@@ -29,6 +29,7 @@ public static class ContentSeed
         await SeedFaqs(db, now);
         await SeedVideos(db, now);
         await SeedContactSettings(db, now);
+        await SeedWorkshop(db, now);
         await SeedNavigation(db);
         await SeedSeoPages(db, now);
 
@@ -406,6 +407,32 @@ public static class ContentSeed
             BookingButtonText = "Book",
             BookingButtonTextAr = "احجز",
             BookingUrl = "/contact",
+            IsActive = true,
+            CreatedAt = now
+        });
+    }
+
+    private static async Task SeedWorkshop(ApplicationDbContext db, DateTime now)
+    {
+        if (await db.WorkshopSections.AnyAsync()) return;
+        db.WorkshopSections.Add(new WorkshopSection
+        {
+            Eyebrow = "Workshops",
+            EyebrowAr = "ورش العمل",
+            Title = "Attend an abaya workshop with Bardees",
+            TitleAr = "احضري ورشة العبايات مع برديس",
+            Description = "Learn the craft behind the collection — a hands-on session covering design, fabric and the finishing details that make each piece. Small groups, all levels welcome.",
+            DescriptionAr = "تعلّمي الحرفة وراء المجموعة — جلسة عملية تغطّي التصميم والخامة ولمسات الإنهاء التي تميّز كل قطعة. مجموعات صغيرة، ومرحّب بجميع المستويات.",
+            ScheduleText = "Saturdays · 4–7 PM",
+            ScheduleTextAr = "أيام السبت · ٤–٧ مساءً",
+            LocationText = "Riyadh studio",
+            LocationTextAr = "استديو الرياض",
+            Highlights = "Pattern cutting & measurements\nFabric selection and handling\nHand embroidery & finishing\nTake home your own piece",
+            HighlightsAr = "القص والقياسات\nاختيار الخامات والتعامل معها\nالتطريز اليدوي واللمسات النهائية\nخذي قطعتك معك",
+            ButtonText = "Text me on WhatsApp",
+            ButtonTextAr = "راسليني على واتساب",
+            WhatsAppMessage = "Hello Bardees, I'd like to attend one of your abaya workshops. Could you share the details?",
+            WhatsAppMessageAr = "مرحباً برديس، أرغب في حضور إحدى ورش العبايات لديك. هل يمكنك مشاركة التفاصيل؟",
             IsActive = true,
             CreatedAt = now
         });
